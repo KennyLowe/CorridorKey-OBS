@@ -1,0 +1,26 @@
+# Spec-driven-development artifacts are kept local only
+.specify/
+.claude/
+specs/
+CLAUDE.md
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Model weights, engines, footage and benchmark outputs (never redistributed)
+*.pth
+*.pt
+*.safetensors
+*.ckpt
+*.onnx
+*.engine
+*.plan
+*.mp4
+*.mov
+*.exr
+/weights/
+/footage/
+/outputs/
