@@ -24,3 +24,11 @@ venv/
 /weights/
 /footage/
 /outputs/
+
+# Benchmark harness (bench/): vendored CorridorKey, env, large outputs
+bench/vendor/
+bench/.venv/
+outputs/
+footage/
+*.onnx.data
+bench/results/*/frames/
