@@ -28,11 +28,11 @@ def _up(x: torch.Tensor, h: int, w: int) -> torch.Tensor:
     return TF.resize(x.float(), [h, w], interpolation=InterpolationMode.BILINEAR, antialias=False)
 
 
-def key_tensor(keyer, rgb: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+def key_tensor(keyer, rgb: torch.Tensor, hint_fn=chroma_hint) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
     """rgb [3,H,W] fp16/fp32 CUDA in [0,1] -> (alpha [H,W], fg [3,H,W], hint [H,W]) at camera res, fp32."""
     H, W = rgb.shape[-2:]
     w, h = keyer.size_wh
-    hint = chroma_hint(rgb)
+    hint = hint_fn(rgb)
     rgb_s = _down(rgb[None], h, w)
     hint_s = _down(hint[None, None], h, w)
     alpha, fg = keyer.run(keyer.prepare(rgb_s, hint_s))

@@ -48,22 +48,44 @@ def probe_video(path: Path) -> tuple[str, float, str]:
     return f"{s['width']}x{s['height']}", round(float(num) / float(den), 3), s.get("color_primaries", "unknown")
 
 
-def hint_diagnostic(folder: Path) -> dict:
-    """Mean chroma-key hint (1 = subject) over a 32 px border of frames 0/mid/last, where the screen
-    usually is. Values near 1 mean the simple hint (research D8) does not recognise the screen."""
+def _frame_tensors(folder: Path, step: int = 10):
+    import cv2
+    import torch
+
+    for f in sorted(folder.glob("*.png"))[::step]:
+        yield torch.from_numpy(cv2.cvtColor(cv2.imread(str(f)), cv2.COLOR_BGR2RGB)).permute(2, 0, 1).float() / 255
+
+
+def hint_diagnostic(folder: Path, hint_fn=None) -> dict:
+    """Mean hint (1 = subject) over a 32 px border of frames 0/mid/last, where the screen usually
+    is. Values near 1 mean the hint does not recognise the screen."""
     import cv2
     import torch
 
     from .hint import chroma_hint
 
+    hint_fn = hint_fn or chroma_hint
     files = sorted(folder.glob("*.png"))
-    vals = []
+    vals, frame_means = [], []
     for f in (files[0], files[len(files) // 2], files[-1]):
         rgb = torch.from_numpy(cv2.cvtColor(cv2.imread(str(f)), cv2.COLOR_BGR2RGB)).permute(2, 0, 1).float() / 255
-        m = chroma_hint(rgb)
+        m = hint_fn(rgb)
         b = torch.cat([m[:32].flatten(), m[-32:].flatten(), m[:, :32].flatten(), m[:, -32:].flatten()])
         vals.append(float(b.mean()))
-    return {"hint_border_mean": round(sum(vals) / len(vals), 3), "hint_frame_mean": round(float(m.mean()), 3)}
+        frame_means.append(float(m.mean()))
+    return {"hint_border_mean": round(sum(vals) / len(vals), 3),
+            "hint_frame_mean": round(sum(frame_means) / len(frame_means), 3)}
+
+
+def hint_fn_for(clip_entry: dict):
+    """The hint function a clip's results entry asks for (fixed unless calibrated)."""
+    from functools import partial
+
+    from .hint import calibrated_hint, chroma_hint
+
+    if clip_entry.get("hint", "fixed") == "calibrated":
+        return partial(calibrated_hint, key=tuple(clip_entry["hint_key_colour"]))
+    return chroma_hint
 
 
 def png_sequence_input(folder: Path) -> tuple[list[str], str, int]:
@@ -134,7 +156,20 @@ def normalise(clip: dict, log=print) -> dict:
                  segment_start_s=float(clip.get("segment_start_s", 0.0)), frames=n,
                  local_path=clip["local_path"], pad_colour=pad, colour_primaries=primaries,
                  colour_conversion=("bt2020->bt709 (ffmpeg colorspace)" if conv else "none"),
-                 **hint_diagnostic(out))
+                 hint=clip.get("hint", "fixed"), **hint_diagnostic(out))
+    if entry["hint"] == "calibrated":
+        from functools import partial
+
+        from .hint import BORDER_PX, CAL_T0, CAL_T1, calibrated_hint, estimate_key_colour
+
+        key = estimate_key_colour(_frame_tensors(out))
+        entry["hint_key_colour"] = [round(v, 4) for v in key]
+        entry["hint_calibration"] = (f"median RGB of a {BORDER_PX} px border band over every 10th frame; "
+                                     f"key = (g - max(r,b)) / screen difference, smoothstep {CAL_T0}-{CAL_T1}, 5x5 blur")
+        entry["hint_diagnostic_fixed"] = {k: entry.pop(k) for k in ("hint_border_mean", "hint_frame_mean")}
+        entry.update(hint_diagnostic(out, partial(calibrated_hint, key=key)))
+        log(f"  {clip['clip_id']}: calibrated key colour {entry['hint_key_colour']}; border hint "
+            f"{entry['hint_diagnostic_fixed']['hint_border_mean']} (fixed) -> {entry['hint_border_mean']} (calibrated)")
     if available is not None:
         entry["frames_available"] = available
     return entry

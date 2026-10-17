@@ -151,3 +151,15 @@ def test_go_with_borderline_a2000_records_risk():
     v = verdict(b, quality, env)
     assert v["verdict"] == "GO"
     assert v.get("a2000_risk")  # 23.75-30.2 ms vs the 20 ms gate / 33.3 ms budget must be called out
+
+
+def test_non_square_768x448_cannot_meet_gate_but_supports_lower_modes():
+    # spec Session 2026-10-17: "internal >= 768" means BOTH sides; 768x448 is fast but not gate-eligible
+    b = [bench("trt", 768, 448, False, cam, [15.0]) for cam in ("720p", "1080p")]
+    quality = qall("trt-fp16-768x448-ref0-idle")
+    env = envelope(b, quality)
+    m = by_mode(env)
+    assert m["1080p30"]["rtx3060"]["status"] == "supported"
+    assert m["1080p30"]["rtx3060"]["best_config_id"] == "trt-fp16-768x448-ref0-nvenc1080p30"
+    v = verdict(b, quality, env)
+    assert v["verdict"] == "CONDITIONAL-GO"

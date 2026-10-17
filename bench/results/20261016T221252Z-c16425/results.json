@@ -2547,8 +2547,19 @@
       "pad_colour": "0x646D42",
       "colour_primaries": "bt2020",
       "colour_conversion": "bt2020->bt709 (ffmpeg colorspace)",
-      "hint_border_mean": 0.969,
-      "hint_frame_mean": 0.975
+      "hint": "calibrated",
+      "hint_key_colour": [
+        0.3725,
+        0.4275,
+        0.2275
+      ],
+      "hint_calibration": "median RGB of a 32 px border band over every 10th frame; key = (g - max(r,b)) / screen difference, smoothstep 0.3-0.7, 5x5 blur",
+      "hint_diagnostic_fixed": {
+        "hint_border_mean": 0.969,
+        "hint_frame_mean": 0.976
+      },
+      "hint_border_mean": 0.161,
+      "hint_frame_mean": 0.268
     },
     {
       "clip_id": "pexels-dance",
@@ -2568,8 +2579,19 @@
       "pad_colour": "0x667043",
       "colour_primaries": "bt2020",
       "colour_conversion": "bt2020->bt709 (ffmpeg colorspace)",
-      "hint_border_mean": 0.965,
-      "hint_frame_mean": 0.971
+      "hint": "calibrated",
+      "hint_key_colour": [
+        0.3804,
+        0.4353,
+        0.2353
+      ],
+      "hint_calibration": "median RGB of a 32 px border band over every 10th frame; key = (g - max(r,b)) / screen difference, smoothstep 0.3-0.7, 5x5 blur",
+      "hint_diagnostic_fixed": {
+        "hint_border_mean": 0.965,
+        "hint_frame_mean": 0.969
+      },
+      "hint_border_mean": 0.067,
+      "hint_frame_mean": 0.159
     },
     {
       "clip_id": "pixabay-hair",
@@ -2641,24 +2663,30 @@
     {
       "config_id": "torch-fp16-512x512-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.09285495535932817,
+      "edge_fg_mae": 0.02035302085377013,
+      "flicker_excess": -0.029957337207925705,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-512x512-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.07460604014310318,
+      "edge_fg_mae": 0.02787314787163998,
+      "flicker_excess": -0.012205248651839768,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-512x512-ref0-idle",
@@ -2704,24 +2732,30 @@
     {
       "config_id": "torch-fp16-1024x576-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.057900474714754915,
+      "edge_fg_mae": 0.01570852802022094,
+      "flicker_excess": -0.015848648380831738,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-1024x576-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.0432287900215992,
+      "edge_fg_mae": 0.022026242989486595,
+      "flicker_excess": -0.007970492338946363,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-1024x576-ref0-idle",
@@ -2767,24 +2801,30 @@
     {
       "config_id": "torch-fp16-768x448-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.07633164388541908,
+      "edge_fg_mae": 0.01807012336569264,
+      "flicker_excess": -0.023830675667413783,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-768x448-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.059737947657264645,
+      "edge_fg_mae": 0.024912063558722237,
+      "flicker_excess": -0.010850270487036746,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-768x448-ref0-idle",
@@ -2830,24 +2870,30 @@
     {
       "config_id": "torch-fp16-512x512-ref1-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.0908534978149725,
+      "edge_fg_mae": 0.014146555273013211,
+      "flicker_excess": -0.03149316937367743,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-512x512-ref1-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.052871874489374734,
+      "edge_fg_mae": 0.01692409266258696,
+      "flicker_excess": -0.009143238879984469,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-512x512-ref1-idle",
@@ -2893,24 +2939,30 @@
     {
       "config_id": "torch-fp16-768x768-ref1-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.06252071886301261,
+      "edge_fg_mae": 0.010879175261565512,
+      "flicker_excess": -0.019803736764746893,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-768x768-ref1-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.03224696587849092,
+      "edge_fg_mae": 0.012355862594560112,
+      "flicker_excess": -0.005974469936925345,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-768x768-ref1-idle",
@@ -2952,24 +3004,30 @@
     {
       "config_id": "torch-fp16-768x768-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.06339870446963612,
+      "edge_fg_mae": 0.016569438245169228,
+      "flicker_excess": -0.01784182652558326,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-768x768-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.04652813694095364,
+      "edge_fg_mae": 0.022788764571580248,
+      "flicker_excess": -0.007711621744320555,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-768x768-ref0-idle",
@@ -3015,24 +3073,28 @@
     {
       "config_id": "torch-fp16-1024x1024-ref1-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.04498859582176074,
+      "edge_fg_mae": 0.00873294920819913,
+      "flicker_excess": -0.012666208934969935,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-1024x1024-ref1-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
+      "edge_alpha_mae": 0.022366716007434666,
+      "edge_fg_mae": 0.009726425875542477,
+      "flicker_excess": -0.004074027143541041,
       "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-1024x1024-ref1-idle",
@@ -3072,24 +3134,30 @@
     {
       "config_id": "torch-fp16-1024x1024-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.04646645045558623,
+      "edge_fg_mae": 0.014307360362733796,
+      "flicker_excess": -0.010428067148225379,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-1024x1024-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.032872507352328974,
+      "edge_fg_mae": 0.02017495138921561,
+      "flicker_excess": -0.005087922680708791,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-1024x1024-ref0-idle",
@@ -3137,9 +3205,10 @@
       "edge_fg_mae": 0.0,
       "flicker_excess": 0.0,
       "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
       "frames": 300,
+      "hint": "calibrated",
       "note": "this configuration is the 2048 reference; metrics are zero by definition"
     },
     {
@@ -3149,9 +3218,10 @@
       "edge_fg_mae": 0.0,
       "flicker_excess": 0.0,
       "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
       "frames": 300,
+      "hint": "calibrated",
       "note": "this configuration is the 2048 reference; metrics are zero by definition"
     },
     {
@@ -3193,24 +3263,26 @@
     {
       "config_id": "torch-fp16-2048x2048-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
+      "edge_alpha_mae": 0.016114944163800653,
+      "edge_fg_mae": 0.009026092251986901,
+      "flicker_excess": 0.00250114855867615,
       "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-2048x2048-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
+      "edge_alpha_mae": 0.013741543942354696,
+      "edge_fg_mae": 0.013254694602898444,
+      "flicker_excess": -4.419000537108728e-05,
       "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-2048x2048-ref0-idle",
@@ -3248,24 +3320,30 @@
     {
       "config_id": "torch-fp16-1024x576-ref1-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.056256971167982436,
+      "edge_fg_mae": 0.010294826108928448,
+      "flicker_excess": -0.017758947051847756,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-1024x576-ref1-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.030361423128183372,
+      "edge_fg_mae": 0.011885393456035504,
+      "flicker_excess": -0.006174782697263698,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-1024x576-ref1-idle",
@@ -3307,24 +3385,30 @@
     {
       "config_id": "torch-fp16-768x448-ref1-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.07502148091483438,
+      "edge_fg_mae": 0.012424644647901868,
+      "flicker_excess": -0.025588885935890003,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-768x448-ref1-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.04249994984643136,
+      "edge_fg_mae": 0.014505819566790958,
+      "flicker_excess": -0.008272884881164143,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "torch-fp16-768x448-ref1-idle",
@@ -3368,24 +3452,30 @@
     {
       "config_id": "trt-fp16-512x512-ref1-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.09083971699777806,
+      "edge_fg_mae": 0.014146605744483605,
+      "flicker_excess": -0.03146940879879043,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-512x512-ref1-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.05286874574492556,
+      "edge_fg_mae": 0.016922795209402562,
+      "flicker_excess": -0.009136003733825246,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-512x512-ref1-idle",
@@ -3431,24 +3521,30 @@
     {
       "config_id": "trt-fp16-512x512-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.09285707476939241,
+      "edge_fg_mae": 0.020346162821464613,
+      "flicker_excess": -0.029940102700021034,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-512x512-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.07461057089766963,
+      "edge_fg_mae": 0.027869063558440727,
+      "flicker_excess": -0.012194980311077299,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-512x512-ref0-idle",
@@ -3494,24 +3590,30 @@
     {
       "config_id": "trt-fp16-768x768-ref1-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.06249752375704667,
+      "edge_fg_mae": 0.010884049364030054,
+      "flicker_excess": -0.019777400651400146,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-768x768-ref1-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.03223473073236777,
+      "edge_fg_mae": 0.012358449033533614,
+      "flicker_excess": -0.0059643339597340184,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-768x768-ref1-idle",
@@ -3553,24 +3655,30 @@
     {
       "config_id": "trt-fp16-768x768-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.0633823364929739,
+      "edge_fg_mae": 0.01656830361359435,
+      "flicker_excess": -0.017812791653317797,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-768x768-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.046537243612793364,
+      "edge_fg_mae": 0.02278707046415142,
+      "flicker_excess": -0.007705836370386311,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-768x768-ref0-idle",
@@ -3616,24 +3724,28 @@
     {
       "config_id": "trt-fp16-1024x1024-ref1-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.04497463010210762,
+      "edge_fg_mae": 0.008735288414212219,
+      "flicker_excess": -0.012642994458757256,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-1024x1024-ref1-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
+      "edge_alpha_mae": 0.022352630068371068,
+      "edge_fg_mae": 0.00972554192162582,
+      "flicker_excess": -0.0040640877303699235,
       "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-1024x1024-ref1-idle",
@@ -3673,24 +3785,30 @@
     {
       "config_id": "trt-fp16-1024x1024-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.04647767790866112,
+      "edge_fg_mae": 0.014304718474864581,
+      "flicker_excess": -0.010416802043521085,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-1024x1024-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.032879323574003534,
+      "edge_fg_mae": 0.020175515069125596,
+      "flicker_excess": -0.005081398757159671,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-1024x1024-ref0-idle",
@@ -3734,24 +3852,26 @@
     {
       "config_id": "trt-fp16-2048x2048-ref1-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
+      "edge_alpha_mae": 0.00026502628435156917,
+      "edge_fg_mae": 0.0001512108131162308,
+      "flicker_excess": 2.3479895194332667e-05,
       "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-2048x2048-ref1-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
+      "edge_alpha_mae": 0.00015523397421136136,
+      "edge_fg_mae": 0.00014371899091406929,
+      "flicker_excess": 1.4172332759340113e-05,
       "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-2048x2048-ref1-idle",
@@ -3789,24 +3909,26 @@
     {
       "config_id": "trt-fp16-2048x2048-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
+      "edge_alpha_mae": 0.01619947378204203,
+      "edge_fg_mae": 0.009017624888806263,
+      "flicker_excess": 0.0025231558343871354,
       "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-2048x2048-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
+      "edge_alpha_mae": 0.013793570442521526,
+      "edge_fg_mae": 0.013252444824361262,
+      "flicker_excess": -2.9646982563948922e-05,
       "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-2048x2048-ref0-idle",
@@ -3844,24 +3966,30 @@
     {
       "config_id": "trt-fp16-1024x576-ref1-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.056231808908770144,
+      "edge_fg_mae": 0.010297681444022913,
+      "flicker_excess": -0.01772572550133918,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-1024x576-ref1-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.030349766748376777,
+      "edge_fg_mae": 0.011883526320242824,
+      "flicker_excess": -0.006161145286763046,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-1024x576-ref1-idle",
@@ -3903,24 +4031,30 @@
     {
       "config_id": "trt-fp16-1024x576-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.057901184984357784,
+      "edge_fg_mae": 0.01570750311363576,
+      "flicker_excess": -0.015825335805638222,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-1024x576-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.04323500148476128,
+      "edge_fg_mae": 0.022025473844004988,
+      "flicker_excess": -0.007961260597418626,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-1024x576-ref0-idle",
@@ -3966,24 +4100,30 @@
     {
       "config_id": "trt-fp16-768x448-ref1-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.07497628979483642,
+      "edge_fg_mae": 0.012427016815175143,
+      "flicker_excess": -0.025545363796743593,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-768x448-ref1-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.042494170783541924,
+      "edge_fg_mae": 0.014503381905358246,
+      "flicker_excess": -0.008260358447212061,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-768x448-ref1-idle",
@@ -4027,24 +4167,30 @@
     {
       "config_id": "trt-fp16-768x448-ref0-idle",
       "clip_id": "pexels-athlete",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.076337022156407,
+      "edge_fg_mae": 0.018068560503907496,
+      "flicker_excess": -0.02381625805198313,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 215182,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-768x448-ref0-idle",
       "clip_id": "pexels-dance",
-      "edge_alpha_mae": 0.0,
-      "edge_fg_mae": 0.0,
-      "flicker_excess": 0.0,
-      "flags": [],
-      "edge_band_px_per_frame": 0,
+      "edge_alpha_mae": 0.05974561042828762,
+      "edge_fg_mae": 0.024907610395714617,
+      "flicker_excess": -0.010842258644102029,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 108440,
       "owner_verdict": "pending",
-      "frames": 300
+      "frames": 300,
+      "hint": "calibrated"
     },
     {
       "config_id": "trt-fp16-768x448-ref0-idle",

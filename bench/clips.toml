@@ -9,11 +9,17 @@
 #    stock/wallpaper platforms; no selling unaltered copies.
 #  - Pixabay Content License: free to use and adapt, no attribution needed; no standalone
 #    redistribution/sale (i.e. where no creative effort has been applied).
+#
+# hint: "fixed" (default; research D8 thresholds) or "calibrated" (screen colour estimated per clip
+# from the frame border; spec Session 2026-10-17). Calibrated is used only for the two Pexels clips,
+# which are ungraded flat footage that the fixed hint does not recognise as green screen.
+#
 #  - Hollywood Camera Work plates (readme in the zips): "use the clips any way you want and post
 #    the results anywhere"; MAY NOT redistribute or host the clips; MAY NOT sell them.
 
 [[clip]]
 clip_id = "pexels-athlete"
+hint = "calibrated"
 focus = "motion"
 page_url = "https://www.pexels.com/video/dynamic-athlete-in-action-against-green-screen-31916831/"
 source_url = "https://www.pexels.com/download/video/31916831/"
@@ -27,6 +33,7 @@ commit_stills_allowed = true
 
 [[clip]]
 clip_id = "pexels-dance"
+hint = "calibrated"
 focus = "motion"
 page_url = "https://www.pexels.com/video/expressive-dance-on-minimalist-green-screen-31916827/"
 source_url = "https://www.pexels.com/download/video/31916827/"

@@ -157,7 +157,10 @@ def cmd_clips(args) -> int:
     doc = _load_doc(args)
     doc.setdefault("clips", [])
     missing = 0
+    only = _csv(args.clips) if args.clips else None
     for clip in load_manifest(args.manifest):
+        if only and clip["clip_id"] not in only:
+            continue
         try:
             e = normalise(clip)
             R.upsert(doc["clips"], e, lambda c: c["clip_id"])
@@ -174,7 +177,8 @@ def cmd_quality(args) -> int:
     from .bench_quality import run_quality
 
     doc = _load_doc(args)
-    failures = run_quality(doc, _csv(args.configs) if args.configs else None)
+    failures = run_quality(doc, _csv(args.configs) if args.configs else None,
+                           _csv(args.clips) if args.clips else None)
     print("comparison material: outputs/compare/index.html")
     return EXIT_PARTIAL if failures else EXIT_OK
 
@@ -219,13 +223,13 @@ def cmd_all(args) -> int:
         return rc
     worst = EXIT_OK
     steps = [
-        (cmd_clips, dict(manifest=None)),
+        (cmd_clips, dict(manifest=None, clips=None)),
         (cmd_export, dict(sizes="512,768,1024,2048", refiner="on,off", variant16x9=False)),
         (cmd_speed, dict(runtime="torch,trt", sizes="512,768,1024,2048", refiner="on,off", load="idle",
                          camera="1080p", runs=3, frames=300, warmup=50, variant16x9=True, best=False)),
         (cmd_speed, dict(runtime="torch,trt", sizes="", refiner="on,off", load="nvenc",
                          camera="720p,1080p,2160p", runs=3, frames=300, warmup=50, variant16x9=False, best=True)),
-        (cmd_quality, dict(configs=None)),
+        (cmd_quality, dict(configs=None, clips=None)),
         (cmd_report, dict(allow_pending=True)),
     ]
     for fn, kw in steps:
@@ -248,6 +252,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     s = sub.add_parser("clips", help="fetch/normalise reference clips")
     s.add_argument("--manifest", default=None)
+    s.add_argument("--clips", default=None, help="comma-separated clip ids (default: all)")
     s.set_defaults(fn=cmd_clips)
 
     s = sub.add_parser("export", help="ONNX export + TensorRT engine build per size")
@@ -272,6 +277,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     s = sub.add_parser("quality", help="quality + flicker vs the 2048 reference")
     s.add_argument("--configs", default=None)
+    s.add_argument("--clips", default=None, help="comma-separated clip ids (default: all)")
     s.set_defaults(fn=cmd_quality)
 
     s = sub.add_parser("review", help="record the owner's visual verdict")

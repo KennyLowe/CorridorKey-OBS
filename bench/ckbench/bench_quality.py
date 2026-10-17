@@ -14,6 +14,7 @@ import torch
 
 from . import results as R
 from .bench_speed import build_keyer
+from .clips import hint_fn_for
 from .compare import CompareWriter, write_index
 from .config import Configuration
 from .frames import clip_frames, read_rgb
@@ -36,21 +37,32 @@ def _to_cuda(path) -> torch.Tensor:
 
 
 @torch.inference_mode()
-def _key_np(keyer, path) -> tuple[np.ndarray, np.ndarray]:
-    alpha, fg, _ = key_tensor(keyer, _to_cuda(path))
+def _key_np(keyer, path, hint_fn) -> tuple[np.ndarray, np.ndarray]:
+    alpha, fg, _ = key_tensor(keyer, _to_cuda(path), hint_fn)
     return alpha.cpu().numpy(), fg.cpu().numpy()
 
 
-def reference_outputs(clip_ids: list[str], log=print) -> dict:
+def _cache_tag(clip: dict, n: int) -> str:
+    """Reference cache key: frame count, plus the key colour for calibrated-hint clips."""
+    if clip.get("hint", "fixed") == "calibrated":
+        return f"{n}|calibrated:{','.join(str(v) for v in clip['hint_key_colour'])}"
+    return str(n)
+
+
+def reference_outputs(clips: list[dict], log=print) -> dict:
     """{clip_id: [(alpha fp16 [H,W], fg fp16 [3,H,W]), ...]} computing and caching as needed."""
     refs: dict = {}
     keyer = None
-    for cid in clip_ids:
+    for clip in clips:
+        cid = clip["clip_id"]
+        hint_fn = hint_fn_for(clip)
         frames = clip_frames(cid)
         d = REF_DIR / cid
         cached = [d / f"{i:05d}.npy" for i in range(len(frames))]
+        tag = _cache_tag(clip, len(frames))
         out = []
-        if all(p.exists() for p in cached) and (d / "frames.txt").read_text() == str(len(frames)):
+        tag_file = d / "frames.txt"
+        if all(p.exists() for p in cached) and tag_file.exists() and tag_file.read_text() == tag:
             for p in cached:
                 arr = np.load(p)
                 out.append((arr[3], arr[:3]))
@@ -61,11 +73,11 @@ def reference_outputs(clip_ids: list[str], log=print) -> dict:
             d.mkdir(parents=True, exist_ok=True)
             t0 = time.perf_counter()
             for f, p in zip(frames, cached):
-                a, fg = _key_np(keyer, f)
+                a, fg = _key_np(keyer, f, hint_fn)
                 arr = np.concatenate([fg, a[None]], axis=0).astype(np.float16)  # [4,H,W]: fg rgb + alpha
                 np.save(p, arr)
                 out.append((arr[3], arr[:3]))
-            (d / "frames.txt").write_text(str(len(frames)))
+            tag_file.write_text(tag)
             log(f"  reference {cid}: {len(out)} frames computed in {time.perf_counter() - t0:.0f}s")
         refs[cid] = out
     if keyer is not None:
@@ -88,14 +100,16 @@ def candidate_configs(doc: dict, only: list[str] | None = None) -> list[Configur
     return out
 
 
-def run_quality(doc: dict, only: list[str] | None = None, log=print) -> int:
-    clips = [c for c in doc.get("clips", []) if c.get("frames", 0) > 1]
+def run_quality(doc: dict, only: list[str] | None = None, clips_only: list[str] | None = None, log=print) -> int:
+    clips = [c for c in doc.get("clips", []) if c.get("frames", 0) > 1
+             and (not clips_only or c["clip_id"] in clips_only)]
     if not clips:
         raise RuntimeError("no clips in results; run `ckbench clips` first")
     clip_ids = [c["clip_id"] for c in clips]
     configs = candidate_configs(doc, only)
     log(f"[quality] {len(configs)} configurations x {len(clip_ids)} clips")
-    refs = reference_outputs(clip_ids, log)
+    refs = reference_outputs(clips, log)
+    hint_fns = {c["clip_id"]: hint_fn_for(c) for c in clips}
     doc.setdefault("quality", [])
     key = lambda q: (q["config_id"], q["clip_id"])  # noqa: E731
     failures = 0
@@ -118,14 +132,14 @@ def run_quality(doc: dict, only: list[str] | None = None, log=print) -> int:
                     if is_ref:
                         a, fg = ra32, rf32  # the reference config *is* the reference
                     else:
-                        a, fg = _key_np(keyer, f)
+                        a, fg = _key_np(keyer, f, hint_fns[cid])
                     m.update(a, fg, ra32, rf32)
                     w.add(a, fg, ra32, rf32)
             finally:
                 w.close()
             res = m.result()
             entry = {"config_id": cfg.config_id, "clip_id": cid, **res, "owner_verdict": "pending",
-                     "frames": len(frames)}
+                     "frames": len(frames), "hint": next(c.get("hint", "fixed") for c in clips if c["clip_id"] == cid)}
             if is_ref:
                 entry["note"] = "this configuration is the 2048 reference; metrics are zero by definition"
             R.upsert(doc["quality"], entry, key)

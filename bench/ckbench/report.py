@@ -19,7 +19,9 @@ GATE_TEXT = (
     f">= {GATE_MIN_INTERNAL} (both sides) processes a 1080p frame end-to-end in <= {GATE_MS:.0f} ms (p95, "
     f"worst of 3 runs) while a sustained 1080p30 NVENC encode runs on the same GPU, with owner-accepted "
     f"quality and flicker on every reference clip. The margin below the 33.3 ms frame is headroom for the "
-    f"slower A2000 and for OBS's own work."
+    f"slower A2000 and for OBS's own work. \"Internal resolution >= {GATE_MIN_INTERNAL}\" means both sides are "
+    f">= {GATE_MIN_INTERNAL} (owner decision, 2026-10-17): non-square settings such as 768x448 cannot meet the "
+    f"gate, but can still support lower live modes in the envelope (CONDITIONAL-GO)."
 )
 
 DEVIATIONS = [
@@ -34,6 +36,10 @@ DEVIATIONS = [
     "NVML returns no per-process memory under Windows WDDM. Other processes' activity adds noise.",
     "Added latency uses the measured end-to-end wall median (which includes the two resize stages) plus one "
     "frame of queueing, slightly more conservative than research D12's stage sum.",
+    "The alpha hint for the two Pexels clips is calibrated per clip (screen colour = median of a 32 px border "
+    "band; difference key normalised to that colour): they are ungraded flat footage that the fixed hint "
+    "(research D8) does not recognise as green screen (owner decision, 2026-10-17). All other clips use the "
+    "fixed hint. Each clip's results entry records its hint, key colour and border diagnostic.",
     "Square configurations use CorridorKeyEngine's own bicubic position-embedding resize; the 16:9 variants "
     "(research D2) use the same resize to a rectangular token grid.",
 ]
@@ -166,10 +172,17 @@ def render(doc: dict, allow_pending: bool) -> tuple[str, dict, list, list]:
         L += ["Not run.", ""]
 
     clips = doc.get("clips", [])
-    L += ["## Reference clips", "", "| clip | focus | native | frames | licence | source |", "|---|---|---|---|---|---|"]
+    L += ["## Reference clips", "", "| clip | focus | native | frames | hint (border mean) | licence | source |",
+          "|---|---|---|---|---|---|---|"]
     for c in clips:
+        h = c.get("hint", "fixed")
+        if h == "calibrated":
+            h += (f" key {tuple(c['hint_key_colour'])} ({c['hint_border_mean']}; fixed hint was "
+                  f"{c['hint_diagnostic_fixed']['hint_border_mean']})")
+        else:
+            h += f" ({c.get('hint_border_mean', '-')})"
         L.append(f"| {c['clip_id']} | {c['focus']} | {c.get('native_res', '-')} @ {c.get('native_fps', '-')} | "
-                 f"{c.get('frames', '-')} | {c['licence']} (checked {c.get('licence_checked_on', '-')}) | "
+                 f"{c.get('frames', '-')} | {h} | {c['licence']} (checked {c.get('licence_checked_on', '-')}) | "
                  f"{c.get('page_url', c['source_url'])} |")
     L += ["", "Clips are fetched from their source (or downloaded by hand for the Hollywood Camera Work plates), "
           "never committed or rehosted, and normalised to 1920x1080 at 30 fps (aspect kept, padded with screen "
