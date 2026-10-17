@@ -179,7 +179,9 @@ def measure_drift(w: int, h: int, refiner: bool) -> dict:
     gc.collect()
     torch.cuda.empty_cache()
 
-    stats = {"alpha_mae": 0.0, "alpha_max": 0.0, "fg_mae": 0.0, "fg_max": 0.0}
+    stats = {"alpha_mae": 0.0, "alpha_max": 0.0, "fg_mae": 0.0, "fg_max": 0.0,
+             "fg_mae_alpha_gt_0_1": 0.0, "fg_max_alpha_gt_0_1": 0.0}
+    fg_sum, fg_n = 0.0, 0
     rk = TrtKeyer(engine_path(w, h, refiner), (w, h))
     with torch.inference_mode():
         for (ra, rf), inp in zip(ref, inputs(rk)):
@@ -190,6 +192,12 @@ def measure_drift(w: int, h: int, refiner: bool) -> dict:
             stats["fg_mae"] += float(df.mean()) / len(ref)
             stats["alpha_max"] = max(stats["alpha_max"], float(da.max()))
             stats["fg_max"] = max(stats["fg_max"], float(df.max()))
+            m = (ra > 0.1).expand_as(df)  # fg is unconstrained where the subject is transparent
+            if m.any():
+                fg_sum += float(df[m].sum())
+                fg_n += int(m.sum())
+                stats["fg_max_alpha_gt_0_1"] = max(stats["fg_max_alpha_gt_0_1"], float(df[m].max()))
+    stats["fg_mae_alpha_gt_0_1"] = fg_sum / fg_n if fg_n else 0.0
     rk.close()
     del rk
     gc.collect()

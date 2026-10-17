@@ -146,7 +146,7 @@ def render(doc: dict, allow_pending: bool) -> tuple[str, dict, list, list]:
     L += ["## TensorRT conversion and drift", ""]
     if exports:
         L += ["| internal | refiner | ONNX | ONNX peak RAM GiB | engine | build s | engine MiB | drift alpha MAE / max | "
-              "drift fg MAE / max |", "|---|---|---|---|---|---|---|---|---|"]
+              "drift fg MAE / max | drift fg MAE / max where alpha > 0.1 |", "|---|---|---|---|---|---|---|---|---|---|"]
         for x in sorted(exports, key=lambda x: (x["internal_w"] * x["internal_h"], x.get("refiner", True))):
             d = x.get("drift") or {}
             reason = ""
@@ -158,7 +158,8 @@ def render(doc: dict, allow_pending: bool) -> tuple[str, dict, list, list]:
                      f"{x['onnx_status']} | {_f(x.get('onnx_peak_ram_gib'))} | {x['engine_status']}{reason} | "
                      f"{_f(x.get('engine_build_s'), 0)} | {_f(x.get('engine_size_mib'), 0)} | "
                      f"{_f(d.get('alpha_mae'), 4)} / {_f(d.get('alpha_max'), 3)} | "
-                     f"{_f(d.get('fg_mae'), 4)} / {_f(d.get('fg_max'), 3)} |")
+                     f"{_f(d.get('fg_mae'), 4)} / {_f(d.get('fg_max'), 3)} | "
+                     f"{_f(d.get('fg_mae_alpha_gt_0_1'), 4)} / {_f(d.get('fg_max_alpha_gt_0_1'), 3)} |")
         L += ["", "Drift is |TensorRT - PyTorch fp16| of the raw network outputs at the internal size, over 20 "
               "fixed frames (" + (next((x.get("drift_frames") for x in exports if x.get("drift_frames")), "-")) + ").", ""]
     else:
