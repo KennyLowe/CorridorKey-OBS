@@ -2527,5 +2527,1565 @@
       },
       "drift_frames": "HCW Godiva Close frames 0-19 (raw)"
     }
+  ],
+  "clips": [
+    {
+      "clip_id": "pexels-athlete",
+      "focus": "motion",
+      "source_url": "https://www.pexels.com/download/video/31916831/",
+      "licence": "Pexels License (free use and modification; no redistribution on stock platforms)",
+      "licence_checked_on": "2026-10-16",
+      "manual_download": false,
+      "commit_stills_allowed": true,
+      "source_kind": "video",
+      "page_url": "https://www.pexels.com/video/dynamic-athlete-in-action-against-green-screen-31916831/",
+      "native_res": "3840x2160",
+      "native_fps": 60.0,
+      "segment_start_s": 2.0,
+      "frames": 300,
+      "local_path": "footage/public/pexels-athlete.mp4",
+      "pad_colour": "0x646D42",
+      "colour_primaries": "bt2020",
+      "colour_conversion": "bt2020->bt709 (ffmpeg colorspace)",
+      "hint_border_mean": 0.969,
+      "hint_frame_mean": 0.975
+    },
+    {
+      "clip_id": "pexels-dance",
+      "focus": "motion",
+      "source_url": "https://www.pexels.com/download/video/31916827/",
+      "licence": "Pexels License (free use and modification; no redistribution on stock platforms)",
+      "licence_checked_on": "2026-10-16",
+      "manual_download": false,
+      "commit_stills_allowed": true,
+      "source_kind": "video",
+      "page_url": "https://www.pexels.com/video/expressive-dance-on-minimalist-green-screen-31916827/",
+      "native_res": "3840x2160",
+      "native_fps": 60.0,
+      "segment_start_s": 1.0,
+      "frames": 300,
+      "local_path": "footage/public/pexels-dance.mp4",
+      "pad_colour": "0x667043",
+      "colour_primaries": "bt2020",
+      "colour_conversion": "bt2020->bt709 (ffmpeg colorspace)",
+      "hint_border_mean": 0.965,
+      "hint_frame_mean": 0.971
+    },
+    {
+      "clip_id": "pixabay-hair",
+      "focus": "hair",
+      "source_url": "https://cdn.pixabay.com/video/2023/11/27/190965-888878297_large.mp4",
+      "licence": "Pixabay Content License (free use and adaptation; no standalone redistribution)",
+      "licence_checked_on": "2026-10-16",
+      "manual_download": false,
+      "commit_stills_allowed": true,
+      "source_kind": "video",
+      "page_url": "https://pixabay.com/videos/man-hair-green-screen-chroma-key-190965/",
+      "native_res": "3840x2160",
+      "native_fps": 24.0,
+      "segment_start_s": 0.0,
+      "frames": 300,
+      "local_path": "footage/public/pixabay-hair.mp4",
+      "pad_colour": "0x0BFD00",
+      "colour_primaries": "bt709",
+      "colour_conversion": "none",
+      "hint_border_mean": 0.132,
+      "hint_frame_mean": 0.224
+    },
+    {
+      "clip_id": "hcw-locked-backdrop",
+      "focus": "hair",
+      "source_url": "https://www.hollywoodcamerawork.com/green-screen-plates.html",
+      "licence": "Hollywood Camera Work plate licence (use and post results anywhere; no rehosting; no sale)",
+      "licence_checked_on": "2026-10-16",
+      "manual_download": true,
+      "commit_stills_allowed": false,
+      "source_kind": "png_sequence",
+      "page_url": "https://www.hollywoodcamerawork.com/green-screen-plates.html",
+      "native_res": "1280x1080",
+      "native_fps": 30.0,
+      "segment_start_s": 0.0,
+      "frames": 80,
+      "local_path": "footage/hcw/Locked Backdrop",
+      "pad_colour": "0x30C627",
+      "colour_primaries": "unknown (PNG, assumed sRGB)",
+      "colour_conversion": "none",
+      "hint_border_mean": 0.219,
+      "hint_frame_mean": 0.34,
+      "frames_available": 80
+    },
+    {
+      "clip_id": "hcw-godiva-close",
+      "focus": "transparency",
+      "source_url": "https://www.hollywoodcamerawork.com/green-screen-plates.html",
+      "licence": "Hollywood Camera Work plate licence (use and post results anywhere; no rehosting; no sale)",
+      "licence_checked_on": "2026-10-16",
+      "manual_download": true,
+      "commit_stills_allowed": false,
+      "source_kind": "png_sequence",
+      "page_url": "https://www.hollywoodcamerawork.com/green-screen-plates.html",
+      "native_res": "960x720",
+      "native_fps": 30.0,
+      "segment_start_s": 0.0,
+      "frames": 300,
+      "local_path": "footage/hcw/Godiva Close",
+      "pad_colour": "0x4AC050",
+      "colour_primaries": "unknown (PNG, assumed sRGB)",
+      "colour_conversion": "none",
+      "hint_border_mean": 0.139,
+      "hint_frame_mean": 0.322,
+      "frames_available": 349
+    }
+  ],
+  "quality": [
+    {
+      "config_id": "torch-fp16-512x512-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-512x512-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-512x512-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.06871949284789043,
+      "edge_fg_mae": 0.06201747481408264,
+      "flicker_excess": -0.0035805495381170675,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-512x512-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.05628740824483607,
+      "edge_fg_mae": 0.02076715671429872,
+      "flicker_excess": -0.006974763856930536,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "torch-fp16-512x512-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.12143937977290006,
+      "edge_fg_mae": 0.05459830307385505,
+      "flicker_excess": -0.013525295049770769,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x576-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x576-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x576-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.041973801628580075,
+      "edge_fg_mae": 0.04150733943899036,
+      "flicker_excess": -0.0019793146060537283,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x576-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.041321832410416336,
+      "edge_fg_mae": 0.0156924207007647,
+      "flicker_excess": -0.005730942727037426,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "torch-fp16-1024x576-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.06468172053922555,
+      "edge_fg_mae": 0.04129691226027956,
+      "flicker_excess": -0.008948385209616078,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x448-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x448-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x448-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.05346230892941053,
+      "edge_fg_mae": 0.05147138505862086,
+      "flicker_excess": -0.00289971494648792,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x448-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.050442809917388885,
+      "edge_fg_mae": 0.017655211786240594,
+      "flicker_excess": -0.00671698350295419,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "torch-fp16-768x448-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.08567941993142064,
+      "edge_fg_mae": 0.04742821017517503,
+      "flicker_excess": -0.011444447548938053,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-512x512-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-512x512-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-512x512-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.04447171269802999,
+      "edge_fg_mae": 0.04683801734003843,
+      "flicker_excess": -0.000697560980940589,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-512x512-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.03752644970059631,
+      "edge_fg_mae": 0.016720050987132723,
+      "flicker_excess": -0.005475539362276689,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "torch-fp16-512x512-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.10324198994512974,
+      "edge_fg_mae": 0.043040388331560826,
+      "flicker_excess": -0.008761203292124884,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x768-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x768-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x768-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.0339548282904397,
+      "edge_fg_mae": 0.03283523685726153,
+      "flicker_excess": 0.0004828052963673426,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x768-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.029799240236368745,
+      "edge_fg_mae": 0.012569782297828992,
+      "flicker_excess": -0.003864213609470169,
+      "flags": [],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "torch-fp16-768x768-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.06953303915345532,
+      "edge_fg_mae": 0.03375769332922195,
+      "flicker_excess": -0.005670249566584294,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x768-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x768-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x768-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.04849000365114846,
+      "edge_fg_mae": 0.04503709505539087,
+      "flicker_excess": -0.0017046565164380806,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x768-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.04675885511057012,
+      "edge_fg_mae": 0.016221061263774927,
+      "flicker_excess": -0.005827824902792111,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "torch-fp16-768x768-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.08017713726025655,
+      "edge_fg_mae": 0.04498207942962297,
+      "flicker_excess": -0.00919581742684309,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x1024-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x1024-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x1024-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.027244045793447896,
+      "edge_fg_mae": 0.023784348930154763,
+      "flicker_excess": 0.0007965425181299801,
+      "flags": [],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x1024-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.02311841665510201,
+      "edge_fg_mae": 0.010343858317024295,
+      "flicker_excess": -0.0027208630734228264,
+      "flags": [],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "torch-fp16-1024x1024-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.05335772242795007,
+      "edge_fg_mae": 0.027046904184827456,
+      "flicker_excess": -0.004095050569893531,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x1024-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x1024-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x1024-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.03688921257053603,
+      "edge_fg_mae": 0.03560011499228796,
+      "flicker_excess": -0.0009010241616138417,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x1024-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.03848945165977314,
+      "edge_fg_mae": 0.014277928069492523,
+      "flicker_excess": -0.004800996573862688,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "torch-fp16-1024x1024-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.06028010688531449,
+      "edge_fg_mae": 0.03900402300133703,
+      "flicker_excess": -0.006710739910237573,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-2048x2048-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300,
+      "note": "this configuration is the 2048 reference; metrics are zero by definition"
+    },
+    {
+      "config_id": "torch-fp16-2048x2048-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300,
+      "note": "this configuration is the 2048 reference; metrics are zero by definition"
+    },
+    {
+      "config_id": "torch-fp16-2048x2048-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300,
+      "note": "this configuration is the 2048 reference; metrics are zero by definition"
+    },
+    {
+      "config_id": "torch-fp16-2048x2048-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80,
+      "note": "this configuration is the 2048 reference; metrics are zero by definition"
+    },
+    {
+      "config_id": "torch-fp16-2048x2048-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300,
+      "note": "this configuration is the 2048 reference; metrics are zero by definition"
+    },
+    {
+      "config_id": "torch-fp16-2048x2048-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-2048x2048-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-2048x2048-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.01781898164854447,
+      "edge_fg_mae": 0.01948032722825274,
+      "flicker_excess": -0.0008828674468693234,
+      "flags": [],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-2048x2048-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.02038566238943599,
+      "edge_fg_mae": 0.006963632859400183,
+      "flicker_excess": -0.0021779633491055155,
+      "flags": [],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "torch-fp16-2048x2048-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.019464236925540453,
+      "edge_fg_mae": 0.02085468304884923,
+      "flicker_excess": -0.001772929665582215,
+      "flags": [],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x576-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x576-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x576-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.03148583186597705,
+      "edge_fg_mae": 0.026956137419768506,
+      "flicker_excess": 0.00028500863615775983,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-1024x576-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.024806318130217327,
+      "edge_fg_mae": 0.011485009866578407,
+      "flicker_excess": -0.0035067132941588707,
+      "flags": [],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "torch-fp16-1024x576-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.056654118823619606,
+      "edge_fg_mae": 0.02906156437530601,
+      "flicker_excess": -0.005631907277141806,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x448-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x448-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x448-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.03730660081368858,
+      "edge_fg_mae": 0.03507129069654183,
+      "flicker_excess": -2.5334097891313943e-05,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "torch-fp16-768x448-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.032151925198150286,
+      "edge_fg_mae": 0.01359011459642541,
+      "flicker_excess": -0.004770086113078934,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "torch-fp16-768x448-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.07389760053777157,
+      "edge_fg_mae": 0.03580360429460152,
+      "flicker_excess": -0.0074059559836298205,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-512x512-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-512x512-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-512x512-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.04450336053771517,
+      "edge_fg_mae": 0.04663086282629157,
+      "flicker_excess": -0.0006962310639885017,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-512x512-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.037513195783385224,
+      "edge_fg_mae": 0.016711917006149775,
+      "flicker_excess": -0.0054707795009070696,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-512x512-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.10323933679136416,
+      "edge_fg_mae": 0.043009196544975904,
+      "flicker_excess": -0.00874935655909101,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-512x512-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-512x512-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-512x512-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.06875884184350385,
+      "edge_fg_mae": 0.06187551427406241,
+      "flicker_excess": -0.003573501990750777,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-512x512-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.056282928472324516,
+      "edge_fg_mae": 0.020755866299908693,
+      "flicker_excess": -0.006976465100651834,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-512x512-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.12144471495547214,
+      "edge_fg_mae": 0.05457311920790167,
+      "flicker_excess": -0.013517357393817377,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x768-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x768-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x768-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.033966298971417765,
+      "edge_fg_mae": 0.032866930830385006,
+      "flicker_excess": 0.0004880912412566349,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x768-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.029806735713922353,
+      "edge_fg_mae": 0.01255095712745116,
+      "flicker_excess": -0.00386120741526915,
+      "flags": [],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-768x768-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.06950698636643947,
+      "edge_fg_mae": 0.03376626985002764,
+      "flicker_excess": -0.005661172230397083,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x768-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x768-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x768-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.04849032447048702,
+      "edge_fg_mae": 0.04506480141179946,
+      "flicker_excess": -0.0017038491220522608,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x768-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.04676059753502794,
+      "edge_fg_mae": 0.016187004169307188,
+      "flicker_excess": -0.00582297409677348,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-768x768-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.08016883398901786,
+      "edge_fg_mae": 0.04498899603970152,
+      "flicker_excess": -0.009196184858459373,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x1024-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x1024-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x1024-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.027270762588912426,
+      "edge_fg_mae": 0.023896772348319408,
+      "flicker_excess": 0.0007991128475452951,
+      "flags": [],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x1024-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.023112658343695996,
+      "edge_fg_mae": 0.01031638210117426,
+      "flicker_excess": -0.0027168438220148746,
+      "flags": [],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-1024x1024-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.0533068356373895,
+      "edge_fg_mae": 0.02699573885860996,
+      "flicker_excess": -0.004072767358079698,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x1024-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x1024-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x1024-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.036820049380527305,
+      "edge_fg_mae": 0.03569895295227546,
+      "flicker_excess": -0.0008918115770680203,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x1024-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.03848396849906872,
+      "edge_fg_mae": 0.014237114257081924,
+      "flicker_excess": -0.004796260795772143,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-1024x1024-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.06026146608565461,
+      "edge_fg_mae": 0.038984563069814196,
+      "flicker_excess": -0.006703017482294878,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-2048x2048-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-2048x2048-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-2048x2048-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.00017059326885925503,
+      "edge_fg_mae": 0.00026426063452050156,
+      "flicker_excess": 5.013534268293581e-06,
+      "flags": [],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-2048x2048-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.00018540628567555723,
+      "edge_fg_mae": 0.00013431836970649857,
+      "flicker_excess": 6.041669967197969e-06,
+      "flags": [],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-2048x2048-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.0002978881681703544,
+      "edge_fg_mae": 0.0002549878554726047,
+      "flicker_excess": 1.6750058372179117e-05,
+      "flags": [],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-2048x2048-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-2048x2048-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-2048x2048-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.017842425965163534,
+      "edge_fg_mae": 0.01946279962412715,
+      "flicker_excess": -0.0008743914351503739,
+      "flags": [],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-2048x2048-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.020384669389612114,
+      "edge_fg_mae": 0.006947620365054384,
+      "flicker_excess": -0.0021697805241176196,
+      "flags": [],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-2048x2048-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.019448862359895628,
+      "edge_fg_mae": 0.02085501563709747,
+      "flicker_excess": -0.0017602272531284191,
+      "flags": [],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x576-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x576-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x576-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.03148211974212601,
+      "edge_fg_mae": 0.026954270282161623,
+      "flicker_excess": 0.000288454056463494,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x576-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.024806233535548377,
+      "edge_fg_mae": 0.011457313815861262,
+      "flicker_excess": -0.0035076026131388373,
+      "flags": [],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-1024x576-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.0566256565357792,
+      "edge_fg_mae": 0.029051952134819602,
+      "flicker_excess": -0.005619947531100615,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x576-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x576-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x576-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.042024355488396836,
+      "edge_fg_mae": 0.04146433247165868,
+      "flicker_excess": -0.0019772225435636666,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-1024x576-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.04132459474185623,
+      "edge_fg_mae": 0.015652182063838116,
+      "flicker_excess": -0.005732495112765153,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-1024x576-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.06467181697171896,
+      "edge_fg_mae": 0.041292429897584755,
+      "flicker_excess": -0.008936667204096024,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x448-ref1-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x448-ref1-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x448-ref1-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.03728881717078625,
+      "edge_fg_mae": 0.03516786401363242,
+      "flicker_excess": -1.7345300235813954e-05,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x448-ref1-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.032144885757170144,
+      "edge_fg_mae": 0.01356155510073314,
+      "flicker_excess": -0.00476754816400617,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-768x448-ref1-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.0738445323187634,
+      "edge_fg_mae": 0.03579409116473016,
+      "flicker_excess": -0.00740965972393742,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x448-ref0-idle",
+      "clip_id": "pexels-athlete",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x448-ref0-idle",
+      "clip_id": "pexels-dance",
+      "edge_alpha_mae": 0.0,
+      "edge_fg_mae": 0.0,
+      "flicker_excess": 0.0,
+      "flags": [],
+      "edge_band_px_per_frame": 0,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x448-ref0-idle",
+      "clip_id": "pixabay-hair",
+      "edge_alpha_mae": 0.05319456983398689,
+      "edge_fg_mae": 0.051945400639841204,
+      "flicker_excess": -0.0028857642876762507,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 79645,
+      "owner_verdict": "pending",
+      "frames": 300
+    },
+    {
+      "config_id": "trt-fp16-768x448-ref0-idle",
+      "clip_id": "hcw-locked-backdrop",
+      "edge_alpha_mae": 0.0504456656671988,
+      "edge_fg_mae": 0.017603354794128074,
+      "flicker_excess": -0.006716121696854239,
+      "flags": [
+        "edge_alpha"
+      ],
+      "edge_band_px_per_frame": 118976,
+      "owner_verdict": "pending",
+      "frames": 80
+    },
+    {
+      "config_id": "trt-fp16-768x448-ref0-idle",
+      "clip_id": "hcw-godiva-close",
+      "edge_alpha_mae": 0.08565680468988737,
+      "edge_fg_mae": 0.04742491062354411,
+      "flicker_excess": -0.01144734227084583,
+      "flags": [
+        "edge_alpha",
+        "edge_fg"
+      ],
+      "edge_band_px_per_frame": 370220,
+      "owner_verdict": "pending",
+      "frames": 300
+    }
   ]
 }

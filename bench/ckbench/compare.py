@@ -54,17 +54,31 @@ def _rs(x: np.ndarray, w: int, h: int) -> np.ndarray:
     return cv2.resize(x, (w, h), interpolation=cv2.INTER_AREA)
 
 
+def panel_inputs(alpha, fg, ref_alpha, ref_fg, w, h):
+    """Downscale once per frame to panel size: (a, f_hwc, ra, rf_hwc, heat)."""
+    a, ra = _rs(alpha, w, h), _rs(ref_alpha, w, h)
+    f = _rs(np.ascontiguousarray(fg.transpose(1, 2, 0)), w, h)
+    rf = _rs(np.ascontiguousarray(ref_fg.transpose(1, 2, 0)), w, h)
+    return a, f, ra, rf, heatmap(a, ra)
+
+
+def _comp_hwc(a, f_hwc, bg):
+    """bg + a * (fg - bg), via OpenCV (multithreaded); saturating conversion to uint8."""
+    a3 = cv2.merge([a, a, a])
+    out = cv2.add(bg, cv2.multiply(a3, cv2.subtract(f_hwc, bg)))
+    return cv2.convertScaleAbs(out, alpha=255.0)
+
+
+def three_up_from(pi, bg, cfg_label: str) -> np.ndarray:
+    a, f, ra, rf, heat = pi
+    panels = [_label(_comp_hwc(ra, rf, bg), "reference 2048"), _label(_comp_hwc(a, f, bg), cfg_label),
+              _label(heat.copy(), "|d alpha| x4")]
+    return np.concatenate(panels, axis=1)
+
+
 def three_up(alpha, fg, ref_alpha, ref_fg, bg, w, h, cfg_label: str) -> np.ndarray:
     """Downscale to panel size first, then composite (bg must already be [h,w,3])."""
-    a, ra = _rs(alpha, w, h), _rs(ref_alpha, w, h)
-    f = _rs(fg.transpose(1, 2, 0), w, h).transpose(2, 0, 1)
-    rf = _rs(ref_fg.transpose(1, 2, 0), w, h).transpose(2, 0, 1)
-    panels = [
-        _label(composite(ra, rf, bg), "reference 2048"),
-        _label(composite(a, f, bg), cfg_label),
-        _label(heatmap(a, ra), "|d alpha| x4"),
-    ]
-    return np.concatenate(panels, axis=1)
+    return three_up_from(panel_inputs(alpha, fg, ref_alpha, ref_fg, w, h), bg, cfg_label)
 
 
 class _Mp4:
@@ -99,8 +113,9 @@ class CompareWriter:
         self.t = 0
 
     def add(self, alpha, fg, ref_alpha, ref_fg) -> None:
+        pi = panel_inputs(alpha, fg, ref_alpha, ref_fg, PANEL_W, PANEL_H)
         for k, bg in self.bgs.items():
-            self.vids[k].write(three_up(alpha, fg, ref_alpha, ref_fg, bg, PANEL_W, PANEL_H, self.cfg_label))
+            self.vids[k].write(three_up_from(pi, bg, self.cfg_label))
         if self.t in self.sheet_idx:
             row = three_up(alpha, fg, ref_alpha, ref_fg, self.sheet_bg, SHEET_W, SHEET_H,
                            f"{self.cfg_label}  f{self.t}")

@@ -39,13 +39,31 @@ def download(url: str, dst: Path) -> None:
     tmp.replace(dst)
 
 
-def probe_video(path: Path) -> tuple[str, float]:
+def probe_video(path: Path) -> tuple[str, float, str]:
     out = subprocess.run([_ffprobe(), "-v", "error", "-select_streams", "v:0", "-show_entries",
-                          "stream=width,height,avg_frame_rate", "-of", "json", str(path)],
+                          "stream=width,height,avg_frame_rate,color_primaries", "-of", "json", str(path)],
                          capture_output=True, text=True, check=True).stdout
     s = json.loads(out)["streams"][0]
     num, den = s["avg_frame_rate"].split("/")
-    return f"{s['width']}x{s['height']}", round(float(num) / float(den), 3)
+    return f"{s['width']}x{s['height']}", round(float(num) / float(den), 3), s.get("color_primaries", "unknown")
+
+
+def hint_diagnostic(folder: Path) -> dict:
+    """Mean chroma-key hint (1 = subject) over a 32 px border of frames 0/mid/last, where the screen
+    usually is. Values near 1 mean the simple hint (research D8) does not recognise the screen."""
+    import cv2
+    import torch
+
+    from .hint import chroma_hint
+
+    files = sorted(folder.glob("*.png"))
+    vals = []
+    for f in (files[0], files[len(files) // 2], files[-1]):
+        rgb = torch.from_numpy(cv2.cvtColor(cv2.imread(str(f)), cv2.COLOR_BGR2RGB)).permute(2, 0, 1).float() / 255
+        m = chroma_hint(rgb)
+        b = torch.cat([m[:32].flatten(), m[-32:].flatten(), m[:, :32].flatten(), m[:, -32:].flatten()])
+        vals.append(float(b.mean()))
+    return {"hint_border_mean": round(sum(vals) / len(vals), 3), "hint_frame_mean": round(float(m.mean()), 3)}
 
 
 def png_sequence_input(folder: Path) -> tuple[list[str], str, int]:
@@ -86,7 +104,7 @@ def normalise(clip: dict, log=print) -> dict:
                 raise FileNotFoundError(f"{local} missing: download manually from {clip['page_url']}")
             log(f"  downloading {clip['clip_id']} from {clip['source_url']}")
             download(clip["source_url"], local)
-        native_res, native_fps = probe_video(local)
+        native_res, native_fps, primaries = probe_video(local)
         input_args = ["-ss", str(clip.get("segment_start_s", 0.0)), "-i", str(local)]
         available = None
     else:
@@ -94,13 +112,16 @@ def normalise(clip: dict, log=print) -> dict:
             raise FileNotFoundError(f"{local} missing: download manually from {clip['page_url']}")
         input_args, native_res, available = png_sequence_input(local)
         native_fps = float(TARGET_FPS)  # image sequences have no fps; treated as 30 (research D10)
+        primaries = "unknown (PNG, assumed sRGB)"
 
     out = CLIPS_OUT / clip["clip_id"]
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)
     pad = _screen_green(input_args)
-    vf = (f"fps={TARGET_FPS},scale={TARGET_W}:{TARGET_H}:force_original_aspect_ratio=decrease:flags=lanczos,"
+    # BT.2020-tagged 8-bit SDR sources are converted to BT.709/sRGB primaries (transfer assumed BT.709).
+    conv = "colorspace=all=bt709:iall=bt2020:itrc=bt709:fast=0," if primaries == "bt2020" else ""
+    vf = (f"{conv}fps={TARGET_FPS},scale={TARGET_W}:{TARGET_H}:force_original_aspect_ratio=decrease:flags=lanczos,"
           f"pad={TARGET_W}:{TARGET_H}:(ow-iw)/2:(oh-ih)/2:color={pad},format=rgb24")
     cmd = [ffmpeg_exe(), "-hide_banner", "-loglevel", "error", "-y", *input_args, "-vf", vf,
            "-frames:v", str(MAX_FRAMES), "-start_number", "0", str(out / "%05d.png")]
@@ -111,7 +132,9 @@ def normalise(clip: dict, log=print) -> dict:
                                   "manual_download", "commit_stills_allowed", "source_kind")}
     entry.update(page_url=clip["page_url"], native_res=native_res, native_fps=native_fps,
                  segment_start_s=float(clip.get("segment_start_s", 0.0)), frames=n,
-                 local_path=clip["local_path"], pad_colour=pad)
+                 local_path=clip["local_path"], pad_colour=pad, colour_primaries=primaries,
+                 colour_conversion=("bt2020->bt709 (ffmpeg colorspace)" if conv else "none"),
+                 **hint_diagnostic(out))
     if available is not None:
         entry["frames_available"] = available
     return entry
