@@ -2699,8 +2699,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-512x512-ref0-idle",
@@ -2712,8 +2713,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-512x512-ref0-idle",
@@ -2726,8 +2728,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x576-ref0-idle",
@@ -2768,8 +2771,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x576-ref0-idle",
@@ -2781,8 +2785,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x576-ref0-idle",
@@ -2795,8 +2800,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x448-ref0-idle",
@@ -2837,8 +2843,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x448-ref0-idle",
@@ -2850,8 +2857,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x448-ref0-idle",
@@ -2864,8 +2872,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-512x512-ref1-idle",
@@ -2906,8 +2915,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-512x512-ref1-idle",
@@ -2919,8 +2929,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-512x512-ref1-idle",
@@ -2933,8 +2944,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x768-ref1-idle",
@@ -2974,8 +2986,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x768-ref1-idle",
@@ -2985,8 +2998,9 @@
       "flicker_excess": -0.003864213609470169,
       "flags": [],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x768-ref1-idle",
@@ -2998,8 +3012,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x768-ref0-idle",
@@ -3040,8 +3055,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x768-ref0-idle",
@@ -3053,8 +3069,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x768-ref0-idle",
@@ -3067,8 +3084,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x1024-ref1-idle",
@@ -3104,8 +3122,9 @@
       "flicker_excess": 0.0007965425181299801,
       "flags": [],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x1024-ref1-idle",
@@ -3115,8 +3134,9 @@
       "flicker_excess": -0.0027208630734228264,
       "flags": [],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x1024-ref1-idle",
@@ -3128,8 +3148,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x1024-ref0-idle",
@@ -3169,8 +3190,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x1024-ref0-idle",
@@ -3182,8 +3204,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x1024-ref0-idle",
@@ -3195,8 +3218,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-2048x2048-ref1-idle",
@@ -3232,9 +3256,10 @@
       "flicker_excess": 0.0,
       "flags": [],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
+      "owner_verdict": "pass",
       "frames": 300,
-      "note": "this configuration is the 2048 reference; metrics are zero by definition"
+      "note": "this configuration is the 2048 reference; metrics are zero by definition",
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-2048x2048-ref1-idle",
@@ -3244,9 +3269,10 @@
       "flicker_excess": 0.0,
       "flags": [],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
+      "owner_verdict": "pass",
       "frames": 80,
-      "note": "this configuration is the 2048 reference; metrics are zero by definition"
+      "note": "this configuration is the 2048 reference; metrics are zero by definition",
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-2048x2048-ref1-idle",
@@ -3256,9 +3282,10 @@
       "flicker_excess": 0.0,
       "flags": [],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
+      "owner_verdict": "pass",
       "frames": 300,
-      "note": "this configuration is the 2048 reference; metrics are zero by definition"
+      "note": "this configuration is the 2048 reference; metrics are zero by definition",
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-2048x2048-ref0-idle",
@@ -3292,8 +3319,9 @@
       "flicker_excess": -0.0008828674468693234,
       "flags": [],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-2048x2048-ref0-idle",
@@ -3303,8 +3331,9 @@
       "flicker_excess": -0.0021779633491055155,
       "flags": [],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-2048x2048-ref0-idle",
@@ -3314,8 +3343,9 @@
       "flicker_excess": -0.001772929665582215,
       "flags": [],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x576-ref1-idle",
@@ -3355,8 +3385,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x576-ref1-idle",
@@ -3366,8 +3397,9 @@
       "flicker_excess": -0.0035067132941588707,
       "flags": [],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-1024x576-ref1-idle",
@@ -3379,8 +3411,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x448-ref1-idle",
@@ -3420,8 +3453,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x448-ref1-idle",
@@ -3433,8 +3467,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "torch-fp16-768x448-ref1-idle",
@@ -3446,8 +3481,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-512x512-ref1-idle",
@@ -3488,8 +3524,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-512x512-ref1-idle",
@@ -3501,8 +3538,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-512x512-ref1-idle",
@@ -3515,8 +3553,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-512x512-ref0-idle",
@@ -3557,8 +3596,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-512x512-ref0-idle",
@@ -3570,8 +3610,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-512x512-ref0-idle",
@@ -3584,8 +3625,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x768-ref1-idle",
@@ -3625,8 +3667,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x768-ref1-idle",
@@ -3636,8 +3679,9 @@
       "flicker_excess": -0.00386120741526915,
       "flags": [],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x768-ref1-idle",
@@ -3649,8 +3693,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x768-ref0-idle",
@@ -3691,8 +3736,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x768-ref0-idle",
@@ -3704,8 +3750,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x768-ref0-idle",
@@ -3718,8 +3765,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x1024-ref1-idle",
@@ -3755,8 +3803,9 @@
       "flicker_excess": 0.0007991128475452951,
       "flags": [],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x1024-ref1-idle",
@@ -3766,8 +3815,9 @@
       "flicker_excess": -0.0027168438220148746,
       "flags": [],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x1024-ref1-idle",
@@ -3779,8 +3829,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x1024-ref0-idle",
@@ -3820,8 +3871,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x1024-ref0-idle",
@@ -3833,8 +3885,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x1024-ref0-idle",
@@ -3846,8 +3899,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-2048x2048-ref1-idle",
@@ -3881,8 +3935,9 @@
       "flicker_excess": 5.013534268293581e-06,
       "flags": [],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-2048x2048-ref1-idle",
@@ -3892,8 +3947,9 @@
       "flicker_excess": 6.041669967197969e-06,
       "flags": [],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-2048x2048-ref1-idle",
@@ -3903,8 +3959,9 @@
       "flicker_excess": 1.6750058372179117e-05,
       "flags": [],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-2048x2048-ref0-idle",
@@ -3938,8 +3995,9 @@
       "flicker_excess": -0.0008743914351503739,
       "flags": [],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-2048x2048-ref0-idle",
@@ -3949,8 +4007,9 @@
       "flicker_excess": -0.0021697805241176196,
       "flags": [],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-2048x2048-ref0-idle",
@@ -3960,8 +4019,9 @@
       "flicker_excess": -0.0017602272531284191,
       "flags": [],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x576-ref1-idle",
@@ -4001,8 +4061,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x576-ref1-idle",
@@ -4012,8 +4073,9 @@
       "flicker_excess": -0.0035076026131388373,
       "flags": [],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "review_note": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x576-ref1-idle",
@@ -4025,8 +4087,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x576-ref0-idle",
@@ -4067,8 +4130,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x576-ref0-idle",
@@ -4080,8 +4144,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-1024x576-ref0-idle",
@@ -4094,8 +4159,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x448-ref1-idle",
@@ -4135,8 +4201,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x448-ref1-idle",
@@ -4148,8 +4215,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x448-ref1-idle",
@@ -4161,8 +4229,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x448-ref0-idle",
@@ -4203,8 +4272,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 79645,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x448-ref0-idle",
@@ -4216,8 +4286,9 @@
         "edge_alpha"
       ],
       "edge_band_px_per_frame": 118976,
-      "owner_verdict": "pending",
-      "frames": 80
+      "owner_verdict": "pass",
+      "frames": 80,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     },
     {
       "config_id": "trt-fp16-768x448-ref0-idle",
@@ -4230,8 +4301,9 @@
         "edge_fg"
       ],
       "edge_band_px_per_frame": 370220,
-      "owner_verdict": "pending",
-      "frames": 300
+      "owner_verdict": "pass",
+      "frames": 300,
+      "override_reason": "Owner visual review 2026-10-17: edges look great at normal viewing size."
     }
   ]
 }
