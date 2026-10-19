@@ -1,0 +1,87 @@
+# Reference clips for the quality/flicker evaluation (research D10).
+# Nothing here is committed or rehosted. Public clips are downloaded from their source into the
+# git-ignored footage/public/. HCW plates are downloaded by hand into footage/hcw/.
+# Every clip is normalised to 1920x1080 at 30 fps (aspect kept, padded with screen green) and
+# trimmed to min(300, available) frames.
+#
+# Licence summaries were checked on the source sites on 2026-10-16:
+#  - Pexels licence: free to use and modify, no attribution needed; no redistribution on other
+#    stock/wallpaper platforms; no selling unaltered copies.
+#  - Pixabay Content License: free to use and adapt, no attribution needed; no standalone
+#    redistribution/sale (i.e. where no creative effort has been applied).
+#
+# hint: "fixed" (default; research D8 thresholds) or "calibrated" (screen colour estimated per clip
+# from the frame border; spec Session 2026-10-17). Calibrated is used only for the two Pexels clips,
+# which are ungraded flat footage that the fixed hint does not recognise as green screen.
+#
+#  - Hollywood Camera Work plates (readme in the zips): "use the clips any way you want and post
+#    the results anywhere"; MAY NOT redistribute or host the clips; MAY NOT sell them.
+
+[[clip]]
+clip_id = "pexels-athlete"
+hint = "calibrated"
+focus = "motion"
+page_url = "https://www.pexels.com/video/dynamic-athlete-in-action-against-green-screen-31916831/"
+source_url = "https://www.pexels.com/download/video/31916831/"
+licence = "Pexels License (free use and modification; no redistribution on stock platforms)"
+licence_checked_on = "2026-10-16"
+manual_download = false
+source_kind = "video"
+local_path = "footage/public/pexels-athlete.mp4"
+segment_start_s = 2.0
+commit_stills_allowed = true
+
+[[clip]]
+clip_id = "pexels-dance"
+hint = "calibrated"
+focus = "motion"
+page_url = "https://www.pexels.com/video/expressive-dance-on-minimalist-green-screen-31916827/"
+source_url = "https://www.pexels.com/download/video/31916827/"
+licence = "Pexels License (free use and modification; no redistribution on stock platforms)"
+licence_checked_on = "2026-10-16"
+manual_download = false
+source_kind = "video"
+local_path = "footage/public/pexels-dance.mp4"
+segment_start_s = 1.0
+commit_stills_allowed = true
+
+[[clip]]
+clip_id = "pixabay-hair"
+focus = "hair"
+page_url = "https://pixabay.com/videos/man-hair-green-screen-chroma-key-190965/"
+# Pixabay's page is behind a bot check; this is the direct CDN file the page links ("large").
+# If it stops resolving, download the clip manually from page_url into local_path.
+source_url = "https://cdn.pixabay.com/video/2023/11/27/190965-888878297_large.mp4"
+licence = "Pixabay Content License (free use and adaptation; no standalone redistribution)"
+licence_checked_on = "2026-10-16"
+manual_download = false
+source_kind = "video"
+local_path = "footage/public/pixabay-hair.mp4"
+segment_start_s = 0.0
+commit_stills_allowed = true
+
+[[clip]]
+clip_id = "hcw-locked-backdrop"
+focus = "hair"
+page_url = "https://www.hollywoodcamerawork.com/green-screen-plates.html"
+source_url = "https://www.hollywoodcamerawork.com/green-screen-plates.html"
+licence = "Hollywood Camera Work plate licence (use and post results anywhere; no rehosting; no sale)"
+licence_checked_on = "2026-10-16"
+manual_download = true
+source_kind = "png_sequence"
+local_path = "footage/hcw/Locked Backdrop"
+segment_start_s = 0.0
+commit_stills_allowed = false
+
+[[clip]]
+clip_id = "hcw-godiva-close"
+focus = "transparency"
+page_url = "https://www.hollywoodcamerawork.com/green-screen-plates.html"
+source_url = "https://www.hollywoodcamerawork.com/green-screen-plates.html"
+licence = "Hollywood Camera Work plate licence (use and post results anywhere; no rehosting; no sale)"
+licence_checked_on = "2026-10-16"
+manual_download = true
+source_kind = "png_sequence"
+local_path = "footage/hcw/Godiva Close"
+segment_start_s = 0.0
+commit_stills_allowed = false

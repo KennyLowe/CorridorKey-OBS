@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ckbench/results.schema.json",
+  "title": "ckbench results",
+  "type": "object",
+  "required": ["schema_version", "environment", "benchmarks"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "environment": {
+      "type": "object",
+      "required": ["run_id", "gpu_name", "gpu_driver", "python", "packages", "corridorkey_sha", "weights_sha256"],
+      "properties": {
+        "run_id": { "type": "string" },
+        "gpu_name": { "type": "string" },
+        "gpu_driver": { "type": "string" },
+        "gpu_vram_mib": { "type": "integer" },
+        "gpu_max_sm_clock_mhz": { "type": "integer" },
+        "gpu_power_limit_w": { "type": "number" },
+        "os": { "type": "string" },
+        "python": { "type": "string" },
+        "packages": { "type": "object", "additionalProperties": { "type": "string" } },
+        "corridorkey_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "weights_file": { "type": "string" },
+        "weights_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "ffmpeg_version": { "type": "string" },
+        "tensorrt_version": { "type": "string" }
+      }
+    },
+    "exports": { "type": "array", "items": { "$ref": "#/$defs/export" } },
+    "benchmarks": { "type": "array", "items": { "$ref": "#/$defs/benchmark" } },
+    "clips": { "type": "array", "items": { "$ref": "#/$defs/clip" } },
+    "quality": { "type": "array", "items": { "$ref": "#/$defs/quality" } },
+    "envelope": { "type": "array", "items": { "$ref": "#/$defs/envelope" } },
+    "verdict": { "$ref": "#/$defs/verdict" }
+  },
+  "$defs": {
+    "stats": {
+      "type": "object",
+      "required": ["mean", "median", "p95"],
+      "properties": { "mean": { "type": "number" }, "median": { "type": "number" }, "p95": { "type": "number" } }
+    },
+    "config": {
+      "type": "object",
+      "required": ["config_id", "runtime", "precision", "internal_w", "internal_h", "refiner", "load"],
+      "properties": {
+        "config_id": { "type": "string" },
+        "runtime": { "enum": ["torch", "trt"] },
+        "precision": { "enum": ["fp16"] },
+        "internal_w": { "type": "integer", "multipleOf": 32 },
+        "internal_h": { "type": "integer", "multipleOf": 32 },
+        "refiner": { "type": "boolean" },
+        "load": { "enum": ["idle", "nvenc1080p30"] },
+        "posembed_interpolated": { "type": "boolean" }
+      }
+    },
+    "benchmark": {
+      "type": "object",
+      "required": ["config", "camera_res", "status"],
+      "properties": {
+        "config": { "$ref": "#/$defs/config" },
+        "camera_res": { "enum": ["720p", "1080p", "2160p"] },
+        "status": { "enum": ["ok", "oom", "export_failed", "build_failed", "not_attempted"] },
+        "status_reason": { "type": "string" },
+        "runs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["model_ms", "e2e_ms"],
+            "properties": {
+              "model_ms": { "$ref": "#/$defs/stats" },
+              "e2e_ms": { "$ref": "#/$defs/stats" },
+              "stage_ms": { "type": "object", "additionalProperties": { "type": "number" } }
+            }
+          }
+        },
+        "median_spread_pct": { "type": "number" },
+        "spread_flag": { "type": "boolean" },
+        "peak_vram_mib": { "type": "number" },
+        "torch_peak_alloc_mib": { "type": "number" },
+        "clock_start_mhz": { "type": "integer" },
+        "clock_end_mhz": { "type": "integer" },
+        "temp_end_c": { "type": "integer" }
+      }
+    },
+    "export": {
+      "type": "object",
+      "required": ["internal_w", "internal_h", "onnx_status", "engine_status"],
+      "properties": {
+        "internal_w": { "type": "integer" },
+        "internal_h": { "type": "integer" },
+        "onnx_status": { "enum": ["ok", "failed", "not_attempted"] },
+        "onnx_reason": { "type": "string" },
+        "onnx_peak_ram_gib": { "type": "number" },
+        "engine_status": { "enum": ["ok", "failed", "not_attempted"] },
+        "engine_reason": { "type": "string" },
+        "engine_build_s": { "type": "number" },
+        "engine_size_mib": { "type": "number" },
+        "drift": {
+          "type": "object",
+          "properties": {
+            "alpha_mae": { "type": "number" }, "alpha_max": { "type": "number" },
+            "fg_mae": { "type": "number" }, "fg_max": { "type": "number" }
+          }
+        }
+      }
+    },
+    "clip": {
+      "type": "object",
+      "required": ["clip_id", "focus", "source_url", "licence", "manual_download", "commit_stills_allowed"],
+      "properties": {
+        "clip_id": { "type": "string" },
+        "focus": { "enum": ["hair", "motion", "spill", "transparency"] },
+        "source_url": { "type": "string" },
+        "licence": { "type": "string" },
+        "licence_checked_on": { "type": "string", "format": "date" },
+        "manual_download": { "type": "boolean" },
+        "native_res": { "type": "string" },
+        "native_fps": { "type": "number" },
+        "segment_start_s": { "type": "number" },
+        "frames": { "type": "integer" },
+        "commit_stills_allowed": { "type": "boolean" }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "required": ["config_id", "clip_id", "edge_alpha_mae", "edge_fg_mae", "flicker_excess", "flags", "owner_verdict"],
+      "properties": {
+        "config_id": { "type": "string" },
+        "clip_id": { "type": "string" },
+        "edge_alpha_mae": { "type": "number" },
+        "edge_fg_mae": { "type": "number" },
+        "flicker_excess": { "type": "number" },
+        "flags": { "type": "array", "items": { "enum": ["edge_alpha", "edge_fg", "flicker"] } },
+        "owner_verdict": { "enum": ["pass", "fail", "pending"] },
+        "override_reason": { "type": "string" }
+      },
+      "if": {
+        "properties": { "owner_verdict": { "const": "pass" }, "flags": { "minItems": 1 } }
+      },
+      "then": { "required": ["override_reason"], "properties": { "override_reason": { "minLength": 1 } } }
+    },
+    "envelope": {
+      "type": "object",
+      "required": ["mode_id", "rtx3060", "a2000_estimate"],
+      "properties": {
+        "mode_id": { "enum": ["720p20", "720p30", "1080p30", "1080p60", "2160p30", "2160p60"] },
+        "rtx3060": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "enum": ["supported", "unsupported", "not_attempted"] },
+            "best_config_id": { "type": "string" },
+            "e2e_ms_p95": { "type": "number" }
+          }
+        },
+        "a2000_estimate": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "enum": ["supported", "unsupported", "not_attempted"] },
+            "e2e_ms_range": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+            "borderline": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "verdict": {
+      "type": "object",
+      "required": ["verdict", "reasoning"],
+      "properties": {
+        "verdict": { "enum": ["GO", "CONDITIONAL-GO", "NO-GO"] },
+        "deciding_config_id": { "type": "string" },
+        "reasoning": { "type": "string" },
+        "a2000_risk": { "type": "string" },
+        "prior_evidence_note": { "type": "string" },
+        "draft": { "type": "boolean" }
+      }
+    }
+  }
+}
