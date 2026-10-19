@@ -60,6 +60,11 @@ def encoder_utilisation() -> int:
     return int(pynvml.nvmlDeviceGetEncoderUtilization(_h())[0])
 
 
+def encoder_stats() -> tuple[int, int, int]:
+    """(session count, average fps, average latency us) of active NVENC sessions."""
+    return tuple(int(x) for x in pynvml.nvmlDeviceGetEncoderStats(_h()))
+
+
 def gpu_utilisation() -> int:
     return int(pynvml.nvmlDeviceGetUtilizationRates(_h()).gpu)
 

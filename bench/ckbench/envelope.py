@@ -124,7 +124,8 @@ def envelope(benchmarks: list[dict], quality: list[dict], allow_pending: bool = 
                     continue
                 est = _a2000(worst_p95(b), budget)
                 k = "supported" if est["status"] == "supported" else ("borderline" if est["borderline"] else "unsupported")
-                rank = (prio[k], -_pixels(b), worst_p95(b))
+                # fitting (or borderline): prefer the largest internal size; otherwise the fastest
+                rank = (prio[k], -_pixels(b) if k != "unsupported" else 0, worst_p95(b))
                 if best is None or rank < best[0]:
                     best = (rank, b, est)
             if best is None:
@@ -171,14 +172,17 @@ def verdict(benchmarks: list[dict], quality: list[dict], env: list[dict], allow_
     supported = [e for e in env if e["rtx3060"]["status"] == "supported"]
     if supported:
         order = {m.mode_id: i for i, m in enumerate(LIVE_MODES)}
-        top = max(supported, key=lambda e: order[e["mode_id"]])
+        # Decide on the target mode (FR-015) when it is supported, else the heaviest supported mode.
+        target = by.get(GATE_MODE)
+        top = target if target and target["rtx3060"]["status"] == "supported" else             max(supported, key=lambda e: order[e["mode_id"]])
         r = top["rtx3060"]
+        what = ("The target mode" if top["mode_id"] == GATE_MODE else "The heaviest live mode the RTX 3060 sustains")
         v = {"verdict": "CONDITIONAL-GO", "deciding_config_id": r["best_config_id"], "deciding_mode": top["mode_id"],
-             "reasoning": (f"The 1080p30 gate (<= {GATE_MS:.0f} ms at internal >= {GATE_MIN_INTERNAL} under "
-                           f"encode load, quality accepted) is not met. The heaviest live mode the RTX 3060 "
-                           f"sustains is {top['mode_id']} with {r['best_config_id']} at {r['e2e_ms_p95']:.1f} ms "
-                           f"p95 (budget {top['budget_ms']:.1f} ms). Supported modes: "
-                           + ", ".join(e["mode_id"] for e in supported) + ".")}
+             "reasoning": (f"The 1080p30 gate (<= {GATE_MS:.0f} ms p95 at internal >= {GATE_MIN_INTERNAL} on both "
+                           f"sides, under encode load, quality accepted) is not met. {what}, {top['mode_id']}, is "
+                           f"sustained with {r['best_config_id']} at {r['e2e_ms_p95']:.1f} ms p95 (budget "
+                           f"{top['budget_ms']:.1f} ms) but without the gate's headroom. Supported modes on the "
+                           f"RTX 3060: " + ", ".join(e["mode_id"] for e in supported) + ".")}
         a = top["a2000_estimate"]
         if a.get("e2e_ms_range"):
             lo, hi = a["e2e_ms_range"]

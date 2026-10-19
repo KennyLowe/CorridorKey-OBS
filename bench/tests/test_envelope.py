@@ -163,3 +163,27 @@ def test_non_square_768x448_cannot_meet_gate_but_supports_lower_modes():
     assert m["1080p30"]["rtx3060"]["best_config_id"] == "trt-fp16-768x448-ref0-nvenc1080p30"
     v = verdict(b, quality, env)
     assert v["verdict"] == "CONDITIONAL-GO"
+
+
+def test_a2000_unsupported_shows_fastest_candidate():
+    # neither fits 1080p60 on the A2000; the displayed estimate must be the fastest config's, not the largest
+    b = [bench("trt", 512, 512, False, "1080p", [15.0]), bench("trt", 1024, 1024, False, "1080p", [54.0])]
+    quality = qall("trt-fp16-512x512-ref0-idle") + qall("trt-fp16-1024x1024-ref0-idle")
+    a = by_mode(envelope(b, quality))["1080p60"]["a2000_estimate"]
+    assert a["status"] == "unsupported"
+    assert a["best_config_id"] == "trt-fp16-512x512-ref0-nvenc1080p30"
+    assert a["e2e_ms_range"] == pytest.approx([18.75, 23.85])
+
+
+def test_conditional_go_decides_on_target_mode_when_supported():
+    # 1080p30 supported (gate missed: only 768x448 is fast enough); 2160p30 also supported by 512
+    b = [bench("trt", 768, 448, False, cam, [19.0]) for cam in ("720p", "1080p")] + \
+        [bench("trt", 512, 512, False, cam, [14.0]) for cam in ("720p", "1080p")] + \
+        [bench("trt", 512, 512, False, "2160p", [30.0])]
+    quality = qall("trt-fp16-768x448-ref0-idle") + qall("trt-fp16-512x512-ref0-idle")
+    env = envelope(b, quality)
+    v = verdict(b, quality, env)
+    assert v["verdict"] == "CONDITIONAL-GO"
+    assert v["deciding_mode"] == "1080p30"
+    assert v["deciding_config_id"] == "trt-fp16-768x448-ref0-nvenc1080p30"
+    assert "2160p30" in v["reasoning"]  # heavier supported modes are still listed

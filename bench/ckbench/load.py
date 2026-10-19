@@ -38,11 +38,14 @@ def nvenc_load(settle_s: float = 3.0):
         time.sleep(settle_s)
         if p.poll() is not None:
             raise LoadError(f"ffmpeg exited early ({p.returncode}): {p.stderr.read().decode(errors='replace')[-500:]}")
-        util = max(vram.encoder_utilisation() for _ in range(5) if not time.sleep(0.2))
-        if util <= 0:
-            raise LoadError("NVML reports 0% encoder utilisation with ffmpeg running")
+        # A real-time 1080p30 encode keeps NVENC only ~10% busy and NVML's utilisation counter often
+        # reads 0 between bursts, so liveness is checked on the encoder session statistics instead.
+        sessions, fps, _ = vram.encoder_stats()
+        if sessions < 1:
+            raise LoadError("NVML reports no active NVENC session with ffmpeg running")
         t.start()
-        info = {"command": "ffmpeg " + " ".join(FFMPEG_ARGS), "encoder_util_at_start_pct": util}
+        info = {"command": "ffmpeg " + " ".join(FFMPEG_ARGS), "encoder_sessions": sessions,
+                "encoder_avg_fps_at_start": fps, "encoder_util_at_start_pct": vram.encoder_utilisation()}
         yield info
         if p.poll() is not None:
             raise LoadError(f"ffmpeg died during the measurement (exit {p.returncode})")

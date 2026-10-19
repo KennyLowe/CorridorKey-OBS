@@ -127,13 +127,17 @@ def render(doc: dict, allow_pending: bool) -> tuple[str, dict, list, list]:
           f"scaled by the memory-bandwidth ratio (360/288 GB/s, optimistic) to the FP32 throughput ratio "
           f"(12.7/8.0 TFLOPS, conservative). The A2000 counts as supported only when the conservative bound "
           f"fits, and as borderline when the range straddles the budget. Once a mode fails, heavier modes at "
-          f"the same or higher fps are not attempted.", "",
+          f"the same or higher fps are not attempted. A mode's best configuration is the one with the largest "
+          f"internal pixel count that fits with quality passed (ties: lowest p95); the refiner setting is not "
+          f"ranked. When nothing fits, the fastest configuration is shown. Load runs (T032) covered every "
+          f"idle-ok configuration whose idle 1080p e2e median was <= 60 ms (the loosest budget, 50 ms, + 20%); the "
+          f"rest are recorded as not attempted - exceeds budget.", "",
           "| mode | budget ms | RTX 3060 (measured) | best config | p95 ms | quality | A2000 ESTIMATE | A2000 range ms |",
           "|---|---|---|---|---|---|---|---|"]
     for en in env:
         r, a = en["rtx3060"], en["a2000_estimate"]
         rng = a.get("e2e_ms_range")
-        a_s = a["status"] + (" (borderline)" if a.get("borderline") else "")
+        a_s = a["status"] + (" (borderline)" if a.get("borderline") else "") +             (f" ({a['best_config_id']})" if a.get("best_config_id") else "")
         L.append(f"| {en['mode_id']} | {en['budget_ms']:.1f} | {r['status']}"
                  + (f" ({r['reason']})" if r.get("reason") and r["status"] != "supported" else "")
                  + f" | {r.get('best_config_id', '-')} | {_f(r.get('e2e_ms_p95'))} | {r.get('quality', '-')} | "
