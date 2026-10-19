@@ -25,6 +25,7 @@ struct HintParams {
 	float kd = 1.0f;
 	float lo = 0.05f;
 	float hi = 0.15f;
+	bool operator==(const HintParams &) const = default;
 };
 
 // Scratch needed by preprocess for a W x H camera frame and a w x h internal size (floats).

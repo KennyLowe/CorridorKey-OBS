@@ -15,7 +15,7 @@ target_link_libraries(ck_unit_tests PRIVATE ck_core Catch2::Catch2WithMain)
 target_compile_definitions(ck_unit_tests PRIVATE CK_TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/data")
 catch_discover_tests(ck_unit_tests TEST_PREFIX "unit:" DISCOVERY_MODE PRE_TEST PROPERTIES TIMEOUT 60)
 
-add_executable(ck_gpu_tests gpu/test_gpu_smoke.cpp gpu/test_kernels.cpp gpu/test_trt_runner.cpp)
+add_executable(ck_gpu_tests gpu/test_gpu_smoke.cpp gpu/test_kernels.cpp gpu/test_trt_runner.cpp gpu/test_interop.cpp)
 target_link_libraries(ck_gpu_tests PRIVATE ck_gpu ck_core Catch2::Catch2WithMain delayimp)
 target_link_options(ck_gpu_tests PRIVATE /DELAYLOAD:nvinfer_10.dll /IGNORE:4199)
 set(CK_TRT_DIR "C:/TensorRT-10.16.1.11/bin" CACHE PATH "TensorRT DLL folder used by the GPU tests")

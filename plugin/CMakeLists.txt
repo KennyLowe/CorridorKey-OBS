@@ -94,6 +94,10 @@ target_sources(
   PRIVATE src/plugin-main.cpp src/ck-filter.cpp src/worker.cpp src/prepare_client.cpp src/ck-log.cpp
 )
 
+# Default helper command for this checkout (owner-only v1): uv run --project <repo>/bench ckbench
+cmake_path(SET _ck_bench_dir NORMALIZE "${CMAKE_CURRENT_SOURCE_DIR}/../bench")
+target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE CK_BENCH_DIR="${_ck_bench_dir}")
+
 # TensorRT is loaded at runtime from the configured folder (LoadLibraryExW with an absolute path);
 # the import is delay-loaded so OBS never fails to load the module when TensorRT is missing.
 target_link_options(${CMAKE_PROJECT_NAME} PRIVATE /DELAYLOAD:nvinfer_10.dll /IGNORE:4199)

@@ -19,6 +19,8 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include <obs-module.h>
 #include <plugin-support.h>
 
+#include "ck-filter.hpp"
+
 OBS_DECLARE_MODULE()
 OBS_MODULE_USE_DEFAULT_LOCALE(PLUGIN_NAME, "en-US")
 
@@ -30,11 +32,18 @@ MODULE_EXPORT const char *obs_module_description(void)
 
 bool obs_module_load(void)
 {
+	ck::register_filter();
 	blog(LOG_INFO, "[corridorkey] loaded (version %s)", PLUGIN_VERSION);
 	return true;
 }
 
+void obs_module_post_load(void)
+{
+	ck::register_websocket_vendor();
+}
+
 void obs_module_unload(void)
 {
+	ck::shutdown_filters();
 	blog(LOG_INFO, "[corridorkey] unloaded");
 }

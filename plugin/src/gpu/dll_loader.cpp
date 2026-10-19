@@ -57,16 +57,15 @@ std::string load_tensorrt(const std::string &dir_utf8)
 	std::lock_guard lk(g_mu);
 	namespace fs = std::filesystem;
 	fs::path dir = fs::path(widen(dir_utf8));
-	if (g_nvinfer) {
-		std::error_code ec;
-		if (fs::equivalent(dir, fs::path(widen(g_dir)), ec))
-			return {};
-		return "TensorRT is already loaded from " + g_dir + "; restart OBS to use " + dir_utf8;
-	}
 	fs::path dll = dir / L"nvinfer_10.dll";
 	std::error_code ec;
 	if (!fs::exists(dll, ec))
 		return "nvinfer_10.dll not found in " + dir_utf8;
+	if (g_nvinfer) {
+		if (fs::equivalent(dir, fs::path(widen(g_dir)), ec))
+			return {};
+		return "TensorRT is already loaded from " + g_dir + "; restart OBS to use " + dir_utf8;
+	}
 	HMODULE h = LoadLibraryExW(dll.c_str(), nullptr, LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
 	if (!h)
 		return "failed to load " + dll.string() + ": " + win_error(GetLastError());
