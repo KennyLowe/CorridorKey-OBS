@@ -1,5 +1,12 @@
 ## Hybrid key: OBS chroma key for the interior, CorridorKey only for the edge
 
+> **Status (2026-10-19): built as v0.1.0-rc.4** (opt-in **Hybrid** checkbox). The design follows
+> this proposal, with an independent review's changes. The model is used only where the
+> current-frame key is unsure, never where it merely disagrees with the frame-old matte (that would
+> cut holes and leave ghosts at moving edges). The key is normalised by luminance, so creases and
+> shadows key out. It auto-calibrates. Measured in `plugin/tests/e2e/test_hybrid.py`; see
+> `docs/INSTALL.md`.
+
 ### Why
 
 Tested rc.3 on the RTX A2000 machine with a clean, evenly lit green screen and a Sony ZV-E10 through a Cam Link (1920×1080, 50 fps, cropped to 1120×650, canvas 1280×720 at 25 fps, virtual camera). With **Use source colour** on, the picture is sharp, but OBS's built-in **Chroma Key** filter looked better, including on a glass of water moved across the screen. That is the easy case for a classic key: full resolution, per-pixel, no latency.

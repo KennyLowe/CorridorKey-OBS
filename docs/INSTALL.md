@@ -1,4 +1,4 @@
-# Installing the CorridorKey OBS filter (v0.1.0-rc.3, owner test build)
+# Installing the CorridorKey OBS filter (v0.1.0-rc.4, owner test build)
 
 This is for a **clean Windows 11 machine with an NVIDIA RTX GPU** (Ampere or newer; tested on an
 RTX 3060, target RTX A2000). Nothing from the development machine is assumed. v1 is an owner-only
@@ -50,7 +50,7 @@ Check the driver and record it: `nvidia-smi --query-gpu=name,driver_version --fo
 git clone https://github.com/KennyLowe/CorridorKey-OBS C:\git\corridorkey
 cd C:\git\corridorkey
 git fetch --tags
-git checkout v0.1.0-rc.3
+git checkout v0.1.0-rc.4
 cd bench
 .\setup.ps1
 ```
@@ -67,9 +67,9 @@ cd bench
 
 ## 3. Install the plugin
 
-1. Download `corridorkey-obs-v0.1.0-rc.3-windows-x64.zip` from the
-   [release](https://github.com/KennyLowe/CorridorKey-OBS/releases/tag/v0.1.0-rc.3) and check it:
-   `(Get-FileHash .\corridorkey-obs-v0.1.0-rc.3-windows-x64.zip -Algorithm SHA256).Hash` must equal
+1. Download `corridorkey-obs-v0.1.0-rc.4-windows-x64.zip` from the
+   [release](https://github.com/KennyLowe/CorridorKey-OBS/releases/tag/v0.1.0-rc.4) and check it:
+   `(Get-FileHash .\corridorkey-obs-v0.1.0-rc.4-windows-x64.zip -Algorithm SHA256).Hash` must equal
    the value in the `.sha256` file next to it.
 2. Unzip it, **close OBS**, and run, as Administrator:
 
@@ -116,6 +116,17 @@ from the model, but the colour comes from the live frame at full resolution. Gre
 and fine hair still mixed with the screen takes the model's colour at the live brightness. The
 trade-off: the matte is about one frame older than the colour, so on fast movement the outline can
 trail slightly.
+
+**Hybrid** (off by default). A screen-colour key computed on the current frame gives the solid
+interior and the clean screen: full resolution and no lag. CorridorKey's matte is used only where that
+key is unsure: a few pixels either side of the edge, green-ish clothing, translucent things and dark
+areas. On a hard test clip (uneven screen with a dark crease, sage-green cloth, a translucent panel,
+fine hair) its matte was closer to the truth than OBS's Chroma Key or CorridorKey alone. Holes and
+ghosts at fast-moving edges dropped about 10× compared with *Use source colour*. Turning it on
+calibrates the screen colour (the *Screen colour* mode becomes *Calibrated*), which the model's own
+input uses too. Known limit: a thin translucent strand over a dark crease right next to the subject
+can be kept as a dark streak. Until the screen colour is calibrated (or if there is no green screen
+to calibrate on) Hybrid shows the *Use source colour* picture and says why in the Status line.
 
 **Screen colour.** The default (*Fixed green*) is the hint the spike used. If the key is poor (for
 example on dim or unevenly lit screens), choose *Auto-calibrate* or press **Calibrate now**. It
