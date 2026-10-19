@@ -1,0 +1,883 @@
+{
+  "schema_version": "1.0",
+  "environment": {
+    "run_id": "20261019T171853Z-b316b8",
+    "gpu_name": "NVIDIA RTX A2000 12GB",
+    "gpu_driver": "597.16",
+    "gpu_vram_mib": 12282,
+    "gpu_max_sm_clock_mhz": 2100,
+    "gpu_power_limit_w": 70.0,
+    "os": "Windows-11-10.0.22631-SP0",
+    "cpu": "Intel64 Family 6 Model 143 Stepping 8, GenuineIntel",
+    "ram_gib": 31.2,
+    "python": "3.12.15",
+    "packages": {
+      "torch": "2.8.0+cu128",
+      "torchvision": "0.23.0+cu128",
+      "timm": "1.0.26",
+      "safetensors": "0.7.0",
+      "onnx": "1.23.2",
+      "tensorrt-cu12": "10.16.1.11",
+      "tensorrt-cu12-libs": "10.16.1.11",
+      "tensorrt-cu12-bindings": "10.16.1.11",
+      "nvidia-ml-py": "13.615.71",
+      "numpy": "2.4.2",
+      "opencv-python-headless": "4.13.0.92",
+      "jsonschema": "4.26.0",
+      "psutil": "7.2.2",
+      "pytest": "9.1.1"
+    },
+    "torch_cuda": "12.8",
+    "cudnn": "91002",
+    "corridorkey_sha": "97e55a453060745bead1befd293f6e523c4b845c",
+    "weights_file": "CorridorKey_v1.0.safetensors",
+    "weights_sha256": "74d614f7d92fc559a118c30a7deadedc3cacd8ef83dcb85a030d0bed7af8b20b",
+    "ffmpeg_version": "ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers",
+    "tensorrt_version": "10.16.1.11",
+    "captured_utc": "2026-10-19T17:18:57+00:00"
+  },
+  "benchmarks": [
+    {
+      "config": {
+        "config_id": "torch-fp16-512x512-ref1-idle",
+        "runtime": "torch",
+        "internal_w": 512,
+        "internal_h": 512,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 85.22672495524088,
+            "median": 84.89267349243164,
+            "p95": 86.62215538024903
+          },
+          "e2e_ms": {
+            "mean": 90.50605533372921,
+            "median": 90.15644999453798,
+            "p95": 92.13268501043785
+          },
+          "stage_ms": {
+            "upload": 0.34966400265693665,
+            "hint": 1.214352011680603,
+            "resize_in": 1.1571199893951416,
+            "infer": 84.89267349243164,
+            "resize_out": 1.711616039276123,
+            "download": 0.5062080025672913
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 85.54607248942057,
+            "median": 84.99609375,
+            "p95": 88.37836570739748
+          },
+          "e2e_ms": {
+            "mean": 90.87336666416377,
+            "median": 90.28545001638122,
+            "p95": 94.35946499288548
+          },
+          "stage_ms": {
+            "upload": 0.35766398906707764,
+            "hint": 1.2156000137329102,
+            "resize_in": 1.1560959815979004,
+            "infer": 84.99609375,
+            "resize_out": 1.7075200080871582,
+            "download": 0.5078080296516418
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 85.76392529805501,
+            "median": 84.98944091796875,
+            "p95": 90.03504905700683
+          },
+          "e2e_ms": {
+            "mean": 90.97571899803977,
+            "median": 90.1982500217855,
+            "p95": 95.2352699561743
+          },
+          "stage_ms": {
+            "upload": 0.3420639932155609,
+            "hint": 1.2150400280952454,
+            "resize_in": 1.1571199893951416,
+            "infer": 84.98944091796875,
+            "resize_out": 1.7131520509719849,
+            "download": 0.5052479803562164
+          }
+        }
+      ],
+      "median_spread_pct": 0.14308462883249615,
+      "spread_flag": false,
+      "model_spread_pct": 0.12182471503572037,
+      "e2e_spread_pct": 0.14308462883249615,
+      "peak_vram_mib": 986.4,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 825,
+      "clock_end_mhz": 1200,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T18:18:54Z",
+      "torch_peak_alloc_mib": 741.7
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-512x512-ref0-idle",
+        "runtime": "torch",
+        "internal_w": 512,
+        "internal_h": 512,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 32.39461201349894,
+            "median": 31.920639991760254,
+            "p95": 34.054451942443855
+          },
+          "e2e_ms": {
+            "mean": 37.53806566625523,
+            "median": 37.075750005897135,
+            "p95": 39.43899497389794
+          },
+          "stage_ms": {
+            "upload": 0.31118400394916534,
+            "hint": 1.2272319793701172,
+            "resize_in": 1.1653120517730713,
+            "infer": 31.920639991760254,
+            "resize_out": 1.7208319902420044,
+            "download": 0.5167359709739685
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 32.37071871439616,
+            "median": 31.896575927734375,
+            "p95": 34.842571640014654
+          },
+          "e2e_ms": {
+            "mean": 37.529465000067525,
+            "median": 37.03975002281368,
+            "p95": 40.21806499513332
+          },
+          "stage_ms": {
+            "upload": 0.31811198592185974,
+            "hint": 1.2256799936294556,
+            "resize_in": 1.16428804397583,
+            "infer": 31.896575927734375,
+            "resize_out": 1.7172479629516602,
+            "download": 0.5172480046749115
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 32.27793752670288,
+            "median": 31.893503189086914,
+            "p95": 33.41117420196533
+          },
+          "e2e_ms": {
+            "mean": 37.409093002400674,
+            "median": 37.01555001316592,
+            "p95": 38.52745498588774
+          },
+          "stage_ms": {
+            "upload": 0.309904009103775,
+            "hint": 1.2247200012207031,
+            "resize_in": 1.1653120517730713,
+            "infer": 31.893503189086914,
+            "resize_out": 1.7223680019378662,
+            "download": 0.5152159929275513
+          }
+        }
+      ],
+      "median_spread_pct": 0.16263433262453553,
+      "spread_flag": false,
+      "model_spread_pct": 0.08508567563887218,
+      "e2e_spread_pct": 0.16263433262453553,
+      "peak_vram_mib": 724.4,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 1492,
+      "clock_end_mhz": 1192,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T18:19:36Z",
+      "torch_peak_alloc_mib": 630.9
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x768-ref1-idle",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 193.0570376586914,
+            "median": 193.01068878173828,
+            "p95": 193.90069808959962
+          },
+          "e2e_ms": {
+            "mean": 198.7929479999002,
+            "median": 198.70690000243485,
+            "p95": 199.7502950282069
+          },
+          "stage_ms": {
+            "upload": 0.35070399940013885,
+            "hint": 1.2195519804954529,
+            "resize_in": 1.5411200523376465,
+            "infer": 193.01068878173828,
+            "resize_out": 1.726464033126831,
+            "download": 0.5069440007209778
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 192.94161895751952,
+            "median": 192.91187286376953,
+            "p95": 193.82609786987305
+          },
+          "e2e_ms": {
+            "mean": 198.60694766568486,
+            "median": 198.6073000007309,
+            "p95": 199.59712996787857
+          },
+          "stage_ms": {
+            "upload": 0.34964799880981445,
+            "hint": 1.2175840139389038,
+            "resize_in": 1.5416319966316223,
+            "infer": 192.91187286376953,
+            "resize_out": 1.7254400253295898,
+            "download": 0.5055040121078491
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 193.0284577433268,
+            "median": 192.96358489990234,
+            "p95": 193.98984375
+          },
+          "e2e_ms": {
+            "mean": 198.75775233260356,
+            "median": 198.68540001334623,
+            "p95": 199.90303501253948
+          },
+          "stage_ms": {
+            "upload": 0.3536960035562515,
+            "hint": 1.2192639708518982,
+            "resize_in": 1.5421439409255981,
+            "infer": 192.96358489990234,
+            "resize_out": 1.7254400253295898,
+            "download": 0.5084640085697174
+          }
+        }
+      ],
+      "median_spread_pct": 0.051223346962440096,
+      "spread_flag": false,
+      "model_spread_pct": 0.051223346962440096,
+      "e2e_spread_pct": 0.050149214909815124,
+      "peak_vram_mib": 1698.6,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 1755,
+      "clock_end_mhz": 1162,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T18:23:06Z",
+      "torch_peak_alloc_mib": 1107.7
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x768-ref0-idle",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 74.97077763875326,
+            "median": 74.89996719360352,
+            "p95": 75.73309783935547
+          },
+          "e2e_ms": {
+            "mean": 80.70980199748494,
+            "median": 80.6639000074938,
+            "p95": 81.49066495534498
+          },
+          "stage_ms": {
+            "upload": 0.3316959887742996,
+            "hint": 1.2605599761009216,
+            "resize_in": 1.5902719497680664,
+            "infer": 74.89996719360352,
+            "resize_out": 1.7694720029830933,
+            "download": 0.5407040119171143
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 74.99400853474936,
+            "median": 74.98188781738281,
+            "p95": 75.70329475402832
+          },
+          "e2e_ms": {
+            "mean": 81.00594566824536,
+            "median": 80.73409998905845,
+            "p95": 81.5308600285789
+          },
+          "stage_ms": {
+            "upload": 0.3359359949827194,
+            "hint": 1.261680006980896,
+            "resize_in": 1.5892479419708252,
+            "infer": 74.98188781738281,
+            "resize_out": 1.768447995185852,
+            "download": 0.542959988117218
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 75.06094431559245,
+            "median": 75.019775390625,
+            "p95": 75.87302169799804
+          },
+          "e2e_ms": {
+            "mean": 80.84293833681538,
+            "median": 80.83905003149994,
+            "p95": 81.7523050296586
+          },
+          "stage_ms": {
+            "upload": 0.33644799888134,
+            "hint": 1.2629600167274475,
+            "resize_in": 1.5912959575653076,
+            "infer": 75.019775390625,
+            "resize_out": 1.7699840068817139,
+            "download": 0.5441119968891144
+          }
+        }
+      ],
+      "median_spread_pct": 0.21713557612497228,
+      "spread_flag": false,
+      "model_spread_pct": 0.15995760947638443,
+      "e2e_spread_pct": 0.21713557612497228,
+      "peak_vram_mib": 1118.5,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 1822,
+      "clock_end_mhz": 1110,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T18:24:33Z",
+      "torch_peak_alloc_mib": 862.7
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x1024-ref1-idle",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 357.1754864501953,
+            "median": 357.1322784423828,
+            "p95": 358.3872009277344
+          },
+          "e2e_ms": {
+            "mean": 363.532780999667,
+            "median": 363.4691000042949,
+            "p95": 364.86974504368845
+          },
+          "stage_ms": {
+            "upload": 0.3604799956083298,
+            "hint": 1.2191519737243652,
+            "resize_in": 2.110464096069336,
+            "infer": 357.1322784423828,
+            "resize_out": 1.7356799840927124,
+            "download": 0.5085280239582062
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 357.1666707356771,
+            "median": 357.14048767089844,
+            "p95": 358.4636795043945
+          },
+          "e2e_ms": {
+            "mean": 363.5800113329121,
+            "median": 363.5295499698259,
+            "p95": 365.1320549979573
+          },
+          "stage_ms": {
+            "upload": 0.3580480068922043,
+            "hint": 1.221664011478424,
+            "resize_in": 2.110464096069336,
+            "infer": 357.14048767089844,
+            "resize_out": 1.7346559762954712,
+            "download": 0.510239988565445
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 357.04174580891925,
+            "median": 357.0283508300781,
+            "p95": 358.2210662841797
+          },
+          "e2e_ms": {
+            "mean": 363.43656133452896,
+            "median": 363.4077000024263,
+            "p95": 364.87320995656773
+          },
+          "stage_ms": {
+            "upload": 0.36321599781513214,
+            "hint": 1.2204959988594055,
+            "resize_in": 2.1099520921707153,
+            "infer": 357.0283508300781,
+            "resize_out": 1.73363196849823,
+            "download": 0.5114400088787079
+          }
+        }
+      ],
+      "median_spread_pct": 0.03352982542714382,
+      "spread_flag": false,
+      "model_spread_pct": 0.0314083855132508,
+      "e2e_spread_pct": 0.03352982542714382,
+      "peak_vram_mib": 2716.4,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 1657,
+      "clock_end_mhz": 1095,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T18:30:56Z",
+      "torch_peak_alloc_mib": 1609.6
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x1024-ref0-idle",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 147.28976435343424,
+            "median": 147.23993682861328,
+            "p95": 148.39301071166992
+          },
+          "e2e_ms": {
+            "mean": 153.8097733319349,
+            "median": 153.74669997254387,
+            "p95": 154.86278496682644
+          },
+          "stage_ms": {
+            "upload": 0.3473439961671829,
+            "hint": 1.2804960012435913,
+            "resize_in": 2.1975040435791016,
+            "infer": 147.23993682861328,
+            "resize_out": 1.789952039718628,
+            "download": 0.5548000037670135
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 147.4814496866862,
+            "median": 147.430908203125,
+            "p95": 148.60565109252929
+          },
+          "e2e_ms": {
+            "mean": 153.99341300091086,
+            "median": 153.95919998991303,
+            "p95": 155.14095003600232
+          },
+          "stage_ms": {
+            "upload": 0.34915201365947723,
+            "hint": 1.281760036945343,
+            "resize_in": 2.200576066970825,
+            "infer": 147.430908203125,
+            "resize_out": 1.793023943901062,
+            "download": 0.5567359924316406
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 147.54177017211913,
+            "median": 147.45906829833984,
+            "p95": 148.77568511962892
+          },
+          "e2e_ms": {
+            "mean": 154.0811813318093,
+            "median": 154.06585001619533,
+            "p95": 155.2480949962046
+          },
+          "stage_ms": {
+            "upload": 0.34891200065612793,
+            "hint": 1.2817280292510986,
+            "resize_in": 2.201088070869446,
+            "infer": 147.45906829833984,
+            "resize_out": 1.7920000553131104,
+            "download": 0.5543999969959259
+          }
+        }
+      ],
+      "median_spread_pct": 0.20758171961313998,
+      "spread_flag": false,
+      "model_spread_pct": 0.1488261095776146,
+      "e2e_spread_pct": 0.20758171961313998,
+      "peak_vram_mib": 1688.5,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 1762,
+      "clock_end_mhz": 1065,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T18:33:40Z",
+      "torch_peak_alloc_mib": 1175.4
+    }
+  ],
+  "exports": [
+    {
+      "internal_w": 512,
+      "internal_h": 512,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 7.6,
+      "onnx_peak_ram_gib": 2.37,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_512x512_ref1.onnx",
+      "onnx_size_mib": 275.6,
+      "engine_status": "ok",
+      "engine_build_s": 175.8,
+      "engine_size_mib": 142.5,
+      "engine_peak_ram_gib": 3.3,
+      "drift": {
+        "alpha_mae": 5.718837910535513e-05,
+        "alpha_max": 0.006102263927459717,
+        "fg_mae": 0.00039134569233283405,
+        "fg_max": 0.15054218471050262,
+        "fg_mae_alpha_gt_0_1": 0.00023827684906072754,
+        "fg_max_alpha_gt_0_1": 0.006122499704360962
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 512,
+      "internal_h": 512,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 6.2,
+      "onnx_peak_ram_gib": 2.06,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_512x512_ref0.onnx",
+      "onnx_size_mib": 274.4,
+      "engine_status": "ok",
+      "engine_build_s": 111.8,
+      "engine_size_mib": 141.4,
+      "engine_peak_ram_gib": 3.25,
+      "drift": {
+        "alpha_mae": 0.00015626095191692004,
+        "alpha_max": 0.01928792893886566,
+        "fg_mae": 0.0016202466737013311,
+        "fg_max": 0.4933716058731079,
+        "fg_mae_alpha_gt_0_1": 0.0001959862674748426,
+        "fg_max_alpha_gt_0_1": 0.012023389339447021
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 768,
+      "internal_h": 448,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 7.8,
+      "onnx_peak_ram_gib": 2.38,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_768x448_ref1.onnx",
+      "onnx_size_mib": 277.8,
+      "engine_status": "ok",
+      "engine_build_s": 179.1,
+      "engine_size_mib": 143.7,
+      "engine_peak_ram_gib": 3.37,
+      "drift": {
+        "alpha_mae": 6.19166718024644e-05,
+        "alpha_max": 0.009688138961791992,
+        "fg_mae": 0.0005481481406604871,
+        "fg_max": 0.11539669334888458,
+        "fg_mae_alpha_gt_0_1": 0.00027226016253655455,
+        "fg_max_alpha_gt_0_1": 0.00409466028213501
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 768,
+      "internal_h": 448,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 6.5,
+      "onnx_peak_ram_gib": 2.16,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_768x448_ref0.onnx",
+      "onnx_size_mib": 276.6,
+      "engine_status": "ok",
+      "engine_build_s": 108.3,
+      "engine_size_mib": 142.6,
+      "engine_peak_ram_gib": 3.37,
+      "drift": {
+        "alpha_mae": 0.00018461529034539126,
+        "alpha_max": 0.022883344441652298,
+        "fg_mae": 0.0015315134660340843,
+        "fg_max": 0.7323758006095886,
+        "fg_mae_alpha_gt_0_1": 0.0002190941370380857,
+        "fg_max_alpha_gt_0_1": 0.011577099561691284
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 768,
+      "internal_h": 768,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 9.4,
+      "onnx_peak_ram_gib": 3.18,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_768x768_ref1.onnx",
+      "onnx_size_mib": 284.3,
+      "engine_status": "ok",
+      "engine_build_s": 213.1,
+      "engine_size_mib": 147.0,
+      "engine_peak_ram_gib": 3.34,
+      "drift": {
+        "alpha_mae": 6.299747201410355e-05,
+        "alpha_max": 0.009317349642515182,
+        "fg_mae": 0.000549158213834744,
+        "fg_max": 0.13653221726417542,
+        "fg_mae_alpha_gt_0_1": 0.00028150247743364865,
+        "fg_max_alpha_gt_0_1": 0.006019413471221924
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 768,
+      "internal_h": 768,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 7.7,
+      "onnx_peak_ram_gib": 2.86,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_768x768_ref0.onnx",
+      "onnx_size_mib": 283.2,
+      "engine_status": "ok",
+      "engine_build_s": 133.1,
+      "engine_size_mib": 145.9,
+      "engine_peak_ram_gib": 3.3,
+      "drift": {
+        "alpha_mae": 0.00016505548483110034,
+        "alpha_max": 0.026891961693763733,
+        "fg_mae": 0.0014924922375939786,
+        "fg_max": 0.9104370474815369,
+        "fg_mae_alpha_gt_0_1": 0.0002107792433094922,
+        "fg_max_alpha_gt_0_1": 0.012796849012374878
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 1024,
+      "internal_h": 576,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 8.8,
+      "onnx_peak_ram_gib": 3.18,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_1024x576_ref1.onnx",
+      "onnx_size_mib": 284.3,
+      "engine_status": "ok",
+      "engine_build_s": 218.0,
+      "engine_size_mib": 147.3,
+      "engine_peak_ram_gib": 3.35,
+      "drift": {
+        "alpha_mae": 5.6686625794100105e-05,
+        "alpha_max": 0.008561240509152412,
+        "fg_mae": 0.00027843784264405255,
+        "fg_max": 0.1274302452802658,
+        "fg_mae_alpha_gt_0_1": 0.0002504956985574524,
+        "fg_max_alpha_gt_0_1": 0.007523238658905029
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 1024,
+      "internal_h": 576,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 7.6,
+      "onnx_peak_ram_gib": 2.86,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_1024x576_ref0.onnx",
+      "onnx_size_mib": 283.2,
+      "engine_status": "ok",
+      "engine_build_s": 127.8,
+      "engine_size_mib": 146.2,
+      "engine_peak_ram_gib": 3.39,
+      "drift": {
+        "alpha_mae": 0.00014207220010575838,
+        "alpha_max": 0.02134314551949501,
+        "fg_mae": 0.0014942802081350233,
+        "fg_max": 0.955422580242157,
+        "fg_mae_alpha_gt_0_1": 0.000243291971726209,
+        "fg_max_alpha_gt_0_1": 0.0082358717918396
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 1024,
+      "internal_h": 1024,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 13.3,
+      "onnx_peak_ram_gib": 3.75,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_1024x1024_ref1.onnx",
+      "onnx_size_mib": 296.6,
+      "engine_status": "ok",
+      "engine_build_s": 250.5,
+      "engine_size_mib": 153.4,
+      "engine_peak_ram_gib": 3.42,
+      "drift": {
+        "alpha_mae": 5.1949493354186416e-05,
+        "alpha_max": 0.0098477303981781,
+        "fg_mae": 0.00033337149943690747,
+        "fg_max": 0.1332990825176239,
+        "fg_mae_alpha_gt_0_1": 0.0002385487873865368,
+        "fg_max_alpha_gt_0_1": 0.005975991487503052
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 1024,
+      "internal_h": 1024,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 9.8,
+      "onnx_peak_ram_gib": 3.53,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_1024x1024_ref0.onnx",
+      "onnx_size_mib": 295.4,
+      "engine_status": "ok",
+      "engine_build_s": 155.2,
+      "engine_size_mib": 152.8,
+      "engine_peak_ram_gib": 3.32,
+      "drift": {
+        "alpha_mae": 0.0001510324509581551,
+        "alpha_max": 0.020967423915863037,
+        "fg_mae": 0.0015537565806880594,
+        "fg_max": 0.9422146677970886,
+        "fg_mae_alpha_gt_0_1": 0.00020585176284318001,
+        "fg_max_alpha_gt_0_1": 0.007695376873016357
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 2048,
+      "internal_h": 2048,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 44.9,
+      "onnx_peak_ram_gib": 7.85,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_2048x2048_ref1.onnx",
+      "onnx_size_mib": 380.6,
+      "engine_status": "ok",
+      "engine_build_s": 738.2,
+      "engine_size_mib": 195.5,
+      "engine_peak_ram_gib": 3.28,
+      "drift": {
+        "alpha_mae": 7.149360644689295e-05,
+        "alpha_max": 0.004866577684879303,
+        "fg_mae": 0.00012230759821250107,
+        "fg_max": 0.09911622852087021,
+        "fg_mae_alpha_gt_0_1": 0.00024097667899776676,
+        "fg_max_alpha_gt_0_1": 0.004080295562744141
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 2048,
+      "internal_h": 2048,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 38.3,
+      "onnx_peak_ram_gib": 5.88,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_2048x2048_ref0.onnx",
+      "onnx_size_mib": 379.4,
+      "engine_status": "ok",
+      "engine_build_s": 392.2,
+      "engine_size_mib": 194.4,
+      "engine_peak_ram_gib": 3.28,
+      "drift": {
+        "alpha_mae": 9.5478665389237e-05,
+        "alpha_max": 0.005879065953195095,
+        "fg_mae": 0.0014698420360218735,
+        "fg_max": 0.9316210746765137,
+        "fg_mae_alpha_gt_0_1": 0.00015610636469684777,
+        "fg_max_alpha_gt_0_1": 0.0047959089279174805
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    }
+  ]
+}

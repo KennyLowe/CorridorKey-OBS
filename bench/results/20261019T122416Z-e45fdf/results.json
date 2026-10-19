@@ -1,0 +1,3211 @@
+{
+  "schema_version": "1.0",
+  "environment": {
+    "run_id": "20261019T122416Z-e45fdf",
+    "gpu_name": "NVIDIA RTX A2000 12GB",
+    "gpu_driver": "597.16",
+    "gpu_vram_mib": 12282,
+    "gpu_max_sm_clock_mhz": 2100,
+    "gpu_power_limit_w": 70.0,
+    "os": "Windows-11-10.0.22631-SP0",
+    "cpu": "Intel64 Family 6 Model 143 Stepping 8, GenuineIntel",
+    "ram_gib": 31.2,
+    "python": "3.12.15",
+    "packages": {
+      "torch": "2.8.0+cu128",
+      "torchvision": "0.23.0+cu128",
+      "timm": "1.0.26",
+      "safetensors": "0.7.0",
+      "onnx": "1.23.2",
+      "tensorrt-cu12": "10.16.1.11",
+      "tensorrt-cu12-libs": "10.16.1.11",
+      "tensorrt-cu12-bindings": "10.16.1.11",
+      "nvidia-ml-py": "13.615.71",
+      "numpy": "2.4.2",
+      "opencv-python-headless": "4.13.0.92",
+      "jsonschema": "4.26.0",
+      "psutil": "7.2.2",
+      "pytest": "9.1.1"
+    },
+    "torch_cuda": "12.8",
+    "cudnn": "91002",
+    "corridorkey_sha": "97e55a453060745bead1befd293f6e523c4b845c",
+    "weights_file": "CorridorKey_v1.0.safetensors",
+    "weights_sha256": "74d614f7d92fc559a118c30a7deadedc3cacd8ef83dcb85a030d0bed7af8b20b",
+    "ffmpeg_version": "ffmpeg version 7.1.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers",
+    "tensorrt_version": "10.16.1.11",
+    "captured_utc": "2026-10-19T12:25:24+00:00"
+  },
+  "benchmarks": [
+    {
+      "config": {
+        "config_id": "torch-fp16-512x512-ref1-idle",
+        "runtime": "torch",
+        "internal_w": 512,
+        "internal_h": 512,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 87.12207023620606,
+            "median": 85.01247787475586,
+            "p95": 97.95435485839845
+          },
+          "e2e_ms": {
+            "mean": 92.63385566746972,
+            "median": 90.38939999300055,
+            "p95": 103.81923498061951
+          },
+          "stage_ms": {
+            "upload": 0.35366399586200714,
+            "hint": 1.146399974822998,
+            "resize_in": 1.106943964958191,
+            "infer": 85.01247787475586,
+            "resize_out": 1.6629760265350342,
+            "download": 0.5001919865608215
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 87.10800371805827,
+            "median": 86.10406494140625,
+            "p95": 93.82737731933594
+          },
+          "e2e_ms": {
+            "mean": 92.52383800048847,
+            "median": 91.43605001736432,
+            "p95": 99.78346499265172
+          },
+          "stage_ms": {
+            "upload": 0.34860800206661224,
+            "hint": 1.1617119908332825,
+            "resize_in": 1.1141120195388794,
+            "infer": 86.10406494140625,
+            "resize_out": 1.6660480499267578,
+            "download": 0.5020799934864044
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 88.38592188517252,
+            "median": 87.88684844970703,
+            "p95": 93.16397819519044
+          },
+          "e2e_ms": {
+            "mean": 93.88310600246768,
+            "median": 93.50245000678115,
+            "p95": 98.69233001663815
+          },
+          "stage_ms": {
+            "upload": 0.35286399722099304,
+            "hint": 1.1762400269508362,
+            "resize_in": 1.1263999938964844,
+            "infer": 87.88684844970703,
+            "resize_out": 1.679360032081604,
+            "download": 0.5038879811763763
+          }
+        }
+      ],
+      "median_spread_pct": 3.444043232969417,
+      "spread_flag": false,
+      "model_spread_pct": 3.3811160982577424,
+      "e2e_spread_pct": 3.444043232969417,
+      "peak_vram_mib": 1052.6,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 1200,
+      "clock_end_mhz": 1320,
+      "temp_end_c": 88,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T13:30:23Z",
+      "torch_peak_alloc_mib": 740.8
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-512x512-ref0-idle",
+        "runtime": "torch",
+        "internal_w": 512,
+        "internal_h": 512,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 33.74837080001831,
+            "median": 33.40287971496582,
+            "p95": 36.263578796386724
+          },
+          "e2e_ms": {
+            "mean": 39.28023433448592,
+            "median": 38.911250012461096,
+            "p95": 42.31582502252422
+          },
+          "stage_ms": {
+            "upload": 0.32870399951934814,
+            "hint": 1.2118720412254333,
+            "resize_in": 1.1571199893951416,
+            "infer": 33.40287971496582,
+            "resize_out": 1.7136640548706055,
+            "download": 0.5076799988746643
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 34.28993023554484,
+            "median": 33.9737606048584,
+            "p95": 36.84961299896241
+          },
+          "e2e_ms": {
+            "mean": 39.8176426657786,
+            "median": 39.47139999945648,
+            "p95": 42.50254499202129
+          },
+          "stage_ms": {
+            "upload": 0.33271999657154083,
+            "hint": 1.2206720113754272,
+            "resize_in": 1.1601920127868652,
+            "infer": 33.9737606048584,
+            "resize_out": 1.726464033126831,
+            "download": 0.5118079781532288
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 34.18162515640259,
+            "median": 34.05567932128906,
+            "p95": 36.161278343200685
+          },
+          "e2e_ms": {
+            "mean": 39.738514664544105,
+            "median": 39.700299996184185,
+            "p95": 41.87503499269951
+          },
+          "stage_ms": {
+            "upload": 0.3284959942102432,
+            "hint": 1.2190719842910767,
+            "resize_in": 1.16428804397583,
+            "infer": 34.05567932128906,
+            "resize_out": 1.7274880409240723,
+            "download": 0.513808012008667
+          }
+        }
+      ],
+      "median_spread_pct": 2.027819675467636,
+      "spread_flag": false,
+      "model_spread_pct": 1.954321339638157,
+      "e2e_spread_pct": 2.027819675467636,
+      "peak_vram_mib": 783.3,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1200,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T13:31:07Z",
+      "torch_peak_alloc_mib": 629.5
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x768-ref1-idle",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 207.95587926228842,
+            "median": 206.59711456298828,
+            "p95": 217.14309463500976
+          },
+          "e2e_ms": {
+            "mean": 214.0719453342414,
+            "median": 212.73384999949485,
+            "p95": 223.59454000543337
+          },
+          "stage_ms": {
+            "upload": 0.35233598947525024,
+            "hint": 1.232208013534546,
+            "resize_in": 1.5482879877090454,
+            "infer": 206.59711456298828,
+            "resize_out": 1.7372159957885742,
+            "download": 0.5161760151386261
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 208.3489384460449,
+            "median": 206.4865264892578,
+            "p95": 221.60804519653323
+          },
+          "e2e_ms": {
+            "mean": 214.46653100060453,
+            "median": 212.62654999736696,
+            "p95": 228.7035050423583
+          },
+          "stage_ms": {
+            "upload": 0.35499200224876404,
+            "hint": 1.2269279956817627,
+            "resize_in": 1.5441919565200806,
+            "infer": 206.4865264892578,
+            "resize_out": 1.7341439723968506,
+            "download": 0.5157920122146606
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 208.0055973815918,
+            "median": 207.48236846923828,
+            "p95": 217.2728302001953
+          },
+          "e2e_ms": {
+            "mean": 214.1712393334213,
+            "median": 213.56084998114966,
+            "p95": 223.55161498417147
+          },
+          "stage_ms": {
+            "upload": 0.35518400371074677,
+            "hint": 1.2234240174293518,
+            "resize_in": 1.546239972114563,
+            "infer": 207.48236846923828,
+            "resize_out": 1.7346559762954712,
+            "download": 0.5144320130348206
+          }
+        }
+      ],
+      "median_spread_pct": 0.48227939949015325,
+      "spread_flag": false,
+      "model_spread_pct": 0.48227939949015325,
+      "e2e_spread_pct": 0.43940889968551133,
+      "peak_vram_mib": 1880.0,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1185,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T13:34:54Z",
+      "torch_peak_alloc_mib": 1107.0
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x768-ref0-idle",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 78.70802586873373,
+            "median": 78.6058235168457,
+            "p95": 81.911909866333
+          },
+          "e2e_ms": {
+            "mean": 84.76942833241385,
+            "median": 84.66034999582916,
+            "p95": 87.95906498271506
+          },
+          "stage_ms": {
+            "upload": 0.3486559987068176,
+            "hint": 1.2508800029754639,
+            "resize_in": 1.581055998802185,
+            "infer": 78.6058235168457,
+            "resize_out": 1.7715200185775757,
+            "download": 0.5367040038108826
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 79.23301737467447,
+            "median": 79.1091194152832,
+            "p95": 81.9200511932373
+          },
+          "e2e_ms": {
+            "mean": 85.33426700043492,
+            "median": 85.2650500019081,
+            "p95": 88.10719497851096
+          },
+          "stage_ms": {
+            "upload": 0.3477120101451874,
+            "hint": 1.252399981021881,
+            "resize_in": 1.5820800065994263,
+            "infer": 79.1091194152832,
+            "resize_out": 1.772544026374817,
+            "download": 0.5380320250988007
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 79.33687128702799,
+            "median": 79.34617614746094,
+            "p95": 81.91718711853028
+          },
+          "e2e_ms": {
+            "mean": 85.46580966523227,
+            "median": 85.4261500062421,
+            "p95": 88.26585497008637
+          },
+          "stage_ms": {
+            "upload": 0.3484159857034683,
+            "hint": 1.2531200051307678,
+            "resize_in": 1.5820800065994263,
+            "infer": 79.34617614746094,
+            "resize_out": 1.7715200185775757,
+            "download": 0.5388000011444092
+          }
+        }
+      ],
+      "median_spread_pct": 0.9418546839046502,
+      "spread_flag": false,
+      "model_spread_pct": 0.9418546839046502,
+      "e2e_spread_pct": 0.9045556868719051,
+      "peak_vram_mib": 1238.7,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1140,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T13:36:25Z",
+      "torch_peak_alloc_mib": 862.0
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x1024-ref1-idle",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 380.40416310628257,
+            "median": 380.1640930175781,
+            "p95": 384.87327575683594
+          },
+          "e2e_ms": {
+            "mean": 387.1990066691069,
+            "median": 386.9421499839518,
+            "p95": 391.63500501890667
+          },
+          "stage_ms": {
+            "upload": 0.3492959886789322,
+            "hint": 1.235584020614624,
+            "resize_in": 2.12172794342041,
+            "infer": 380.1640930175781,
+            "resize_out": 1.7530879974365234,
+            "download": 0.5223039984703064
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 382.34085774739583,
+            "median": 381.78968811035156,
+            "p95": 387.47423858642577
+          },
+          "e2e_ms": {
+            "mean": 389.09229900144663,
+            "median": 388.5588000121061,
+            "p95": 394.14549502544105
+          },
+          "stage_ms": {
+            "upload": 0.3508960008621216,
+            "hint": 1.2336159944534302,
+            "resize_in": 2.1196799278259277,
+            "infer": 381.78968811035156,
+            "resize_out": 1.7500159740447998,
+            "download": 0.5183680057525635
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 381.22759185791017,
+            "median": 381.10260009765625,
+            "p95": 385.3662734985352
+          },
+          "e2e_ms": {
+            "mean": 387.929592669243,
+            "median": 387.744349980494,
+            "p95": 392.35193499480374
+          },
+          "stage_ms": {
+            "upload": 0.35335999727249146,
+            "hint": 1.228816032409668,
+            "resize_in": 2.1227519512176514,
+            "infer": 381.10260009765625,
+            "resize_out": 1.7500159740447998,
+            "download": 0.5141119956970215
+          }
+        }
+      ],
+      "median_spread_pct": 0.4276035329560367,
+      "spread_flag": false,
+      "model_spread_pct": 0.4276035329560367,
+      "e2e_spread_pct": 0.417801479684057,
+      "peak_vram_mib": 2871.7,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1117,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T13:43:15Z",
+      "torch_peak_alloc_mib": 1607.5
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x1024-ref0-idle",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 156.25218053181968,
+            "median": 156.09292602539062,
+            "p95": 159.66213302612306
+          },
+          "e2e_ms": {
+            "mean": 163.1987133313669,
+            "median": 162.96119999606162,
+            "p95": 166.60310000006575
+          },
+          "stage_ms": {
+            "upload": 0.3537759929895401,
+            "hint": 1.2710559964179993,
+            "resize_in": 2.1862399578094482,
+            "infer": 156.09292602539062,
+            "resize_out": 1.789952039718628,
+            "download": 0.5464640259742737
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 156.53835103352864,
+            "median": 156.36223602294922,
+            "p95": 159.83749542236328
+          },
+          "e2e_ms": {
+            "mean": 163.47277833284656,
+            "median": 163.3593500009738,
+            "p95": 166.6186150163412
+          },
+          "stage_ms": {
+            "upload": 0.3553279936313629,
+            "hint": 1.2696000337600708,
+            "resize_in": 2.1882879734039307,
+            "infer": 156.36223602294922,
+            "resize_out": 1.7920000553131104,
+            "download": 0.5475199818611145
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 156.5351973470052,
+            "median": 156.30387115478516,
+            "p95": 159.83569869995117
+          },
+          "e2e_ms": {
+            "mean": 163.4518433366126,
+            "median": 163.15735000534914,
+            "p95": 166.6898850206053
+          },
+          "stage_ms": {
+            "upload": 0.3553279936313629,
+            "hint": 1.2681759595870972,
+            "resize_in": 2.1831679344177246,
+            "infer": 156.30387115478516,
+            "resize_out": 1.7920000553131104,
+            "download": 0.5468319952487946
+          }
+        }
+      ],
+      "median_spread_pct": 0.24432196432143974,
+      "spread_flag": false,
+      "model_spread_pct": 0.1725318401134891,
+      "e2e_spread_pct": 0.24432196432143974,
+      "peak_vram_mib": 1822.8,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1125,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T13:46:09Z",
+      "torch_peak_alloc_mib": 1172.9
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-2048x2048-ref1-idle",
+        "runtime": "torch",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 2089.40512898763,
+            "median": 2086.8408203125,
+            "p95": 2204.9176025390625
+          },
+          "e2e_ms": {
+            "mean": 2100.5605056666536,
+            "median": 2098.1905499647837,
+            "p95": 2217.642739971052
+          },
+          "stage_ms": {
+            "upload": 0.3823999911546707,
+            "hint": 1.225808024406433,
+            "resize_in": 6.181888103485107,
+            "infer": 2086.8408203125,
+            "resize_out": 1.8165760040283203,
+            "download": 0.5171519815921783
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 2038.5483618164062,
+            "median": 2038.3431396484375,
+            "p95": 2056.999548339844
+          },
+          "e2e_ms": {
+            "mean": 2049.331175665526,
+            "median": 2049.140699993586,
+            "p95": 2068.231120001292
+          },
+          "stage_ms": {
+            "upload": 0.3593439906835556,
+            "hint": 1.2201600074768066,
+            "resize_in": 5.898751974105835,
+            "infer": 2038.3431396484375,
+            "resize_out": 1.8191360235214233,
+            "download": 0.511568009853363
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 2041.0277673339845,
+            "median": 2039.9554443359375,
+            "p95": 2061.458154296875
+          },
+          "e2e_ms": {
+            "mean": 2051.912845999856,
+            "median": 2050.725599983707,
+            "p95": 2071.9631800136995
+          },
+          "stage_ms": {
+            "upload": 0.3588799983263016,
+            "hint": 1.229312002658844,
+            "resize_in": 6.187007904052734,
+            "infer": 2039.9554443359375,
+            "resize_out": 1.8237440586090088,
+            "download": 0.5144000053405762
+          }
+        }
+      ],
+      "median_spread_pct": 2.393678968523297,
+      "spread_flag": false,
+      "model_spread_pct": 2.3792696980561927,
+      "e2e_spread_pct": 2.393678968523297,
+      "peak_vram_mib": 9949.1,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 637,
+      "clock_end_mhz": 1200,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:22:20Z",
+      "torch_peak_alloc_mib": 5068.3
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-2048x2048-ref0-idle",
+        "runtime": "torch",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 1127.4886966959637,
+            "median": 1127.0487060546875,
+            "p95": 1135.1654541015625
+          },
+          "e2e_ms": {
+            "mean": 1138.630387330583,
+            "median": 1138.2899499731138,
+            "p95": 1146.3506749540102
+          },
+          "stage_ms": {
+            "upload": 0.3600959926843643,
+            "hint": 1.2657439708709717,
+            "resize_in": 6.344192028045654,
+            "infer": 1127.0487060546875,
+            "resize_out": 1.8534400463104248,
+            "download": 0.5437120199203491
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 1127.5093802897136,
+            "median": 1127.2678833007812,
+            "p95": 1133.6319580078125
+          },
+          "e2e_ms": {
+            "mean": 1138.6358563316753,
+            "median": 1138.5446999920532,
+            "p95": 1144.6910800092155
+          },
+          "stage_ms": {
+            "upload": 0.3553920090198517,
+            "hint": 1.26881605386734,
+            "resize_in": 6.1086719036102295,
+            "infer": 1127.2678833007812,
+            "resize_out": 1.854464054107666,
+            "download": 0.5444480180740356
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 1137.3383707682292,
+            "median": 1138.386962890625,
+            "p95": 1184.4080078125
+          },
+          "e2e_ms": {
+            "mean": 1148.5780379996868,
+            "median": 1149.9661999987438,
+            "p95": 1195.8475749852369
+          },
+          "stage_ms": {
+            "upload": 0.3542880117893219,
+            "hint": 1.26910400390625,
+            "resize_in": 6.337023973464966,
+            "infer": 1138.386962890625,
+            "resize_out": 1.8524160385131836,
+            "download": 0.547327995300293
+          }
+        }
+      ],
+      "median_spread_pct": 1.025771160142966,
+      "spread_flag": false,
+      "model_spread_pct": 1.006013029874091,
+      "e2e_spread_pct": 1.025771160142966,
+      "peak_vram_mib": 5873.5,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 555,
+      "clock_end_mhz": 1095,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:42:22Z",
+      "torch_peak_alloc_mib": 3336.8
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x576-ref1-idle",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 199.8921246846517,
+            "median": 199.57247924804688,
+            "p95": 202.53911514282225
+          },
+          "e2e_ms": {
+            "mean": 205.85955766650537,
+            "median": 205.62990003963932,
+            "p95": 209.03811502212193
+          },
+          "stage_ms": {
+            "upload": 0.34966400265693665,
+            "hint": 1.231007993221283,
+            "resize_in": 1.5667200088500977,
+            "infer": 199.57247924804688,
+            "resize_out": 1.721343994140625,
+            "download": 0.5184159874916077
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 200.42466639200848,
+            "median": 199.91295623779297,
+            "p95": 203.34940490722656
+          },
+          "e2e_ms": {
+            "mean": 206.4063423348125,
+            "median": 205.90549998451024,
+            "p95": 209.29135500919074
+          },
+          "stage_ms": {
+            "upload": 0.3500960022211075,
+            "hint": 1.227999985218048,
+            "resize_in": 1.5708160400390625,
+            "infer": 199.91295623779297,
+            "resize_out": 1.7254400253295898,
+            "download": 0.5184960067272186
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 200.4569835917155,
+            "median": 199.80184936523438,
+            "p95": 203.6531234741211
+          },
+          "e2e_ms": {
+            "mean": 206.3948176657626,
+            "median": 205.72435000212863,
+            "p95": 209.62061498430558
+          },
+          "stage_ms": {
+            "upload": 0.3514399975538254,
+            "hint": 1.2227200269699097,
+            "resize_in": 1.5708160400390625,
+            "infer": 199.80184936523438,
+            "resize_out": 1.726464033126831,
+            "download": 0.5147839784622192
+          }
+        }
+      ],
+      "median_spread_pct": 0.17060317686534218,
+      "spread_flag": false,
+      "model_spread_pct": 0.17060317686534218,
+      "e2e_spread_pct": 0.13402717446139473,
+      "peak_vram_mib": 1956.2,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 487,
+      "clock_end_mhz": 1140,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:46:02Z",
+      "torch_peak_alloc_mib": 1107.0
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x576-ref0-idle",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 76.82902694702149,
+            "median": 76.74214553833008,
+            "p95": 78.4893409729004
+          },
+          "e2e_ms": {
+            "mean": 82.85153799767916,
+            "median": 82.81564997741953,
+            "p95": 84.76478497323114
+          },
+          "stage_ms": {
+            "upload": 0.34832000732421875,
+            "hint": 1.2545759677886963,
+            "resize_in": 1.6087039709091187,
+            "infer": 76.74214553833008,
+            "resize_out": 1.760256052017212,
+            "download": 0.5399680137634277
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 76.93305847167969,
+            "median": 76.87270736694336,
+            "p95": 78.96028327941895
+          },
+          "e2e_ms": {
+            "mean": 83.02508166564319,
+            "median": 82.93859998229891,
+            "p95": 85.15622497943696
+          },
+          "stage_ms": {
+            "upload": 0.3505440056324005,
+            "hint": 1.2549760341644287,
+            "resize_in": 1.6117759943008423,
+            "infer": 76.87270736694336,
+            "resize_out": 1.7592320442199707,
+            "download": 0.5416000187397003
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 76.99398653666178,
+            "median": 76.63052749633789,
+            "p95": 80.15559692382814
+          },
+          "e2e_ms": {
+            "mean": 83.07494099950418,
+            "median": 82.85444998182356,
+            "p95": 87.27043001563288
+          },
+          "stage_ms": {
+            "upload": 0.3477279990911484,
+            "hint": 1.257103979587555,
+            "resize_in": 1.614848017692566,
+            "infer": 76.63052749633789,
+            "resize_out": 1.7643519639968872,
+            "download": 0.5417120158672333
+          }
+        }
+      ],
+      "median_spread_pct": 0.31603576083570917,
+      "spread_flag": false,
+      "model_spread_pct": 0.31603576083570917,
+      "e2e_spread_pct": 0.1484622832917555,
+      "peak_vram_mib": 1376.2,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1117,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:47:31Z",
+      "torch_peak_alloc_mib": 862.0
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x448-ref1-idle",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 448,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 113.97589996337891,
+            "median": 113.56978988647461,
+            "p95": 117.67485084533692
+          },
+          "e2e_ms": {
+            "mean": 119.57905866748963,
+            "median": 119.12235003546812,
+            "p95": 123.21998501720373
+          },
+          "stage_ms": {
+            "upload": 0.3481599986553192,
+            "hint": 1.2224799990653992,
+            "resize_in": 1.264639973640442,
+            "infer": 113.56978988647461,
+            "resize_out": 1.721343994140625,
+            "download": 0.512688010931015
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 114.79639038085938,
+            "median": 113.92972946166992,
+            "p95": 120.4645393371582
+          },
+          "e2e_ms": {
+            "mean": 120.41719733310553,
+            "median": 119.4874000211712,
+            "p95": 125.94901498814579
+          },
+          "stage_ms": {
+            "upload": 0.3526720106601715,
+            "hint": 1.2194080352783203,
+            "resize_in": 1.265663981437683,
+            "infer": 113.92972946166992,
+            "resize_out": 1.721343994140625,
+            "download": 0.5106880068778992
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 114.12585749308268,
+            "median": 113.76588821411133,
+            "p95": 117.01959381103515
+          },
+          "e2e_ms": {
+            "mean": 119.76780133224868,
+            "median": 119.37825003406033,
+            "p95": 122.64506997016724
+          },
+          "stage_ms": {
+            "upload": 0.3513600081205368,
+            "hint": 1.221119999885559,
+            "resize_in": 1.265663981437683,
+            "infer": 113.76588821411133,
+            "resize_out": 1.7233920097351074,
+            "download": 0.5125440061092377
+          }
+        }
+      ],
+      "median_spread_pct": 0.31693250076020335,
+      "spread_flag": false,
+      "model_spread_pct": 0.31693250076020335,
+      "e2e_spread_pct": 0.3064496172165752,
+      "peak_vram_mib": 1368.1,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1200,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:49:39Z",
+      "torch_peak_alloc_mib": 828.8
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x448-ref0-idle",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 448,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 44.63911931355794,
+            "median": 43.761152267456055,
+            "p95": 49.72559337615968
+          },
+          "e2e_ms": {
+            "mean": 50.587154335031904,
+            "median": 49.57290002494119,
+            "p95": 56.45395000174176
+          },
+          "stage_ms": {
+            "upload": 0.35926400125026703,
+            "hint": 1.2407360076904297,
+            "resize_in": 1.27948796749115,
+            "infer": 43.761152267456055,
+            "resize_out": 1.7331199645996094,
+            "download": 0.5296320021152496
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 42.58612907409668,
+            "median": 42.34752082824707,
+            "p95": 44.506162071228026
+          },
+          "e2e_ms": {
+            "mean": 48.165329332696274,
+            "median": 48.02780001773499,
+            "p95": 50.33211999689229
+          },
+          "stage_ms": {
+            "upload": 0.33239999413490295,
+            "hint": 1.2358399629592896,
+            "resize_in": 1.2810239791870117,
+            "infer": 42.34752082824707,
+            "resize_out": 1.7367039918899536,
+            "download": 0.5268160104751587
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 45.49997215270996,
+            "median": 43.951616287231445,
+            "p95": 54.82562618255616
+          },
+          "e2e_ms": {
+            "mean": 51.54304499970749,
+            "median": 49.71569997724146,
+            "p95": 62.903264982742265
+          },
+          "stage_ms": {
+            "upload": 0.3491999953985214,
+            "hint": 1.2441440224647522,
+            "resize_in": 1.282047986984253,
+            "infer": 43.951616287231445,
+            "resize_out": 1.7423360347747803,
+            "download": 0.5301440060138702
+          }
+        }
+      ],
+      "median_spread_pct": 3.7879323927609834,
+      "spread_flag": false,
+      "model_spread_pct": 3.7879323927609834,
+      "e2e_spread_pct": 3.5144228111285223,
+      "peak_vram_mib": 1046.5,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1185,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:50:34Z",
+      "torch_peak_alloc_mib": 685.9
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-512x512-ref1-idle",
+        "runtime": "trt",
+        "internal_w": 512,
+        "internal_h": 512,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 54.55914627075195,
+            "median": 54.08460807800293,
+            "p95": 58.2672399520874
+          },
+          "e2e_ms": {
+            "mean": 60.50776766574321,
+            "median": 59.904350026044995,
+            "p95": 64.57375495228916
+          },
+          "stage_ms": {
+            "upload": 0.34961599111557007,
+            "hint": 1.288864016532898,
+            "resize_in": 1.2031999826431274,
+            "infer": 54.08460807800293,
+            "resize_out": 1.780735969543457,
+            "download": 0.5542719960212708
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 54.44634515126546,
+            "median": 54.1317138671875,
+            "p95": 57.72513313293457
+          },
+          "e2e_ms": {
+            "mean": 60.32532600297903,
+            "median": 59.92975001572631,
+            "p95": 63.788539977394976
+          },
+          "stage_ms": {
+            "upload": 0.35020799934864044,
+            "hint": 1.2897440195083618,
+            "resize_in": 1.2072960138320923,
+            "infer": 54.1317138671875,
+            "resize_out": 1.7827680110931396,
+            "download": 0.5560640096664429
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 55.76129210154215,
+            "median": 54.90995216369629,
+            "p95": 61.968692779541016
+          },
+          "e2e_ms": {
+            "mean": 61.89010066659345,
+            "median": 60.95054998877458,
+            "p95": 67.76860997197218
+          },
+          "stage_ms": {
+            "upload": 0.35363200306892395,
+            "hint": 1.294223964214325,
+            "resize_in": 1.2052479982376099,
+            "infer": 54.90995216369629,
+            "resize_out": 1.7817599773406982,
+            "download": 0.5547679960727692
+          }
+        }
+      ],
+      "median_spread_pct": 1.7464507373416542,
+      "spread_flag": false,
+      "model_spread_pct": 1.5260239743311368,
+      "e2e_spread_pct": 1.7464507373416542,
+      "peak_vram_mib": 1071.4,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 360,
+      "clock_end_mhz": 1102,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:51:40Z"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-512x512-ref0-idle",
+        "runtime": "trt",
+        "internal_w": 512,
+        "internal_h": 512,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 15.724846175511678,
+            "median": 15.500288009643555,
+            "p95": 18.079334259033203
+          },
+          "e2e_ms": {
+            "mean": 21.53214866896936,
+            "median": 21.134850016096607,
+            "p95": 24.35592000547331
+          },
+          "stage_ms": {
+            "upload": 0.3356800079345703,
+            "hint": 1.2558879852294922,
+            "resize_in": 1.1781120300292969,
+            "infer": 15.500288009643555,
+            "resize_out": 1.7541120052337646,
+            "download": 0.5299359858036041
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 15.562597153981526,
+            "median": 15.458816051483154,
+            "p95": 17.494272422790527
+          },
+          "e2e_ms": {
+            "mean": 21.477518665487878,
+            "median": 21.27374999690801,
+            "p95": 23.98856999061536
+          },
+          "stage_ms": {
+            "upload": 0.3483999967575073,
+            "hint": 1.2464960217475891,
+            "resize_in": 1.1724799871444702,
+            "infer": 15.458816051483154,
+            "resize_out": 1.7459039688110352,
+            "download": 0.5272800028324127
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 15.32235754330953,
+            "median": 15.220304012298584,
+            "p95": 17.09788227081299
+          },
+          "e2e_ms": {
+            "mean": 21.107960665637318,
+            "median": 20.898250018944964,
+            "p95": 23.542849978548475
+          },
+          "stage_ms": {
+            "upload": 0.3446879982948303,
+            "hint": 1.2412959933280945,
+            "resize_in": 1.1735039949417114,
+            "infer": 15.220304012298584,
+            "resize_out": 1.7408000230789185,
+            "download": 0.5286719799041748
+          }
+        }
+      ],
+      "median_spread_pct": 1.8395427392168577,
+      "spread_flag": false,
+      "model_spread_pct": 1.8395427392168577,
+      "e2e_spread_pct": 1.7968010604842124,
+      "peak_vram_mib": 759.2,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1177,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:52:04Z"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-768x768-ref1-idle",
+        "runtime": "trt",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 74.81995798746745,
+            "median": 75.66745376586914,
+            "p95": 79.73744926452636
+          },
+          "e2e_ms": {
+            "mean": 81.49825399935555,
+            "median": 82.54619999206625,
+            "p95": 86.72069000604097
+          },
+          "stage_ms": {
+            "upload": 0.3534400016069412,
+            "hint": 1.3013439774513245,
+            "resize_in": 1.6158720254898071,
+            "infer": 75.66745376586914,
+            "resize_out": 1.7960959672927856,
+            "download": 0.5649920105934143
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 74.73696464538574,
+            "median": 75.37561798095703,
+            "p95": 78.84242324829101
+          },
+          "e2e_ms": {
+            "mean": 81.60732033429667,
+            "median": 82.95650000218302,
+            "p95": 86.25215500651393
+          },
+          "stage_ms": {
+            "upload": 0.34987199306488037,
+            "hint": 1.3171679973602295,
+            "resize_in": 1.6276479959487915,
+            "infer": 75.37561798095703,
+            "resize_out": 1.8012160062789917,
+            "download": 0.5707840025424957
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 76.63305239359538,
+            "median": 76.81484985351562,
+            "p95": 79.10783729553224
+          },
+          "e2e_ms": {
+            "mean": 83.35788066751168,
+            "median": 83.3264000248164,
+            "p95": 85.78236502944492
+          },
+          "stage_ms": {
+            "upload": 0.35180801153182983,
+            "hint": 1.2902560234069824,
+            "resize_in": 1.6097279787063599,
+            "infer": 76.81484985351562,
+            "resize_out": 1.793023943901062,
+            "download": 0.5634720027446747
+          }
+        }
+      ],
+      "median_spread_pct": 1.9094130318403526,
+      "spread_flag": false,
+      "model_spread_pct": 1.9094130318403526,
+      "e2e_spread_pct": 0.9451677155642922,
+      "peak_vram_mib": 978.4,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1110,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:53:32Z"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-768x768-ref0-idle",
+        "runtime": "trt",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 41.83022673288981,
+            "median": 42.04697608947754,
+            "p95": 43.645541954040525
+          },
+          "e2e_ms": {
+            "mean": 48.47600533258325,
+            "median": 48.51629998302087,
+            "p95": 50.242019959841855
+          },
+          "stage_ms": {
+            "upload": 0.3484800010919571,
+            "hint": 1.2350080013275146,
+            "resize_in": 1.5595519542694092,
+            "infer": 42.04697608947754,
+            "resize_out": 1.7428480386734009,
+            "download": 0.5294559895992279
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 41.974862785339354,
+            "median": 42.21388816833496,
+            "p95": 44.18442211151123
+          },
+          "e2e_ms": {
+            "mean": 48.639519666321576,
+            "median": 48.666349961422384,
+            "p95": 50.1892700092867
+          },
+          "stage_ms": {
+            "upload": 0.35175999999046326,
+            "hint": 1.2376480102539062,
+            "resize_in": 1.5605759620666504,
+            "infer": 42.21388816833496,
+            "resize_out": 1.7453920245170593,
+            "download": 0.5307520031929016
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 42.096795667012536,
+            "median": 42.3004150390625,
+            "p95": 44.038757514953616
+          },
+          "e2e_ms": {
+            "mean": 48.919944999894746,
+            "median": 48.98414999479428,
+            "p95": 50.36391499743331
+          },
+          "stage_ms": {
+            "upload": 0.38126400113105774,
+            "hint": 1.2399839758872986,
+            "resize_in": 1.558527946472168,
+            "infer": 42.3004150390625,
+            "resize_out": 1.743872046470642,
+            "download": 0.5322720110416412
+          }
+        }
+      ],
+      "median_spread_pct": 0.9643151104621328,
+      "spread_flag": false,
+      "model_spread_pct": 0.6027519055012026,
+      "e2e_spread_pct": 0.9643151104621328,
+      "peak_vram_mib": 863.5,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1162,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:54:25Z"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x1024-ref1-idle",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 149.7047324625651,
+            "median": 152.3916778564453,
+            "p95": 161.01743927001954
+          },
+          "e2e_ms": {
+            "mean": 157.50875366754676,
+            "median": 160.82075002486818,
+            "p95": 169.53804499353282
+          },
+          "stage_ms": {
+            "upload": 0.37305599451065063,
+            "hint": 1.3474560379981995,
+            "resize_in": 2.2650880813598633,
+            "infer": 152.3916778564453,
+            "resize_out": 1.8380640149116516,
+            "download": 0.583296000957489
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 136.46682042439778,
+            "median": 136.1602554321289,
+            "p95": 140.58860092163087
+          },
+          "e2e_ms": {
+            "mean": 143.53255399871463,
+            "median": 143.30290001817048,
+            "p95": 147.56079495709855
+          },
+          "stage_ms": {
+            "upload": 0.36772800981998444,
+            "hint": 1.346351981163025,
+            "resize_in": 2.2906880378723145,
+            "infer": 136.1602554321289,
+            "resize_out": 1.8539520502090454,
+            "download": 0.604416012763977
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 149.52077260335287,
+            "median": 148.75494384765625,
+            "p95": 152.23572692871093
+          },
+          "e2e_ms": {
+            "mean": 159.34392966562882,
+            "median": 156.1955999932252,
+            "p95": 161.26227498461958
+          },
+          "stage_ms": {
+            "upload": 0.3531680107116699,
+            "hint": 1.3130559921264648,
+            "resize_in": 2.2312960624694824,
+            "infer": 148.75494384765625,
+            "resize_out": 1.831936001777649,
+            "download": 0.5807199776172638
+          }
+        }
+      ],
+      "median_spread_pct": 12.224351359586215,
+      "spread_flag": true,
+      "model_spread_pct": 11.92082254311516,
+      "e2e_spread_pct": 12.224351359586215,
+      "peak_vram_mib": 1312.6,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1050,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:57:08Z"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x1024-ref0-idle",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 86.51844487508139,
+            "median": 86.14860916137695,
+            "p95": 89.4500831604004
+          },
+          "e2e_ms": {
+            "mean": 94.24561799988926,
+            "median": 94.22810000251047,
+            "p95": 96.84914996905718
+          },
+          "stage_ms": {
+            "upload": 0.351952001452446,
+            "hint": 1.2826720476150513,
+            "resize_in": 2.1949440240859985,
+            "infer": 86.14860916137695,
+            "resize_out": 1.7838079929351807,
+            "download": 0.5589919984340668
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 86.76804740905762,
+            "median": 86.42918395996094,
+            "p95": 89.40886840820312
+          },
+          "e2e_ms": {
+            "mean": 94.37292033340782,
+            "median": 94.46210000896826,
+            "p95": 97.02352499007247
+          },
+          "stage_ms": {
+            "upload": 0.3500480055809021,
+            "hint": 1.2870720028877258,
+            "resize_in": 2.1975040435791016,
+            "infer": 86.42918395996094,
+            "resize_out": 1.7884160280227661,
+            "download": 0.5619359910488129
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 86.91035448710123,
+            "median": 86.58943939208984,
+            "p95": 89.6925205230713
+          },
+          "e2e_ms": {
+            "mean": 94.42433366629605,
+            "median": 94.45340000092983,
+            "p95": 97.06334001093637
+          },
+          "stage_ms": {
+            "upload": 0.3503199964761734,
+            "hint": 1.2872160077095032,
+            "resize_in": 2.195456027984619,
+            "infer": 86.58943939208984,
+            "resize_out": 1.785856008529663,
+            "download": 0.5608000159263611
+          }
+        }
+      ],
+      "median_spread_pct": 0.5117090513755249,
+      "spread_flag": false,
+      "model_spread_pct": 0.5117090513755249,
+      "e2e_spread_pct": 0.24833357188732064,
+      "peak_vram_mib": 1108.1,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1095,
+      "temp_end_c": 90,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T14:58:49Z"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-2048x2048-ref1-idle",
+        "runtime": "trt",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 991.3826951090495,
+            "median": 991.3584594726562,
+            "p95": 1001.4523803710938
+          },
+          "e2e_ms": {
+            "mean": 1004.5697646659877,
+            "median": 1004.7102500102483,
+            "p95": 1014.9247049965197
+          },
+          "stage_ms": {
+            "upload": 0.3670879900455475,
+            "hint": 1.3682080507278442,
+            "resize_in": 7.480831861495972,
+            "infer": 991.3584594726562,
+            "resize_out": 1.9466240406036377,
+            "download": 0.6174720227718353
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 991.1182041422526,
+            "median": 990.8833312988281,
+            "p95": 1001.7208770751953
+          },
+          "e2e_ms": {
+            "mean": 1004.110915332955,
+            "median": 1003.529100009473,
+            "p95": 1015.1052349974634
+          },
+          "stage_ms": {
+            "upload": 0.3680640012025833,
+            "hint": 1.3625119924545288,
+            "resize_in": 7.811071872711182,
+            "infer": 990.8833312988281,
+            "resize_out": 1.947648048400879,
+            "download": 0.6198880076408386
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 990.9448439534506,
+            "median": 990.4645080566406,
+            "p95": 1001.5372100830078
+          },
+          "e2e_ms": {
+            "mean": 1004.0167806660369,
+            "median": 1003.4361500001978,
+            "p95": 1014.6945350104943
+          },
+          "stage_ms": {
+            "upload": 0.3643999993801117,
+            "hint": 1.3622239828109741,
+            "resize_in": 7.321088075637817,
+            "infer": 990.4645080566406,
+            "resize_out": 1.9512319564819336,
+            "download": 0.6182080209255219
+          }
+        }
+      ],
+      "median_spread_pct": 0.1269737003246504,
+      "spread_flag": false,
+      "model_spread_pct": 0.09025577481515407,
+      "e2e_spread_pct": 0.1269737003246504,
+      "peak_vram_mib": 3655.9,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1110,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T15:16:25Z"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-2048x2048-ref0-idle",
+        "runtime": "trt",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 739.4278841145833,
+            "median": 738.967041015625,
+            "p95": 748.7490234375
+          },
+          "e2e_ms": {
+            "mean": 752.17336866733,
+            "median": 751.9064000225626,
+            "p95": 761.0354100208497
+          },
+          "stage_ms": {
+            "upload": 0.35524800419807434,
+            "hint": 1.3310080170631409,
+            "resize_in": 7.709183931350708,
+            "infer": 738.967041015625,
+            "resize_out": 1.8688000440597534,
+            "download": 0.5868160128593445
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 737.9556711832682,
+            "median": 737.7520446777344,
+            "p95": 746.1250366210937
+          },
+          "e2e_ms": {
+            "mean": 750.6250269996235,
+            "median": 750.4273999948055,
+            "p95": 758.2963800115976
+          },
+          "stage_ms": {
+            "upload": 0.3560959994792938,
+            "hint": 1.3333759903907776,
+            "resize_in": 7.037439823150635,
+            "infer": 737.7520446777344,
+            "resize_out": 1.8703359961509705,
+            "download": 0.5883199870586395
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 739.2022859700521,
+            "median": 738.9783020019531,
+            "p95": 748.6436584472656
+          },
+          "e2e_ms": {
+            "mean": 751.9138106663013,
+            "median": 751.7423999961466,
+            "p95": 761.5215849829838
+          },
+          "stage_ms": {
+            "upload": 0.3563999980688095,
+            "hint": 1.3354880213737488,
+            "resize_in": 6.916095972061157,
+            "infer": 738.9783020019531,
+            "resize_out": 1.8703359961509705,
+            "download": 0.5915679931640625
+          }
+        }
+      ],
+      "median_spread_pct": 0.19708768999737694,
+      "spread_flag": false,
+      "model_spread_pct": 0.16621537453744437,
+      "e2e_spread_pct": 0.19708768999737694,
+      "peak_vram_mib": 2923.1,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1125,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T15:29:36Z"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x576-ref1-idle",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 75.68021235148112,
+            "median": 75.757568359375,
+            "p95": 78.08010559082031
+          },
+          "e2e_ms": {
+            "mean": 82.56822433322668,
+            "median": 82.51309997285716,
+            "p95": 85.12875000596978
+          },
+          "stage_ms": {
+            "upload": 0.34835200011730194,
+            "hint": 1.283407986164093,
+            "resize_in": 1.6220159530639648,
+            "infer": 75.757568359375,
+            "resize_out": 1.7720320224761963,
+            "download": 0.5567840039730072
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 76.14897567749023,
+            "median": 76.23892974853516,
+            "p95": 78.81789779663086
+          },
+          "e2e_ms": {
+            "mean": 82.85741900035646,
+            "median": 82.74709997931495,
+            "p95": 84.98780497757252
+          },
+          "stage_ms": {
+            "upload": 0.3500480055809021,
+            "hint": 1.2734079957008362,
+            "resize_in": 1.6220159530639648,
+            "infer": 76.23892974853516,
+            "resize_out": 1.768447995185852,
+            "download": 0.5529599785804749
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 75.81777913411459,
+            "median": 75.87020874023438,
+            "p95": 78.11880836486816
+          },
+          "e2e_ms": {
+            "mean": 82.66501966340002,
+            "median": 82.5918499904219,
+            "p95": 84.65815999370534
+          },
+          "stage_ms": {
+            "upload": 0.35236799716949463,
+            "hint": 1.2747039794921875,
+            "resize_in": 1.6245759725570679,
+            "infer": 75.87020874023438,
+            "resize_out": 1.771008014678955,
+            "download": 0.5515680015087128
+          }
+        }
+      ],
+      "median_spread_pct": 0.6353970957419038,
+      "spread_flag": false,
+      "model_spread_pct": 0.6353970957419038,
+      "e2e_spread_pct": 0.2835913406898607,
+      "peak_vram_mib": 976.1,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1117,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T15:31:04Z"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x576-ref0-idle",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 41.64751275380453,
+            "median": 41.69630432128906,
+            "p95": 43.96646289825439
+          },
+          "e2e_ms": {
+            "mean": 48.2614003358564,
+            "median": 48.32885001087561,
+            "p95": 50.0300350075122
+          },
+          "stage_ms": {
+            "upload": 0.3477279990911484,
+            "hint": 1.2370879650115967,
+            "resize_in": 1.58515202999115,
+            "infer": 41.69630432128906,
+            "resize_out": 1.7341119647026062,
+            "download": 0.5295200049877167
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 41.8363828531901,
+            "median": 42.00192070007324,
+            "p95": 43.91065635681152
+          },
+          "e2e_ms": {
+            "mean": 48.42710600040542,
+            "median": 48.468499997397885,
+            "p95": 50.024719996144995
+          },
+          "stage_ms": {
+            "upload": 0.3417759984731674,
+            "hint": 1.2388799786567688,
+            "resize_in": 1.5882240533828735,
+            "infer": 42.00192070007324,
+            "resize_out": 1.7356799840927124,
+            "download": 0.5309280157089233
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 41.69070232391358,
+            "median": 41.73004722595215,
+            "p95": 44.08975524902344
+          },
+          "e2e_ms": {
+            "mean": 48.33024300130395,
+            "median": 48.44539999612607,
+            "p95": 50.19070997950621
+          },
+          "stage_ms": {
+            "upload": 0.3388800024986267,
+            "hint": 1.244592010974884,
+            "resize_in": 1.5892479419708252,
+            "infer": 41.73004722595215,
+            "resize_out": 1.7377279996871948,
+            "download": 0.5342399775981903
+          }
+        }
+      ],
+      "median_spread_pct": 0.7329579533698382,
+      "spread_flag": false,
+      "model_spread_pct": 0.7329579533698382,
+      "e2e_spread_pct": 0.2889578098606656,
+      "peak_vram_mib": 873.2,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1170,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T15:31:57Z"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-768x448-ref1-idle",
+        "runtime": "trt",
+        "internal_w": 768,
+        "internal_h": 448,
+        "refiner": true,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 41.79275192260742,
+            "median": 41.67782402038574,
+            "p95": 43.805188941955564
+          },
+          "e2e_ms": {
+            "mean": 48.23056599784953,
+            "median": 48.212099994998425,
+            "p95": 49.926364960265346
+          },
+          "stage_ms": {
+            "upload": 0.3499840050935745,
+            "hint": 1.2560640573501587,
+            "resize_in": 1.294335961341858,
+            "infer": 41.67782402038574,
+            "resize_out": 1.745919942855835,
+            "download": 0.5410559773445129
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 38.41255831400554,
+            "median": 38.27609634399414,
+            "p95": 39.87220344543457
+          },
+          "e2e_ms": {
+            "mean": 44.134613333347566,
+            "median": 44.040750013664365,
+            "p95": 45.58672999846749
+          },
+          "stage_ms": {
+            "upload": 0.3256320059299469,
+            "hint": 1.2938080430030823,
+            "resize_in": 1.3260799646377563,
+            "infer": 38.27609634399414,
+            "resize_out": 1.7776159644126892,
+            "download": 0.563071995973587
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 38.487238782246905,
+            "median": 38.302207946777344,
+            "p95": 39.94557495117188
+          },
+          "e2e_ms": {
+            "mean": 44.2242616675018,
+            "median": 44.11370001616888,
+            "p95": 45.81918999028858
+          },
+          "stage_ms": {
+            "upload": 0.3203199952840805,
+            "hint": 1.2963680028915405,
+            "resize_in": 1.326591968536377,
+            "infer": 38.302207946777344,
+            "resize_out": 1.7791999578475952,
+            "download": 0.5645920038223267
+          }
+        }
+      ],
+      "median_spread_pct": 9.471568899348513,
+      "spread_flag": false,
+      "model_spread_pct": 8.887342235267843,
+      "e2e_spread_pct": 9.471568899348513,
+      "peak_vram_mib": 801.8,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1080,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T15:32:47Z"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-768x448-ref0-idle",
+        "runtime": "trt",
+        "internal_w": 768,
+        "internal_h": 448,
+        "refiner": false,
+        "load": "idle",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "ok",
+      "runs": [
+        {
+          "model_ms": {
+            "mean": 20.209227352142335,
+            "median": 20.33407974243164,
+            "p95": 21.274010086059572
+          },
+          "e2e_ms": {
+            "mean": 25.72823500163698,
+            "median": 25.76809999300167,
+            "p95": 26.890420037670992
+          },
+          "stage_ms": {
+            "upload": 0.30747200548648834,
+            "hint": 1.2517760396003723,
+            "resize_in": 1.2933119535446167,
+            "infer": 20.33407974243164,
+            "resize_out": 1.7469439506530762,
+            "download": 0.5354720056056976
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 20.161734091440838,
+            "median": 20.293631553649902,
+            "p95": 21.025894927978516
+          },
+          "e2e_ms": {
+            "mean": 25.652527333392452,
+            "median": 25.710449990583584,
+            "p95": 26.598360016942024
+          },
+          "stage_ms": {
+            "upload": 0.31014400720596313,
+            "hint": 1.2507039904594421,
+            "resize_in": 1.294335961341858,
+            "infer": 20.293631553649902,
+            "resize_out": 1.745919942855835,
+            "download": 0.5355840027332306
+          }
+        },
+        {
+          "model_ms": {
+            "mean": 20.176418387095133,
+            "median": 20.308480262756348,
+            "p95": 21.36524829864502
+          },
+          "e2e_ms": {
+            "mean": 25.697665666036,
+            "median": 25.762600009329617,
+            "p95": 26.911704964004457
+          },
+          "stage_ms": {
+            "upload": 0.30904000997543335,
+            "hint": 1.251807987689972,
+            "resize_in": 1.2933119535446167,
+            "infer": 20.308480262756348,
+            "resize_out": 1.7479679584503174,
+            "download": 0.536080002784729
+          }
+        }
+      ],
+      "median_spread_pct": 0.2242279012588273,
+      "spread_flag": false,
+      "model_spread_pct": 0.19931468980702713,
+      "e2e_spread_pct": 0.2242279012588273,
+      "peak_vram_mib": 737.2,
+      "vram_method": "nvml_device_minus_pre_cuda_baseline",
+      "clock_start_mhz": 780,
+      "clock_end_mhz": 1117,
+      "temp_end_c": 89,
+      "frames_per_run": 300,
+      "warmup": 50,
+      "input_frame": "synthetic green-screen pattern (seed 0)",
+      "measured_utc": "2026-10-19T15:33:16Z"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-512x512-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 512,
+        "internal_h": 512,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 91.4 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-512x512-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 512,
+        "internal_h": 512,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 91.4 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-512x512-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 512,
+        "internal_h": 512,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 91.4 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x768-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 212.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x768-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 212.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x768-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 212.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x768-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 85.3 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x768-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 85.3 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x768-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 85.3 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x1024-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 387.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x1024-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 387.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x1024-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 387.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x1024-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 163.2 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x1024-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 163.2 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x1024-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 163.2 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-2048x2048-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 2050.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-2048x2048-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 2050.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-2048x2048-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 2050.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-2048x2048-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 1138.5 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-2048x2048-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 1138.5 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-2048x2048-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 1138.5 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x576-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 205.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x576-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 205.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x576-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 205.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x576-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 82.9 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x576-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 82.9 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-1024x576-ref0-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 82.9 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x448-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 448,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 119.4 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x448-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 448,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 119.4 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "torch-fp16-768x448-ref1-nvenc1080p30",
+        "runtime": "torch",
+        "internal_w": 768,
+        "internal_h": 448,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 119.4 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-768x768-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 83.0 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-768x768-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 83.0 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-768x768-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 768,
+        "internal_h": 768,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 83.0 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x1024-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 156.2 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x1024-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 156.2 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x1024-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 156.2 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x1024-ref0-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 94.5 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x1024-ref0-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 94.5 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x1024-ref0-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 1024,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 94.5 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-2048x2048-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 1003.5 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-2048x2048-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 1003.5 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-2048x2048-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 1003.5 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-2048x2048-ref0-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 751.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-2048x2048-ref0-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 751.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-2048x2048-ref0-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 2048,
+        "internal_h": 2048,
+        "refiner": false,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": false
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 751.7 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x576-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "720p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 82.6 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x576-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "1080p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 82.6 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    },
+    {
+      "config": {
+        "config_id": "trt-fp16-1024x576-ref1-nvenc1080p30",
+        "runtime": "trt",
+        "internal_w": 1024,
+        "internal_h": 576,
+        "refiner": true,
+        "load": "nvenc1080p30",
+        "precision": "fp16",
+        "posembed_interpolated": true
+      },
+      "camera_res": "2160p",
+      "status": "not_attempted",
+      "status_reason": "not attempted - exceeds budget: idle 1080p e2e median 82.6 ms is above 60 ms (loosest budget 50 ms + 20%)"
+    }
+  ],
+  "exports": [
+    {
+      "internal_w": 512,
+      "internal_h": 512,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 9.0,
+      "onnx_peak_ram_gib": 2.4,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_512x512_ref1.onnx",
+      "onnx_size_mib": 275.6,
+      "engine_status": "ok",
+      "engine_build_s": 155.9,
+      "engine_size_mib": 276.3,
+      "engine_peak_ram_gib": 3.25,
+      "drift": {
+        "alpha_mae": 3.795688244281336e-05,
+        "alpha_max": 0.004657849669456482,
+        "fg_mae": 0.000241163788450649,
+        "fg_max": 0.059605568647384644,
+        "fg_mae_alpha_gt_0_1": 0.00022148131878653131,
+        "fg_max_alpha_gt_0_1": 0.003403276205062866
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 512,
+      "internal_h": 512,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 5.9,
+      "onnx_peak_ram_gib": 2.06,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_512x512_ref0.onnx",
+      "onnx_size_mib": 274.4,
+      "engine_status": "ok",
+      "engine_build_s": 102.8,
+      "engine_size_mib": 141.4,
+      "engine_peak_ram_gib": 3.29,
+      "drift": {
+        "alpha_mae": 0.00015632699796697128,
+        "alpha_max": 0.020038403570652008,
+        "fg_mae": 0.0016102103749290114,
+        "fg_max": 0.2557719349861145,
+        "fg_mae_alpha_gt_0_1": 0.00016378288868674508,
+        "fg_max_alpha_gt_0_1": 0.011991739273071289
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 768,
+      "internal_h": 448,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 7.2,
+      "onnx_peak_ram_gib": 2.37,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_768x448_ref1.onnx",
+      "onnx_size_mib": 277.8,
+      "engine_status": "ok",
+      "engine_build_s": 163.4,
+      "engine_size_mib": 144.0,
+      "engine_peak_ram_gib": 3.41,
+      "drift": {
+        "alpha_mae": 6.705789801344509e-05,
+        "alpha_max": 0.008351027965545654,
+        "fg_mae": 0.0005057948976173065,
+        "fg_max": 0.12053988128900528,
+        "fg_mae_alpha_gt_0_1": 0.0002660901219746885,
+        "fg_max_alpha_gt_0_1": 0.003791511058807373
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 768,
+      "internal_h": 448,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 6.5,
+      "onnx_peak_ram_gib": 2.18,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_768x448_ref0.onnx",
+      "onnx_size_mib": 276.6,
+      "engine_status": "ok",
+      "engine_build_s": 110.1,
+      "engine_size_mib": 145.2,
+      "engine_peak_ram_gib": 3.39,
+      "drift": {
+        "alpha_mae": 0.00018100294182659126,
+        "alpha_max": 0.022527314722537994,
+        "fg_mae": 0.0015237620275001971,
+        "fg_max": 0.7930153012275696,
+        "fg_mae_alpha_gt_0_1": 0.00016787037341221153,
+        "fg_max_alpha_gt_0_1": 0.011106282472610474
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 768,
+      "internal_h": 768,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 9.1,
+      "onnx_peak_ram_gib": 3.18,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_768x768_ref1.onnx",
+      "onnx_size_mib": 284.3,
+      "engine_status": "ok",
+      "engine_build_s": 201.1,
+      "engine_size_mib": 147.1,
+      "engine_peak_ram_gib": 3.43,
+      "drift": {
+        "alpha_mae": 5.959466416243231e-05,
+        "alpha_max": 0.010122239589691162,
+        "fg_mae": 0.0005327497841790318,
+        "fg_max": 0.142862930893898,
+        "fg_mae_alpha_gt_0_1": 0.000255488935503925,
+        "fg_max_alpha_gt_0_1": 0.004941761493682861
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 768,
+      "internal_h": 768,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 7.7,
+      "onnx_peak_ram_gib": 2.87,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_768x768_ref0.onnx",
+      "onnx_size_mib": 283.2,
+      "engine_status": "ok",
+      "engine_build_s": 117.4,
+      "engine_size_mib": 146.4,
+      "engine_peak_ram_gib": 3.42,
+      "drift": {
+        "alpha_mae": 0.00019201609175070188,
+        "alpha_max": 0.020788222551345825,
+        "fg_mae": 0.0016458744765259325,
+        "fg_max": 0.8262739181518555,
+        "fg_mae_alpha_gt_0_1": 0.00026095062169448737,
+        "fg_max_alpha_gt_0_1": 0.014635011553764343
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 1024,
+      "internal_h": 576,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 8.9,
+      "onnx_peak_ram_gib": 3.18,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_1024x576_ref1.onnx",
+      "onnx_size_mib": 284.3,
+      "engine_status": "ok",
+      "engine_build_s": 192.3,
+      "engine_size_mib": 147.0,
+      "engine_peak_ram_gib": 3.39,
+      "drift": {
+        "alpha_mae": 5.4772768999100655e-05,
+        "alpha_max": 0.010564628057181835,
+        "fg_mae": 0.0002811710262903944,
+        "fg_max": 0.14824844896793365,
+        "fg_mae_alpha_gt_0_1": 0.00025308285124102305,
+        "fg_max_alpha_gt_0_1": 0.00792396068572998
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 1024,
+      "internal_h": 576,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 7.4,
+      "onnx_peak_ram_gib": 2.86,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_1024x576_ref0.onnx",
+      "onnx_size_mib": 283.2,
+      "engine_status": "ok",
+      "engine_build_s": 131.2,
+      "engine_size_mib": 149.0,
+      "engine_peak_ram_gib": 3.43,
+      "drift": {
+        "alpha_mae": 0.00013670535590790678,
+        "alpha_max": 0.021969370543956757,
+        "fg_mae": 0.0014837761234957727,
+        "fg_max": 0.94841468334198,
+        "fg_mae_alpha_gt_0_1": 0.00023196642096962231,
+        "fg_max_alpha_gt_0_1": 0.007842391729354858
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 1024,
+      "internal_h": 1024,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 12.2,
+      "onnx_peak_ram_gib": 3.73,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_1024x1024_ref1.onnx",
+      "onnx_size_mib": 296.6,
+      "engine_status": "ok",
+      "engine_build_s": 260.4,
+      "engine_size_mib": 153.5,
+      "engine_peak_ram_gib": 3.36,
+      "drift": {
+        "alpha_mae": 5.198814506002236e-05,
+        "alpha_max": 0.00977906584739685,
+        "fg_mae": 0.0003336557696457021,
+        "fg_max": 0.1324445903301239,
+        "fg_mae_alpha_gt_0_1": 0.00023968213675556815,
+        "fg_max_alpha_gt_0_1": 0.00655055046081543
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 1024,
+      "internal_h": 1024,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 10.1,
+      "onnx_peak_ram_gib": 3.53,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_1024x1024_ref0.onnx",
+      "onnx_size_mib": 295.4,
+      "engine_status": "ok",
+      "engine_build_s": 148.3,
+      "engine_size_mib": 152.8,
+      "engine_peak_ram_gib": 3.45,
+      "drift": {
+        "alpha_mae": 0.0001409955140843522,
+        "alpha_max": 0.01916443184018135,
+        "fg_mae": 0.00141581972129643,
+        "fg_max": 0.9421875476837158,
+        "fg_mae_alpha_gt_0_1": 0.00017677191172860924,
+        "fg_max_alpha_gt_0_1": 0.004784882068634033
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 2048,
+      "internal_h": 2048,
+      "refiner": true,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 47.1,
+      "onnx_peak_ram_gib": 7.85,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_2048x2048_ref1.onnx",
+      "onnx_size_mib": 380.6,
+      "engine_status": "ok",
+      "engine_build_s": 872.6,
+      "engine_size_mib": 195.5,
+      "engine_peak_ram_gib": 3.28,
+      "drift": {
+        "alpha_mae": 7.030463711998891e-05,
+        "alpha_max": 0.004905037581920624,
+        "fg_mae": 0.0001203719759359956,
+        "fg_max": 0.10307396203279495,
+        "fg_mae_alpha_gt_0_1": 0.00023618579781397645,
+        "fg_max_alpha_gt_0_1": 0.004606693983078003
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    },
+    {
+      "internal_w": 2048,
+      "internal_h": 2048,
+      "refiner": false,
+      "opset": 18,
+      "workspace_gib": 8,
+      "onnx_status": "ok",
+      "onnx_s": 39.6,
+      "onnx_peak_ram_gib": 6.85,
+      "onnx_path": "C:\\git\\corridorkey\\outputs\\onnx\\ck_2048x2048_ref0.onnx",
+      "onnx_size_mib": 379.4,
+      "engine_status": "ok",
+      "engine_build_s": 461.9,
+      "engine_size_mib": 194.6,
+      "engine_peak_ram_gib": 3.28,
+      "drift": {
+        "alpha_mae": 9.685159639047926e-05,
+        "alpha_max": 0.005878377705812454,
+        "fg_mae": 0.0014893216721247882,
+        "fg_max": 0.9134111404418945,
+        "fg_mae_alpha_gt_0_1": 0.0001601148804116896,
+        "fg_max_alpha_gt_0_1": 0.005530953407287598
+      },
+      "drift_frames": "synthetic frames seeds 0-19"
+    }
+  ]
+}
