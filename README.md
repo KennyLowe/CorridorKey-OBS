@@ -31,9 +31,23 @@ Live neural green-screen keying for [OBS Studio](https://obsproject.com/), built
 This repository does **not** include CorridorKey weights. Get them from the
 [official CorridorKey repository](https://github.com/nikopueringer/CorridorKey) under its license.
 
-## License and attribution
+## Licensing
+
+The repository is licensed by part:
+
+| Part | Licence | File |
+|---|---|---|
+| `plugin/` (the OBS filter; links OBS's GPL `libobs`) | GPL-2.0-or-later | [`plugin/LICENSE`](plugin/LICENSE) |
+| `bench/` (benchmark and model-preparation helper), docs and results | CC BY-NC-SA 4.0 | [`LICENSE`](LICENSE) |
+| CorridorKey weights | their own licence (CC BY-NC-SA 4.0 + Corridor Digital's terms) | not in this repository |
+
+`plugin/` contains no CorridorKey code or weights. It loads a TensorRT engine that the user
+prepares on their own GPU from weights they downloaded themselves, using the `bench/` helper.
+The weights are never shipped or downloaded by this project.
+
+## Attribution
 
 CorridorKey is © Corridor Digital / Niko Pueringer and licensed under CC BY-NC-SA 4.0 with
-additional terms from its author. This project is a free, non-commercial derivative released under
-the same license ([LICENSE](LICENSE)). It may not be sold or offered as a paid inference service.
-This project is not affiliated with or endorsed by Corridor Digital.
+additional terms from its author. This project is free and non-commercial. It may not be sold or
+offered as a paid inference service. This project is not affiliated with or endorsed by Corridor
+Digital.

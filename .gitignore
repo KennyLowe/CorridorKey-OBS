@@ -32,3 +32,14 @@ outputs/
 footage/
 *.onnx.data
 bench/results/*/frames/
+
+# OBS plugin (plugin/): build trees, packaged output, e2e artefacts
+plugin/build*/
+plugin/release/
+plugin/.deps/
+plugin/tests/e2e/.artifacts/
+plugin/tests/e2e/.obs-*/
+plugin/cmake/.CMakeBuildNumber
+*.engine
+*.onnx
+*.npy
