@@ -3,22 +3,27 @@
 Live neural green-screen keying for [OBS Studio](https://obsproject.com/), built on
 [CorridorKey](https://github.com/nikopueringer/CorridorKey) by Niko Pueringer / Corridor Digital.
 
-> **Status: feasibility spike complete. Verdict: CONDITIONAL-GO.** CorridorKey was designed for
-> offline VFX work. The spike measured whether it can key live video on an RTX 3060, with a
-> TensorRT fp16 engine and a concurrent 1080p30 NVENC encode:
+> **Status: v0.1.0-rc.1 owner test build of the OBS filter** (feature 002). `plugin/` is a native
+> OBS Studio 32 filter, "CorridorKey". It keys a green-screen source live with a TensorRT engine on a
+> worker thread, falls back to a colour key whenever keying can't keep up, and downloads the official
+> weights and prepares the engine without leaving OBS. On the RTX 3060 at 1080p30 with an NVENC
+> recording running:
 >
-> - **1080p30 gate not met.** The gate needs ≤ 20 ms/frame with both internal sides ≥ 768. The best
->   eligible configuration (768×768) takes 32.8 ms p95.
-> - **1080p30 is still sustained** without that headroom: 1024×576 internal, 30.1 ms p95 end-to-end
->   (33.3 ms budget).
-> - **Supported live modes on the RTX 3060:** 720p20 through 2160p30, with smaller internal sizes
->   for the faster modes. 2160p60 is not supported.
-> - **RTX A2000:** not measured. The *estimate* supports up to 1080p30 at 768×448, which must be
->   confirmed on the card.
+> - OBS holds 30.00 fps with the filter, with 0 render-skipped frames.
+> - Keying takes 26.7 ms per frame at 1024×576.
+> - The key adds 1 frame of latency, measured on the recorded output.
 >
-> Full report, numbers and method:
-> [`bench/results/20261016T221252Z-c16425/REPORT.md`](bench/results/20261016T221252Z-c16425/REPORT.md).
-> The harness is in [`bench/`](bench/). It reproduces the results on any NVIDIA GPU, including the A2000.
+> Install guide: [`docs/INSTALL.md`](docs/INSTALL.md). Test results:
+> [`plugin/TEST-RESULTS.md`](plugin/TEST-RESULTS.md). The RTX A2000 (production card) is not measured
+> yet: [`docs/A2000-RUN.md`](docs/A2000-RUN.md).
+>
+> **Feasibility spike (feature 001): CONDITIONAL-GO.** On an RTX 3060 with a concurrent 1080p30
+> NVENC encode:
+>
+> - The 1080p30 gate (≤ 20 ms with both internal sides ≥ 768) is not met: 768×768 takes 32.8 ms p95.
+> - 1080p30 is still sustained at 1024×576 (30.1 ms p95 of a 33.3 ms budget).
+> - Report: [`bench/results/20261016T221252Z-c16425/REPORT.md`](bench/results/20261016T221252Z-c16425/REPORT.md).
+>   The harness in [`bench/`](bench/) reproduces it on any NVIDIA GPU.
 
 ## Goals
 
