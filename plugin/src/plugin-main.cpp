@@ -20,6 +20,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include <plugin-support.h>
 
 #include "ck-filter.hpp"
+#include "plugin_config.hpp"
 
 OBS_DECLARE_MODULE()
 OBS_MODULE_USE_DEFAULT_LOCALE(PLUGIN_NAME, "en-US")
@@ -32,6 +33,9 @@ MODULE_EXPORT const char *obs_module_description(void)
 
 bool obs_module_load(void)
 {
+	char *cfg = obs_module_config_path("config.json");
+	ck::config::init(cfg ? cfg : "");
+	bfree(cfg);
 	ck::register_filter();
 	blog(LOG_INFO, "[corridorkey] loaded (version %s)", PLUGIN_VERSION);
 	return true;

@@ -20,6 +20,7 @@
 #include <set>
 #include <string>
 #include <thread>
+#include <vector>
 
 #include <cuda_runtime.h>
 
@@ -48,11 +49,16 @@ struct WorkerRequest {
 	double fps = 30.0;
 	gpu::HintParams hint;
 	DebugFail debug = DebugFail::None;
-	uint64_t prepare_clicks = 0; // "Prepare selected" presses
+	uint64_t prepare_clicks = 0;  // "Prepare selected" presses
+	uint64_t download_clicks = 0; // "Download weights" presses
+	std::string model_id = "CorridorKey_v1.0";
+	std::string manifest_path;    // models/manifest.json (shipped in the plugin's data folder)
+	std::string weights_dir;      // where downloads go
+	bool licence_ok = false;      // licence acknowledged for model_id (machine-level)
 	bool operator==(const WorkerRequest &) const = default;
 };
 
-enum class Phase { Starting, NoWeights, Unsupported, Preparing, Failed, Ready };
+enum class Phase { Starting, NoWeights, Downloading, Unsupported, Preparing, Failed, Ready };
 const char *to_string(Phase p);
 
 struct WorkerStatus {
@@ -77,6 +83,12 @@ struct WorkerStatus {
 	uint64_t error_seq = 0;
 	std::string last_error;
 	uint64_t jobs = 0;
+	// model / weights (contracts/filter-ui.md "Model")
+	std::string model_label; // "CorridorKey v1.0, verified" / "not downloaded" / "downloading 42% ..."
+	bool model_verified = false;
+	int64_t dl_bytes = 0, dl_total = 0;
+	std::vector<std::string> newer_models;
+	std::string last_helper_log;
 };
 
 // Device buffers shared with the render thread (allocated and freed by the worker only).
@@ -89,6 +101,8 @@ struct FrameBuffers {
 	cudaEvent_t out_consumed[Scheduler::kOutputs] = {}; // recorded by render after its copy out
 	uint64_t gen = 0;
 };
+
+class HelperProcess;
 
 class Worker {
 public:
@@ -151,6 +165,15 @@ private:
 	gpu::DeviceInfo dev_info_;
 	std::string table_path_;
 	std::optional<PerfTable> table_;
+	// helpers (child processes)
+	std::unique_ptr<HelperProcess> fetch_, prep_, check_;
+	std::string prep_quality_, prep_key_;
+	std::string prep_fail_key_, prep_error_;
+	std::string fetch_error_;
+	uint64_t download_handled_ = ~0ull, prepare_handled_ = ~0ull;
+	bool force_recheck_ = false;
+	void poll_helpers(const WorkerRequest &r);
+	void maybe_check_models(const WorkerRequest &r, bool keying);
 };
 
 } // namespace ck

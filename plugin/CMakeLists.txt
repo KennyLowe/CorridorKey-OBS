@@ -47,6 +47,7 @@ add_library(
   src/core/cache_key.cpp
   src/core/sha256.cpp
   src/core/auto_select.cpp
+  src/core/helper_proto.cpp
 )
 target_include_directories(ck_core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_link_libraries(ck_core PUBLIC nlohmann_json::nlohmann_json)
@@ -91,7 +92,7 @@ endif()
 
 target_sources(
   ${CMAKE_PROJECT_NAME}
-  PRIVATE src/plugin-main.cpp src/ck-filter.cpp src/worker.cpp src/prepare_client.cpp src/ck-log.cpp
+  PRIVATE src/plugin-main.cpp src/ck-filter.cpp src/worker.cpp src/prepare_client.cpp src/plugin_config.cpp src/ck-log.cpp
 )
 
 # Default helper command for this checkout (owner-only v1): uv run --project <repo>/bench ckbench
@@ -103,6 +104,17 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE CK_BENCH_DIR="${_ck_ben
 target_link_options(${CMAKE_PROJECT_NAME} PRIVATE /DELAYLOAD:nvinfer_10.dll /IGNORE:4199)
 
 set_target_properties_plugin(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_name})
+
+# The model manifest (repo root models/manifest.json, single source of truth) ships in data/.
+add_custom_command(
+  TARGET ${CMAKE_PROJECT_NAME}
+  POST_BUILD
+  COMMAND
+    "${CMAKE_COMMAND}" -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../models/manifest.json"
+    "${CMAKE_CURRENT_BINARY_DIR}/rundir/$<CONFIG>/${CMAKE_PROJECT_NAME}/manifest.json"
+  COMMENT "Copy the model manifest into the plugin data"
+  VERBATIM
+)
 
 # ---------------------------------------------------------------- tests
 if(CK_BUILD_TESTS)

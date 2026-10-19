@@ -5,6 +5,7 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <filesystem>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -37,7 +38,17 @@ TEST_CASE("TensorRT 10.16.1 loads from the configured folder", "[trt]")
 	CHECK(tensorrt_loaded());
 	CHECK(tensorrt_version() == kRequiredTrtVersion);
 	CHECK(load_tensorrt(CK_TRT_DIR) == ""); // idempotent
-	CHECK(load_tensorrt("C:/Windows").find("already loaded") != std::string::npos);
+	CHECK(load_tensorrt("C:/Windows").find("nvinfer_10.dll not found") != std::string::npos);
+	// a second TensorRT folder can't replace the one already loaded in this process
+	namespace fs = std::filesystem;
+	auto other = fs::temp_directory_path() / "ck_trt_other";
+	fs::create_directories(other);
+	std::error_code ec;
+	if (!fs::exists(other / "nvinfer_10.dll"))
+		fs::create_hard_link(fs::path(CK_TRT_DIR) / "nvinfer_10.dll", other / "nvinfer_10.dll", ec);
+	REQUIRE_FALSE(ec);
+	CHECK(load_tensorrt(other.string()).find("already loaded") != std::string::npos);
+	fs::remove_all(other, ec);
 }
 
 TEST_CASE("device identity matches what ckbench prepare recorded", "[trt]")

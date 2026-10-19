@@ -10,6 +10,7 @@ add_executable(
   unit/test_stats.cpp
   unit/test_cache_key.cpp
   unit/test_auto_select.cpp
+  unit/test_helper_proto.cpp
 )
 target_link_libraries(ck_unit_tests PRIVATE ck_core Catch2::Catch2WithMain)
 target_compile_definitions(ck_unit_tests PRIVATE CK_TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/data")

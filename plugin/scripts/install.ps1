@@ -18,4 +18,5 @@ if (Test-Path $pdb) { Copy-Item $pdb $bin -Force }
 $data = Join-Path $dest 'data'
 if (Test-Path $data) { Remove-Item -Recurse -Force $data }
 Copy-Item (Join-Path $root 'data') $data -Recurse -Force
+Copy-Item (Join-Path (Split-Path -Parent $root) 'models\manifest.json') (Join-Path $data 'manifest.json') -Force
 Write-Host "installed to $dest"

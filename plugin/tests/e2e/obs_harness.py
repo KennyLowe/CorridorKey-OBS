@@ -148,6 +148,7 @@ class Obs:
     log_path: Path | None = None
     started_at: float = 0.0
     extra_args: list = field(default_factory=list)
+    extra_env: dict = field(default_factory=dict)
 
     def start(self, timeout: float = 60.0) -> "Obs":
         import obsws_python as obs
@@ -158,7 +159,8 @@ class Obs:
             raise RuntimeError(f"portable OBS missing at {PORTABLE}: copy C:/Program Files/obs-studio there (robocopy /E)")
         args = [str(OBS_EXE), "--portable", "--profile", PROFILE, "--collection", COLLECTION, "--minimize-to-tray",
                 "--disable-shutdown-check", "--disable-updater", "--multi", *self.extra_args]
-        env = {**os.environ, "OBS_PLUGINS_PATH": str(PLUGIN_RUNDIR), "OBS_PLUGINS_DATA_PATH": str(PLUGIN_RUNDIR)}
+        env = {**os.environ, "OBS_PLUGINS_PATH": str(PLUGIN_RUNDIR), "OBS_PLUGINS_DATA_PATH": str(PLUGIN_RUNDIR),
+               **{k: str(v) for k, v in self.extra_env.items()}}
         self.started_at = time.time()
         self.proc = subprocess.Popen(args, cwd=str(OBS_DIR), env=env)
         t0 = time.time()

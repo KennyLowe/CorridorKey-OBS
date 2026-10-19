@@ -23,6 +23,7 @@ Render-thread rules (Constitution III, research D4):
 #include <cmath>
 #include <cstdlib>
 #include <deque>
+#include <functional>
 #include <filesystem>
 #include <map>
 #include <memory>
@@ -34,6 +35,7 @@ Render-thread rules (Constitution III, research D4):
 #include <cuda_runtime.h>
 
 #include "ck-log.hpp"
+#include "plugin_config.hpp"
 #include "core/auto_select.hpp"
 #include "core/state.hpp"
 #include "core/stats.hpp"
@@ -49,12 +51,16 @@ namespace ck {
 namespace {
 
 constexpr const char *kWeightsUrl = "https://huggingface.co/nikopueringer/CorridorKey_v1.0";
+constexpr const char *kLicenceUrl = "https://github.com/nikopueringer/CorridorKey";
 constexpr const char *kAttribution =
 	"Powered by CorridorKey by Corridor Digital (CC BY-NC-SA 4.0). Not affiliated.";
 
 // ------------------------------------------------------------------------------- settings
 
 struct Settings {
+	std::string model_id = "CorridorKey_v1.0";
+	bool licence_ack = false;
+	long long download_requested = 0, prepare_requested = 0;
 	std::string weights_path;
 	std::string quality = "auto";
 	std::string hint_mode = "fixed"; // fixed / calibrated / manual
@@ -86,8 +92,35 @@ std::string default_helper_cmd()
 
 std::string default_cache_dir()
 {
+	if (const char *d = std::getenv("CK_ENGINE_CACHE")) // tests
+		return d;
 	const char *la = std::getenv("LOCALAPPDATA");
 	return std::string(la ? la : ".") + "\\corridorkey-obs\\engines";
+}
+
+// Where "Download weights" puts the file (CK_WEIGHTS_DIR overrides it, for tests).
+std::string weights_dir()
+{
+	if (const char *d = std::getenv("CK_WEIGHTS_DIR"))
+		return d;
+	const char *la = std::getenv("LOCALAPPDATA");
+	return std::string(la ? la : ".") + "\\corridorkey-obs\\weights";
+}
+
+std::string default_weights_path(const std::string &model_id)
+{
+	return weights_dir() + "\\" + model_id + ".safetensors";
+}
+
+// The model manifest shipped beside the plugin (CK_MODEL_MANIFEST overrides it, for tests).
+std::string manifest_path()
+{
+	if (const char *m = std::getenv("CK_MODEL_MANIFEST"))
+		return m;
+	char *p = obs_module_file("manifest.json");
+	std::string s = p ? p : "";
+	bfree(p);
+	return s;
 }
 
 void color_from_obs(long long c, float rgb[3])
@@ -200,6 +233,9 @@ std::string state_text(const Filter &f, const Snapshot &s)
 		snprintf(buf, sizeof(buf), "Preparing \xE2\x80\x94 %s %d%%", s.reason.c_str(), s.progress);
 		txt = buf;
 		break;
+	case State::Downloading:
+		txt = "Downloading weights \xE2\x80\x94 " + w.model_label;
+		break;
 	case State::Ready:
 		txt = "Ready (" + q + ") \xE2\x80\x94 waiting for frames";
 		break;
@@ -216,6 +252,9 @@ std::string state_text(const Filter &f, const Snapshot &s)
 		txt = s.reason.empty() ? "Weights not set" : s.reason;
 		break;
 	}
+	if (w.preparing_in_background && !w.preparing_quality.empty())
+		txt += "\nPreparing " + quality_label(*quality_from_id(w.preparing_quality)) + " in the background (" +
+		       std::to_string(w.progress) + "%); the current setting keeps keying.";
 	if (w.auto_mode && !w.mode_id.empty()) {
 		txt += "\nAuto (" + w.mode_id + "): " +
 		       (w.auto_choice.quality.empty() ? std::string("nothing prepared yet")
@@ -234,6 +273,14 @@ std::string state_text(const Filter &f, const Snapshot &s)
 void read_settings(Filter *f, obs_data_t *s)
 {
 	Settings n;
+	n.model_id = obs_data_get_string(s, "model_id");
+	if (n.model_id.empty())
+		n.model_id = "CorridorKey_v1.0";
+	n.licence_ack = obs_data_get_bool(s, "licence_ack");
+	n.download_requested = obs_data_get_int(s, "download_requested");
+	n.prepare_requested = obs_data_get_int(s, "prepare_requested");
+	if (n.licence_ack)
+		config::acknowledge_licence(n.model_id);
 	n.weights_path = obs_data_get_string(s, "weights_path");
 	n.quality = obs_data_get_string(s, "quality");
 	if (n.quality.empty())
@@ -274,6 +321,12 @@ WorkerRequest make_request(const Settings &s, int w, int h, double fps)
 	r.fps = fps;
 	r.hint = s.hint();
 	r.debug = s.debug;
+	r.model_id = s.model_id;
+	r.manifest_path = manifest_path();
+	r.weights_dir = weights_dir();
+	r.licence_ok = !config::licence_acknowledged(s.model_id).empty();
+	r.download_clicks = (uint64_t)s.download_requested;
+	r.prepare_clicks = (uint64_t)s.prepare_requested;
 	return r;
 }
 
@@ -383,6 +436,11 @@ void sync_worker_status(Filter *f)
 		break;
 	case Phase::NoWeights:
 		changed = f->sm.no_weights();
+		if (!w.reason.empty())
+			changed = f->sm.download_failed(w.reason) || changed;
+		break;
+	case Phase::Downloading:
+		changed = f->sm.downloading(w.progress);
 		break;
 	case Phase::Starting:
 		changed = f->sm.preparing(0, w.reason.empty() ? "loading" : w.reason);
@@ -417,16 +475,6 @@ void pipeline_step(Filter *f, gs_texture_t *src, int w, int h, double frame_ms)
 	bool submitted = false;
 	uint64_t frame = ++f->frame_no;
 	if (f->worker && f->cuda_dev >= 0 && f->unsupported.empty()) {
-		const uint64_t ts0 = os_gettime_ns();
-		cudaSetDevice(f->cuda_dev);
-		if (!f->copy_stream) {
-			if (cudaStreamCreateWithFlags(&f->copy_stream, cudaStreamNonBlocking) != cudaSuccess) {
-				cudaGetLastError();
-				f->unsupported = "cannot create a CUDA stream on the OBS GPU";
-			}
-			log(LOG_INFO, "%s: render-thread CUDA setup %.1f ms", f->name.c_str(),
-			    (double)(os_gettime_ns() - ts0) / 1e6);
-		}
 		// tell the worker what we need (only when something changed)
 		if (f->rs_gen != f->req_gen_sent || f->req_w != w || f->req_h != h) {
 			f->worker->request(make_request(f->rs, w, h, 1000.0 / frame_ms));
@@ -434,7 +482,22 @@ void pipeline_step(Filter *f, gs_texture_t *src, int w, int h, double frame_ms)
 			f->req_w = w;
 			f->req_h = h;
 		}
-		if (f->unsupported.empty() && ensure_textures(f, w, h)) {
+		// No CUDA call at all on the render thread until the worker has a warmed-up engine: engine
+		// loading and CUDA's lazy module loading take driver locks that would stall this thread.
+		const bool worker_ready = f->ws.phase == Phase::Ready;
+		if (worker_ready) {
+			const uint64_t ts0 = os_gettime_ns();
+			cudaSetDevice(f->cuda_dev);
+			if (!f->copy_stream) {
+				if (cudaStreamCreateWithFlags(&f->copy_stream, cudaStreamNonBlocking) != cudaSuccess) {
+					cudaGetLastError();
+					f->unsupported = "cannot create a CUDA stream on the OBS GPU";
+				}
+				log(LOG_INFO, "%s: render-thread CUDA setup %.1f ms", f->name.c_str(),
+				    (double)(os_gettime_ns() - ts0) / 1e6);
+			}
+		}
+		if (worker_ready && f->unsupported.empty() && ensure_textures(f, w, h)) {
 			if (!f->have_bufs || f->ws.buffers_gen != f->bufs_gen_seen) {
 				f->have_bufs = f->worker->buffers(w, h, f->bufs);
 				f->bufs_gen_seen = f->ws.buffers_gen;
@@ -633,7 +696,11 @@ const char *filter_name(void *)
 
 void filter_defaults(obs_data_t *s)
 {
-	obs_data_set_default_string(s, "weights_path", "");
+	obs_data_set_default_string(s, "model_id", "CorridorKey_v1.0");
+	obs_data_set_default_bool(s, "licence_ack", false);
+	obs_data_set_default_int(s, "download_requested", 0);
+	obs_data_set_default_int(s, "prepare_requested", 0);
+	obs_data_set_default_string(s, "weights_path", default_weights_path("CorridorKey_v1.0").c_str());
 	obs_data_set_default_string(s, "quality", "auto");
 	obs_data_set_default_string(s, "hint_mode", "fixed");
 	float green[3] = {0.0f, 1.0f, 0.0f};
@@ -743,6 +810,34 @@ bool refresh_clicked(obs_properties_t *, obs_property_t *, void *)
 	return true; // rebuild the properties so the status line refreshes
 }
 
+// Buttons bump a counter setting (also settable over obs-websocket, which can't press filter
+// buttons); the worker acts on each increment.
+void bump(Filter *f, const char *key, const std::function<void(obs_data_t *)> &extra = {})
+{
+	obs_data_t *s = obs_source_get_settings(f->ctx);
+	obs_data_set_int(s, key, obs_data_get_int(s, key) + 1);
+	if (extra)
+		extra(s);
+	obs_source_update(f->ctx, s);
+	obs_data_release(s);
+}
+
+bool download_clicked(obs_properties_t *, obs_property_t *, void *data)
+{
+	auto *f = static_cast<Filter *>(data);
+	bump(f, "download_requested", [](obs_data_t *s) {
+		std::string id = obs_data_get_string(s, "model_id");
+		obs_data_set_string(s, "weights_path", default_weights_path(id.empty() ? "CorridorKey_v1.0" : id).c_str());
+	});
+	return true;
+}
+
+bool prepare_clicked(obs_properties_t *, obs_property_t *, void *data)
+{
+	bump(static_cast<Filter *>(data), "prepare_requested");
+	return true;
+}
+
 obs_properties_t *filter_properties(void *data)
 {
 	auto *f = static_cast<Filter *>(data);
@@ -758,22 +853,54 @@ obs_properties_t *filter_properties(void *data)
 	obs_properties_add_text(props, "status_info", status.c_str(), OBS_TEXT_INFO);
 	obs_properties_add_button(props, "refresh", "Refresh status", refresh_clicked);
 
-	obs_properties_add_path(props, "weights_path", "Weights file", OBS_PATH_FILE,
+	// Model (contracts/filter-ui.md, revised 2026-10-19)
+	obs_properties_t *mp = obs_properties_create();
+	std::string model_id;
+	{
+		std::lock_guard lk(f->set_mu);
+		model_id = f->set.model_id;
+	}
+	std::string label = s.worker.model_label.empty() ? model_id : s.worker.model_label;
+	obs_properties_add_text(mp, "model_info", ("Model: " + label).c_str(), OBS_TEXT_INFO);
+	std::string acked = config::licence_acknowledged(model_id);
+	if (acked.empty()) {
+		obs_properties_add_bool(mp, "licence_ack",
+					"I accept the CorridorKey licence: CC BY-NC-SA 4.0 plus Corridor Digital's terms "
+					"(non-commercial, attribution, share-alike)");
+	} else {
+		obs_properties_add_text(mp, "licence_info", ("Licence accepted on " + acked + " (CC BY-NC-SA 4.0 + Corridor Digital terms)").c_str(),
+					OBS_TEXT_INFO);
+	}
+	obs_property_t *lic = obs_properties_add_button(mp, "licence_link", "Read the CorridorKey licence", nullptr);
+	obs_property_button_set_type(lic, OBS_BUTTON_URL);
+	obs_property_button_set_url(lic, (char *)kLicenceUrl);
+	obs_properties_add_button(mp, "download", "Download weights (about 400 MB, from Corridor Digital's Hugging Face)",
+				  download_clicked);
+	obs_properties_add_path(mp, "weights_path", "Use a local file\xE2\x80\xA6", OBS_PATH_FILE,
 				"CorridorKey weights (*.safetensors);;All files (*.*)", nullptr);
-	obs_property_t *get = obs_properties_add_button(props, "get_weights", "Get weights (official CorridorKey source)",
-							nullptr);
+	obs_property_t *get = obs_properties_add_button(mp, "get_weights", "Model page (official source)", nullptr);
 	obs_property_button_set_type(get, OBS_BUTTON_URL);
 	obs_property_button_set_url(get, (char *)kWeightsUrl);
+	for (const auto &n : s.worker.newer_models)
+		obs_properties_add_text(mp, ("newer_" + n).c_str(),
+					("Newer model available: " + n +
+					 ". Not switched: update this plugin's model manifest (git pull) to pin its hash, "
+					 "then choose it and press Download weights.").c_str(),
+					OBS_TEXT_INFO);
+	obs_property_t *mid = obs_properties_add_text(mp, "model_id", "Model id", OBS_TEXT_DEFAULT);
+	obs_property_set_visible(mid, false);
+	obs_properties_add_group(props, "model_group", "Model", OBS_GROUP_NORMAL, mp);
 
 	obs_property_t *q = obs_properties_add_list(props, "quality", "Quality", OBS_COMBO_TYPE_LIST,
 						    OBS_COMBO_FORMAT_STRING);
 	obs_property_list_add_string(q, "Auto", "auto");
 	for (const auto &qq : all_qualities()) {
-		std::string label = quality_label(qq);
-		if (!s.worker.prepared.empty() && !s.worker.prepared.count(qq.id))
-			label += " (needs preparing)";
-		obs_property_list_add_string(q, label.c_str(), qq.id.c_str());
+		std::string ql = quality_label(qq);
+		if (!s.worker.prepared.count(qq.id))
+			ql += " (needs preparing)";
+		obs_property_list_add_string(q, ql.c_str(), qq.id.c_str());
 	}
+	obs_properties_add_button(props, "prepare", "Prepare selected", prepare_clicked);
 
 	obs_properties_t *hint = obs_properties_create();
 	obs_property_t *hm = obs_properties_add_list(hint, "hint_mode", "Screen colour", OBS_COMBO_TYPE_LIST,
@@ -872,6 +999,17 @@ void ws_get_status(obs_data_t *req, obs_data_t *resp, void *)
 	obs_data_set_int(resp, "workerErrors", (long long)s.worker_errors);
 	obs_data_set_double(resp, "frameMs", s.frame_ms);
 	obs_data_set_double(resp, "lastMatteAgeMs", s.last_matte_age_ms);
+	obs_data_set_string(resp, "modelLabel", s.worker.model_label.c_str());
+	obs_data_set_bool(resp, "modelVerified", s.worker.model_verified);
+	obs_data_set_int(resp, "downloadBytes", s.worker.dl_bytes);
+	obs_data_set_int(resp, "downloadTotal", s.worker.dl_total);
+	std::string newer;
+	for (const auto &n : s.worker.newer_models)
+		newer += (newer.empty() ? "" : ",") + n;
+	obs_data_set_string(resp, "newerModels", newer.c_str());
+	obs_data_set_bool(resp, "preparingInBackground", s.worker.preparing_in_background);
+	obs_data_set_string(resp, "preparingQuality", s.worker.preparing_quality.c_str());
+	obs_data_set_int(resp, "workerProgress", s.worker.progress);
 	obs_data_set_int(resp, "sourceWidth", s.src_w);
 	obs_data_set_int(resp, "sourceHeight", s.src_h);
 }
