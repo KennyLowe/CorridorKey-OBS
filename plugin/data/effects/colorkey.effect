@@ -1,0 +1,78 @@
+// corridorkey-obs colour key (GPL-2.0-or-later): the rough matte used as the fallback and shown by
+// "Show hint". The same normalised difference key as the CUDA hint kernel (research D5/D6):
+//   d = (g - max(r, b)) / kd;  t = saturate((d - lo) / (hi - lo));  mask = 1 - t^2 (3 - 2t)
+// followed by a 5x5 box blur of the mask. 1 = subject, 0 = screen.
+uniform float4x4 ViewProj;
+uniform texture2d image;
+uniform float2 texel;   // 1 / size
+uniform float kd;
+uniform float lo;
+uniform float hi;
+
+sampler_state pointSampler {
+	Filter    = Point;
+	AddressU  = Clamp;
+	AddressV  = Clamp;
+};
+
+struct VertData {
+	float4 pos : POSITION;
+	float2 uv  : TEXCOORD0;
+};
+
+VertData VSDefault(VertData v_in)
+{
+	VertData vert_out;
+	vert_out.pos = mul(float4(v_in.pos.xyz, 1.0), ViewProj);
+	vert_out.uv  = v_in.uv;
+	return vert_out;
+}
+
+float key_at(float2 uv)
+{
+	float3 c = image.Sample(pointSampler, uv).rgb;
+	float d = (c.g - max(c.r, c.b)) / kd;
+	float t = saturate((d - lo) / (hi - lo));
+	return 1.0 - t * t * (3.0 - 2.0 * t);
+}
+
+float mask_at(float2 uv)
+{
+	float sum = 0.0;
+	for (int y = -2; y <= 2; y++) {
+		for (int x = -2; x <= 2; x++) {
+			sum += key_at(uv + float2(x, y) * texel);
+		}
+	}
+	return saturate(sum / 25.0);
+}
+
+float4 PSKey(VertData v_in) : TARGET
+{
+	float4 s = image.Sample(pointSampler, v_in.uv);
+	return float4(s.rgb, s.a * mask_at(v_in.uv));
+}
+
+float4 PSHint(VertData v_in) : TARGET
+{
+	float m = mask_at(v_in.uv);
+	return float4(m, m, m, 1.0);
+}
+
+technique Draw
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader  = PSKey(v_in);
+	}
+}
+
+technique DrawHint
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader  = PSHint(v_in);
+	}
+}

@@ -41,8 +41,11 @@ def _peak_ram_gib() -> float:
 
 # ----------------------------------------------------------------------------- workers
 
-def _worker_onnx(w: int, h: int, refiner: bool) -> dict:
-    """Build the fp32 model on CPU and export it with a static [1,4,h,w] input."""
+def _worker_onnx(w: int, h: int, refiner: bool, checkpoint: Path | None = None, out: Path | None = None) -> dict:
+    """Build the fp32 model on CPU and export it with a static [1,4,h,w] input.
+
+    ``checkpoint``/``out`` default to the vendored weights and outputs/onnx (``ckbench prepare``
+    passes the user's weights and its cache folder)."""
     import torch
 
     from .runtime_torch import _vendor_import
@@ -51,7 +54,8 @@ def _worker_onnx(w: int, h: int, refiner: bool) -> dict:
     from .runtime_torch import TorchKeyer
 
     t0 = time.perf_counter()
-    keyer = TorchKeyer((w, h), refiner, device="cpu")
+    keyer = (TorchKeyer((w, h), refiner, device="cpu") if checkpoint is None
+             else TorchKeyer((w, h), refiner, checkpoint=checkpoint, device="cpu"))
     model = keyer.model.float().eval()  # no refiner_scale hook is ever registered: plain forward
 
     class Wrapper(torch.nn.Module):
@@ -64,7 +68,7 @@ def _worker_onnx(w: int, h: int, refiner: bool) -> dict:
             return out["alpha"], out["fg"]
 
     x = torch.zeros(1, 4, h, w)
-    p = onnx_path(w, h, refiner)
+    p = Path(out) if out is not None else onnx_path(w, h, refiner)
     p.parent.mkdir(parents=True, exist_ok=True)
     with torch.inference_mode():
         torch.onnx.export(Wrapper(model).eval(), (x,), str(p), opset_version=OPSET, dynamo=False,
@@ -74,14 +78,14 @@ def _worker_onnx(w: int, h: int, refiner: bool) -> dict:
             "onnx_size_mib": round(sum(f.stat().st_size for f in p.parent.glob(p.stem + "*")) / 2**20, 1)}
 
 
-def _worker_engine(w: int, h: int, refiner: bool) -> dict:
+def _worker_engine(w: int, h: int, refiner: bool, src: Path | None = None, dst: Path | None = None) -> dict:
     import tensorrt as trt
 
     logger = trt.Logger(trt.Logger.WARNING)
     builder = trt.Builder(logger)
     network = builder.create_network(0)
     parser = trt.OnnxParser(network, logger)
-    src = onnx_path(w, h, refiner)
+    src = Path(src) if src is not None else onnx_path(w, h, refiner)
     if not parser.parse_from_file(str(src)):
         errs = "; ".join(str(parser.get_error(i)) for i in range(parser.num_errors))
         return {"engine_status": "failed", "engine_reason": f"ONNX parse failed: {errs}"[:2000]}
@@ -93,7 +97,7 @@ def _worker_engine(w: int, h: int, refiner: bool) -> dict:
     if ser is None:
         return {"engine_status": "failed", "engine_reason": "build_serialized_network returned None (see log)",
                 "engine_build_s": round(time.perf_counter() - t0, 1)}
-    dst = engine_path(w, h, refiner)
+    dst = Path(dst) if dst is not None else engine_path(w, h, refiner)
     dst.parent.mkdir(parents=True, exist_ok=True)
     with open(dst, "wb") as f:
         f.write(ser)
@@ -119,9 +123,12 @@ def _run_worker(step: str, w: int, h: int, refiner: bool, log) -> dict:
 
 
 def _worker_main(argv: list[str]) -> None:
+    """argv: step w h refiner out_json [a b]; for onnx a/b = checkpoint, onnx path; for engine
+    a/b = onnx path, engine path (both optional: default to the benchmark's own paths)."""
     step, w, h, ref, out = argv[0], int(argv[1]), int(argv[2]), bool(int(argv[3])), Path(argv[4])
+    a, b = (Path(argv[5]), Path(argv[6])) if len(argv) >= 7 else (None, None)
     try:
-        res = _worker_onnx(w, h, ref) if step == "onnx" else _worker_engine(w, h, ref)
+        res = _worker_onnx(w, h, ref, a, b) if step == "onnx" else _worker_engine(w, h, ref, a, b)
     except Exception as e:
         import traceback
 

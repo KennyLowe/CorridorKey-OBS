@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 
 from . import results as R
@@ -200,11 +201,12 @@ def cmd_report(args) -> int:
     from .report import pending_candidates, render
 
     doc = _load_doc(args)
+    qfrom = R.load(args.quality_from) if getattr(args, "quality_from", None) else None
     pend = pending_candidates(doc)
     if pend and not args.allow_pending:
         raise Precondition(f"{len(pend)} candidate quality reviews are pending (e.g. {pend[0]}); record them "
                            "with `ckbench review` or use --allow-pending for a draft")
-    text, v, env, lat = render(doc, args.allow_pending)
+    text, v, env, lat = render(doc, args.allow_pending, quality_from=qfrom)
     doc["envelope"], doc["verdict"], doc["latency"] = env, v, lat
     R.save(doc)
     p = R.run_dir(doc["environment"]["run_id"]) / "REPORT.md"
@@ -219,6 +221,7 @@ def cmd_all(args) -> int:
         return argparse.Namespace(run_id=None, **kw)
 
     rc = cmd_env(ns(new_run=True))
+    speed_only = getattr(args, "speed_only", False)
     if rc:
         return rc
     worst = EXIT_OK
@@ -233,6 +236,8 @@ def cmd_all(args) -> int:
         (cmd_quality, dict(configs=None, clips=args.clips)),
         (cmd_report, dict(allow_pending=True)),
     ]
+    if speed_only:  # corporate networks that block the public clips (issue #2): no clips, no quality
+        steps = [s for s in steps if s[0] not in (cmd_clips, cmd_quality)]
     for fn, kw in steps:
         print(f"== ckbench all: {fn.__name__[4:]}", flush=True)
         rc = fn(ns(**kw))
@@ -240,6 +245,45 @@ def cmd_all(args) -> int:
             return rc
         worst = max(worst, rc)
     return worst
+
+
+def cmd_prepare(args) -> int:
+    """Feature 002: one engine for the OBS plugin (contracts/prepare-cli.md)."""
+    from . import prepare as P
+
+    w, h = _sizes(args.size)[0]
+    emit = P.json_emitter() if args.json else P.text_emitter
+    return P.prepare(args.weights, w, h, bool(int(args.refiner)), args.cache_dir or str(P.DEFAULT_CACHE), emit,
+                     prune=args.prune)
+
+
+def cmd_perf_table(args) -> int:
+    """Feature 002: committed results -> plugin/data/perf-table.json (the plugin's Auto table)."""
+    from . import perftable as PT
+
+    t = PT.build_table(PT.load_runs(_csv(args.runs) if args.runs else None))
+    p = PT.write(t, args.out or PT.DEFAULT_OUT)
+    for g in t["gpus"]:
+        print(f"{g['gpu_name']} (driver {g['driver']}, run {g['run_id']}): {len(g['modes'])} modes")
+    print(f"perf table: {p}")
+    return EXIT_OK
+
+
+def cmd_fetch_weights(args) -> int:
+    """Feature 002: download the official weights named in the model manifest (research D3a)."""
+    from . import fetch as F
+    from . import prepare as P
+
+    emit = P.json_emitter() if args.json else P.text_emitter_fetch
+    return F.fetch_weights(args.manifest or str(F.MANIFEST_PATH), args.model, args.dest_dir or str(F.DEFAULT_DEST), emit)
+
+
+def cmd_check_models(args) -> int:
+    from . import fetch as F
+    from . import prepare as P
+
+    emit = P.json_emitter() if args.json else (lambda ev: print(json.dumps(ev)))
+    return F.check_models(args.manifest or str(F.MANIFEST_PATH), emit, api_url=args.api_url or F.MODELS_API)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -290,7 +334,36 @@ def build_parser() -> argparse.ArgumentParser:
 
     s = sub.add_parser("report", help="envelope + verdict + REPORT.md")
     s.add_argument("--allow-pending", action="store_true")
+    s.add_argument("--quality-from", default=None,
+                   help="borrow owner quality verdicts by configuration from another run (speed-only runs)")
     s.set_defaults(fn=cmd_report)
+
+    s = sub.add_parser("prepare", help="weights -> ONNX -> TensorRT engine for the OBS plugin, cached")
+    s.add_argument("--weights", required=True, help="CorridorKey .safetensors file")
+    s.add_argument("--size", required=True, help="internal size, e.g. 1024x576 or 512")
+    s.add_argument("--refiner", default="0", choices=["0", "1"])
+    s.add_argument("--cache-dir", default=None, help=r"default: %%LOCALAPPDATA%%\corridorkey-obs\engines")
+    s.add_argument("--json", action="store_true", help="JSON-lines progress on stdout (for the plugin)")
+    s.add_argument("--prune", action="store_true", help="remove engines built for another GPU/driver/TensorRT")
+    s.set_defaults(fn=cmd_prepare)
+
+    s = sub.add_parser("fetch-weights", help="download + verify the official CorridorKey weights")
+    s.add_argument("--manifest", default=None, help="models/manifest.json (default: the repo's)")
+    s.add_argument("--model", default="CorridorKey_v1.0")
+    s.add_argument("--dest-dir", default=None, help=r"default: %%LOCALAPPDATA%%\corridorkey-obs\weights")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(fn=cmd_fetch_weights)
+
+    s = sub.add_parser("check-models", help="report newer official CorridorKey models (never switches)")
+    s.add_argument("--manifest", default=None)
+    s.add_argument("--api-url", default=None)
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(fn=cmd_check_models)
+
+    s = sub.add_parser("perf-table", help="committed results -> plugin/data/perf-table.json")
+    s.add_argument("--runs", default=None, help="comma-separated run ids (default: every committed run)")
+    s.add_argument("--out", default=None)
+    s.set_defaults(fn=cmd_perf_table)
 
     s = sub.add_parser("all", help="env -> clips -> export -> speed -> quality -> report (draft)")
     s.add_argument("--sizes", default="512,768,1024,2048")
@@ -300,6 +373,8 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--runs", type=int, default=3)
     s.add_argument("--frames", type=int, default=300)
     s.add_argument("--warmup", type=int, default=50)
+    s.add_argument("--speed-only", action="store_true",
+                   help="skip clips and quality (e.g. a network that blocks the public clips)")
     s.set_defaults(fn=cmd_all)
     return p
 

@@ -6,6 +6,7 @@ import hashlib
 import importlib.metadata as md
 import os
 import platform
+import re
 import shutil
 import subprocess
 import sys
@@ -56,10 +57,24 @@ def nvenc_ok() -> tuple[bool, str]:
     return r.returncode == 0, r.stderr.strip()[-400:]
 
 
+def git_error_hint(stderr: str) -> str:
+    """git's own message plus, for a "dubious ownership" refusal, the exact fix (never applied here:
+    global git config is the user's to change)."""
+    m = re.search(r"dubious ownership in repository at '([^']+)'", stderr)
+    if m:
+        path = m.group(1).replace("\\", "/")
+        return (f"git refused to read {path} (\"dubious ownership\": the folder is owned by another account, "
+                f"e.g. Administrators). Fix: git config --global --add safe.directory {path}")
+    return stderr.strip() or "no message"
+
+
 def corridorkey_sha() -> str:
+    if not Path(VENDOR_DIR).is_dir():
+        raise RuntimeError(f"CorridorKey checkout not found at {VENDOR_DIR}; run bench/setup.ps1")
     r = subprocess.run(["git", "-C", str(VENDOR_DIR), "rev-parse", "HEAD"], capture_output=True, text=True)
     if r.returncode != 0:
-        raise RuntimeError(f"CorridorKey checkout not found at {VENDOR_DIR}; run bench/setup.ps1")
+        raise RuntimeError(f"git could not read the CorridorKey checkout at {VENDOR_DIR}: "
+                           f"{git_error_hint(r.stderr)}")
     return r.stdout.strip()
 
 

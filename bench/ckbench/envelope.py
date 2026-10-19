@@ -81,7 +81,17 @@ def _a2000(p95: float, budget: float) -> dict:
             "status": "supported" if hi <= budget else "unsupported"}
 
 
-def envelope(benchmarks: list[dict], quality: list[dict], allow_pending: bool = False) -> list[dict]:
+def envelope(benchmarks: list[dict], quality: list[dict], allow_pending: bool = False,
+             quality_missing_ok: bool = False) -> list[dict]:
+    """quality_missing_ok: a speed-only run (no quality entries on this machine): configurations
+    without a verdict count as acceptable and are labelled "not_run"."""
+    def qstat(cid):
+        s = quality_status(quality, cid)
+        return "not_run" if (s == "missing" and quality_missing_ok) else s
+
+    def qok(s):
+        return s == "not_run" or _quality_ok(s, allow_pending)
+
     out = []
     failed_3060: list[LiveMode] = []
     failed_a2000: list[LiveMode] = []
@@ -96,8 +106,8 @@ def envelope(benchmarks: list[dict], quality: list[dict], allow_pending: bool = 
         elif not cands:
             r = {"status": "not_attempted", "reason": f"no load measurement at {mode.camera_res}"}
         else:
-            scored = [(b, worst_p95(b), quality_status(quality, b["config"]["config_id"])) for b in cands]
-            ok = [s for s in scored if s[1] <= budget and _quality_ok(s[2], allow_pending)]
+            scored = [(b, worst_p95(b), qstat(b["config"]["config_id"])) for b in cands]
+            ok = [s for s in scored if s[1] <= budget and qok(s[2])]
             if ok:
                 b, p95, qs = max(ok, key=lambda s: (_pixels(s[0]), -s[1]))
                 r = {"status": "supported"}
@@ -119,8 +129,8 @@ def envelope(benchmarks: list[dict], quality: list[dict], allow_pending: bool = 
             prio = {"supported": 0, "borderline": 1, "unsupported": 2}
             best = None
             for b in cands:
-                qs = quality_status(quality, b["config"]["config_id"])
-                if not _quality_ok(qs, allow_pending):
+                qs = qstat(b["config"]["config_id"])
+                if not qok(qs):
                     continue
                 est = _a2000(worst_p95(b), budget)
                 k = "supported" if est["status"] == "supported" else ("borderline" if est["borderline"] else "unsupported")
@@ -140,7 +150,8 @@ def envelope(benchmarks: list[dict], quality: list[dict], allow_pending: bool = 
     return out
 
 
-def verdict(benchmarks: list[dict], quality: list[dict], env: list[dict], allow_pending: bool = False) -> dict:
+def verdict(benchmarks: list[dict], quality: list[dict], env: list[dict], allow_pending: bool = False,
+            quality_missing_ok: bool = False) -> dict:
     by = {e["mode_id"]: e for e in env}
     gate = []
     for b in _candidates(benchmarks, "1080p"):
@@ -148,7 +159,8 @@ def verdict(benchmarks: list[dict], quality: list[dict], env: list[dict], allow_
         if min(c["internal_w"], c["internal_h"]) < GATE_MIN_INTERNAL:
             continue
         p95 = worst_p95(b)
-        if p95 <= GATE_MS and _quality_ok(quality_status(quality, c["config_id"]), allow_pending):
+        qs = quality_status(quality, c["config_id"])
+        if p95 <= GATE_MS and (_quality_ok(qs, allow_pending) or (quality_missing_ok and qs == "missing")):
             gate.append((b, p95))
     if gate:
         b, p95 = max(gate, key=lambda s: (_pixels(s[0]), -s[1]))

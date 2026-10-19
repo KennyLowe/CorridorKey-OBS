@@ -1,6 +1,8 @@
 """results.json -> REPORT.md (US5; FR-009, FR-010, FR-016)."""
 from __future__ import annotations
 
+import json
+
 from .config import LIVE_MODES
 from .envelope import (A2000_RANGE, GATE_MIN_INTERNAL, GATE_MS, LOAD, envelope, latency_ms, verdict, worst_p95)
 from .quality import EDGE_ALPHA_MAX, EDGE_FG_MAX, FLICKER_MAX
@@ -102,11 +104,35 @@ def _slowdown_rows(benchmarks):
     return rows if n else ["(no load measurements with a matching idle measurement)"]
 
 
-def render(doc: dict, allow_pending: bool) -> tuple[str, dict, list, list]:
+def _quality_reference_run() -> str | None:
+    """The latest committed run that has owner quality verdicts (the RTX 3060 run today)."""
+    from .results import RESULTS_DIR
+
+    for d in sorted((p for p in RESULTS_DIR.iterdir() if (p / "results.json").exists()), reverse=True):
+        if json.loads((d / "results.json").read_text(encoding="utf-8")).get("quality"):
+            return d.name
+    return None
+
+
+def render(doc: dict, allow_pending: bool, quality_from: dict | None = None) -> tuple[str, dict, list, list]:
     benchmarks = doc.get("benchmarks", [])
     quality = doc.get("quality", [])
-    env = envelope(benchmarks, quality, allow_pending)
-    v = verdict(benchmarks, quality, env, allow_pending)
+    note = None
+    if quality_from is not None and not quality:
+        quality = quality_from.get("quality", [])
+        note = (f"Quality verdicts borrowed from run {quality_from['environment']['run_id']} "
+                f"({quality_from['environment']['gpu_name']}), matched by configuration: the model and its "
+                "outputs are the same on any GPU; only speed is measured here.")
+    speed_only = not quality
+    if speed_only:
+        ref = _quality_reference_run()
+        note = ("Speed-only run: quality not run on this machine" + (f"; see run {ref}" if ref else "") +
+                ". Configurations are judged on timing alone below.")
+    env = envelope(benchmarks, quality, allow_pending, quality_missing_ok=speed_only)
+    v = verdict(benchmarks, quality, env, allow_pending, quality_missing_ok=speed_only)
+    gpu = doc["environment"]["gpu_name"]
+    if "3060" not in gpu:
+        v["reasoning"] = v["reasoning"].replace("RTX 3060", gpu)
     v["prior_evidence_note"] = PRIOR_EVIDENCE
     v["draft"] = bool(allow_pending)
     e = doc["environment"]
@@ -119,6 +145,8 @@ def render(doc: dict, allow_pending: bool) -> tuple[str, dict, list, list]:
           f"**Verdict: {v['verdict']}.** {v['reasoning']}", ""]
     if v.get("a2000_risk"):
         L += [f"**A2000 (ESTIMATE):** {v['a2000_risk']}", ""]
+    if note:
+        L += [f"> {note}", ""]
     L += ["## Prior evidence", "", PRIOR_EVIDENCE, "", "## Gate", "", GATE_TEXT, ""]
 
     L += ["## Operating envelope", "",
@@ -132,7 +160,7 @@ def render(doc: dict, allow_pending: bool) -> tuple[str, dict, list, list]:
           f"ranked. When nothing fits, the fastest configuration is shown. Load runs (T032) covered every "
           f"idle-ok configuration whose idle 1080p e2e median was <= 60 ms (the loosest budget, 50 ms, + 20%); the "
           f"rest are recorded as not attempted - exceeds budget.", "",
-          "| mode | budget ms | RTX 3060 (measured) | best config | p95 ms | quality | A2000 ESTIMATE | A2000 range ms |",
+          f"| mode | budget ms | {gpu} (measured) | best config | p95 ms | quality | A2000 ESTIMATE | A2000 range ms |",
           "|---|---|---|---|---|---|---|---|"]
     for en in env:
         r, a = en["rtx3060"], en["a2000_estimate"]
@@ -140,7 +168,8 @@ def render(doc: dict, allow_pending: bool) -> tuple[str, dict, list, list]:
         a_s = a["status"] + (" (borderline)" if a.get("borderline") else "") +             (f" ({a['best_config_id']})" if a.get("best_config_id") else "")
         L.append(f"| {en['mode_id']} | {en['budget_ms']:.1f} | {r['status']}"
                  + (f" ({r['reason']})" if r.get("reason") and r["status"] != "supported" else "")
-                 + f" | {r.get('best_config_id', '-')} | {_f(r.get('e2e_ms_p95'))} | {r.get('quality', '-')} | "
+                 + f" | {r.get('best_config_id', '-')} | {_f(r.get('e2e_ms_p95'))} | "
+                 + ("not run" if r.get("quality") == "not_run" else r.get("quality", "-")) + " | "
                  f"{a_s} | {('%.1f-%.1f' % tuple(rng)) if rng else '-'} |")
     L.append("")
 

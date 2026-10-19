@@ -13,16 +13,24 @@ $ErrorActionPreference = 'Stop'
 
 $CorridorKeyRepo = 'https://github.com/nikopueringer/CorridorKey'
 $CorridorKeySha  = '97e55a453060745bead1befd293f6e523c4b845c'   # main HEAD on 2026-10-16
-$HfRepo          = 'nikopueringer/CorridorKey_v1.0'
-$HfRevision      = 'f6386ddf042d8e92aeb5fd16cb9b101cff508195'   # HF repo revision on 2026-10-16
-$WeightsFile     = 'CorridorKey_v1.0.safetensors'
-
 $Bench    = $PSScriptRoot
 $RepoRoot = Split-Path $Bench -Parent
+
+# The official model (repo, revision, file, size, sha256) comes from the committed model manifest,
+# the same file the OBS plugin's in-app download uses.
+$Model       = (Get-Content -Raw (Join-Path $RepoRoot 'models\manifest.json') | ConvertFrom-Json).models |
+               Where-Object model_id -eq 'CorridorKey_v1.0'
+if (-not $Model) { throw 'CorridorKey_v1.0 not found in models\manifest.json' }
+$HfRepo      = $Model.hf_repo
+$HfRevision  = $Model.revision
+$WeightsFile = $Model.file
 $Vendor   = Join-Path $Bench 'vendor'
 $CkDir    = Join-Path $Vendor 'CorridorKey'
 $CkptDir  = Join-Path $CkDir 'CorridorKeyModule\checkpoints'
 $Weights  = Join-Path $CkptDir $WeightsFile
+
+# Downloads/clones that survive corporate networks (revocation-check failures, TLS inspection).
+. (Join-Path $PSScriptRoot 'setup-net.ps1')
 
 function Step($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
 function Warn($msg) { Write-Host "WARNING: $msg" -ForegroundColor Yellow }
@@ -31,35 +39,34 @@ function Warn($msg) { Write-Host "WARNING: $msg" -ForegroundColor Yellow }
 Step "CorridorKey @ $CorridorKeySha"
 if (-not (Test-Path (Join-Path $CkDir '.git'))) {
     New-Item -ItemType Directory -Force $Vendor | Out-Null
-    git clone --quiet $CorridorKeyRepo $CkDir
-    if ($LASTEXITCODE -ne 0) { throw 'git clone failed' }
+    Invoke-GitNet clone --quiet $CorridorKeyRepo $CkDir | Out-Null
 }
-$head = (git -C $CkDir rev-parse HEAD).Trim()
+$head = Get-GitHead -Dir $CkDir
 if ($head -ne $CorridorKeySha) {
-    git -C $CkDir fetch --quiet origin
+    Push-Location $CkDir
+    try { Invoke-GitNet fetch --quiet origin | Out-Null } finally { Pop-Location }
     git -C $CkDir checkout --quiet $CorridorKeySha
     if ($LASTEXITCODE -ne 0) { throw "could not check out $CorridorKeySha" }
 }
-Write-Host "    CorridorKey SHA: $((git -C $CkDir rev-parse HEAD).Trim())"
+Write-Host "    CorridorKey SHA: $(Get-GitHead -Dir $CkDir)"
 
 # 2. Weights (official source; licence CC BY-NC-SA 4.0; never committed)
 Step "Weights $WeightsFile"
 New-Item -ItemType Directory -Force $CkptDir | Out-Null
 if (-not (Test-Path $Weights)) {
     $url = "https://huggingface.co/$HfRepo/resolve/$HfRevision/$WeightsFile"
-    Write-Host "    downloading $url"
-    curl.exe -L --fail --silent --show-error -o "$Weights.part" $url
-    if ($LASTEXITCODE -ne 0) { throw 'weights download failed' }
-    Move-Item -Force "$Weights.part" $Weights
+    Write-Host "    downloading $url (about $([math]::Round($Model.size / 1MB)) MB)"
+    Get-VerifiedFile -Url $url -Out $Weights -Sha256 $Model.sha256
 }
-Write-Host "    sha256: $((Get-FileHash -Algorithm SHA256 $Weights).Hash.ToLower())"
+$sha = (Get-FileHash -Algorithm SHA256 $Weights).Hash.ToLower()
+if ($sha -ne $Model.sha256) { throw "weights at $Weights have sha256 $sha, the manifest pins $($Model.sha256)" }
+Write-Host "    sha256: $sha (matches models\manifest.json)"
 
 # 3. Python environment
 Step 'uv sync'
 Push-Location $Bench
 try {
-    uv sync
-    if ($LASTEXITCODE -ne 0) { throw 'uv sync failed' }
+    Invoke-UvSync
 
     # 4. CUDA
     Step 'CUDA check'

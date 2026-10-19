@@ -6,6 +6,7 @@ import re
 import shutil
 import subprocess
 import tomllib
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -28,6 +29,39 @@ def load_manifest(path: Path | None = None) -> list[dict]:
 def _ffprobe() -> str:
     exe = ffmpeg_exe()
     return str(Path(exe).with_name("ffprobe.exe")) if exe and Path(exe).with_name("ffprobe.exe").exists() else "ffprobe"
+
+
+def check_sha256(clip: dict, path: Path) -> bool | None:
+    """Optional `sha256` in clips.toml: warn (don't fail) on a mismatch. None = nothing pinned."""
+    want = clip.get("sha256")
+    if not want:
+        return None
+    import hashlib
+    import sys
+
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 22), b""):
+            h.update(chunk)
+    if h.hexdigest() != want.lower():
+        print(f"WARNING: {clip['clip_id']}: {path} has sha256 {h.hexdigest()}, clips.toml pins {want}. "
+              "The source may have changed the file; results may not be comparable with other runs.",
+              file=sys.stderr)
+        return False
+    return True
+
+
+def fetch(clip: dict, dst: Path) -> None:
+    """Download a public clip, or raise FileNotFoundError with the manual route (bot protection and
+    corporate proxies often block these downloads)."""
+    try:
+        download(clip["source_url"], dst)
+    except (urllib.error.URLError, OSError) as e:  # HTTPError is a URLError
+        what = f"HTTP {e.code}" if isinstance(e, urllib.error.HTTPError) else f"{type(e).__name__}: {e}"
+        raise FileNotFoundError(
+            f"{clip['clip_id']}: download failed ({what}) from {clip['source_url']}. Download it manually: open "
+            f"{clip['page_url']} in a browser and save the video as {clip['local_path']} (in the repository), or "
+            f"copy that file from another machine that has it.") from None
 
 
 def download(url: str, dst: Path) -> None:
@@ -125,7 +159,8 @@ def normalise(clip: dict, log=print) -> dict:
             if clip["manual_download"]:
                 raise FileNotFoundError(f"{local} missing: download manually from {clip['page_url']}")
             log(f"  downloading {clip['clip_id']} from {clip['source_url']}")
-            download(clip["source_url"], local)
+            fetch(clip, local)
+        check_sha256(clip, local)
         native_res, native_fps, primaries = probe_video(local)
         input_args = ["-ss", str(clip.get("segment_start_s", 0.0)), "-i", str(local)]
         available = None

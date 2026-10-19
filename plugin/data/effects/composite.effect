@@ -1,0 +1,57 @@
+// corridorkey-obs composite (GPL-2.0-or-later).
+// keyed: the worker's packed output for one frame: rgb = CorridorKey foreground (unmixed from the
+//        screen colour), a = CorridorKey alpha. Straight (not premultiplied) alpha.
+// image: the live source frame (only used by the "last matte" fallback).
+uniform float4x4 ViewProj;
+uniform texture2d image;
+uniform texture2d keyed;
+
+sampler_state pointSampler {
+	Filter    = Point;
+	AddressU  = Clamp;
+	AddressV  = Clamp;
+};
+
+struct VertData {
+	float4 pos : POSITION;
+	float2 uv  : TEXCOORD0;
+};
+
+VertData VSDefault(VertData v_in)
+{
+	VertData vert_out;
+	vert_out.pos = mul(float4(v_in.pos.xyz, 1.0), ViewProj);
+	vert_out.uv  = v_in.uv;
+	return vert_out;
+}
+
+// CorridorKey key: foreground colour + alpha from the same frame.
+float4 PSComposite(VertData v_in) : TARGET
+{
+	return keyed.Sample(pointSampler, v_in.uv);
+}
+
+// "Last good matte" fallback: the live frame with the last alpha.
+float4 PSLastMatte(VertData v_in) : TARGET
+{
+	float4 s = image.Sample(pointSampler, v_in.uv);
+	return float4(s.rgb, s.a * keyed.Sample(pointSampler, v_in.uv).a);
+}
+
+technique Draw
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader  = PSComposite(v_in);
+	}
+}
+
+technique LastMatte
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader  = PSLastMatte(v_in);
+	}
+}

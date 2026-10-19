@@ -1,0 +1,7 @@
+[
+  {"_id": "a1", "id": "nikopueringer/CorridorKey_v1.0", "likes": 120, "private": false, "downloads": 5000, "tags": ["license:cc-by-nc-sa-4.0"], "lastModified": "2026-03-02T10:00:00.000Z"},
+  {"_id": "a2", "id": "nikopueringer/CorridorKeyBlue_1.0", "likes": 10, "private": false, "downloads": 300, "tags": [], "lastModified": "2026-05-11T10:00:00.000Z"},
+  {"_id": "a3", "id": "nikopueringer/CorridorKey_v1.1", "likes": 3, "private": false, "downloads": 10, "tags": [], "lastModified": "2026-10-01T10:00:00.000Z"},
+  {"_id": "a4", "id": "nikopueringer/CorridorKey_v0.9", "likes": 1, "private": false, "downloads": 1, "tags": [], "lastModified": "2025-12-01T10:00:00.000Z"},
+  {"_id": "a5", "id": "nikopueringer/SomethingElse", "likes": 0, "private": false, "downloads": 0, "tags": [], "lastModified": "2026-10-02T10:00:00.000Z"}
+]
