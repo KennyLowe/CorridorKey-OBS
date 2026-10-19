@@ -222,14 +222,15 @@ def cmd_all(args) -> int:
     if rc:
         return rc
     worst = EXIT_OK
+    sz, rk = args.sizes, dict(runs=args.runs, frames=args.frames, warmup=args.warmup)
     steps = [
-        (cmd_clips, dict(manifest=None, clips=None)),
-        (cmd_export, dict(sizes="512,768,1024,2048", refiner="on,off", variant16x9=False)),
-        (cmd_speed, dict(runtime="torch,trt", sizes="512,768,1024,2048", refiner="on,off", load="idle",
-                         camera="1080p", runs=3, frames=300, warmup=50, variant16x9=True, best=False)),
+        (cmd_clips, dict(manifest=None, clips=args.clips)),
+        (cmd_export, dict(sizes=sz, refiner="on,off", variant16x9=args.variant16x9)),
+        (cmd_speed, dict(runtime="torch,trt", sizes=sz, refiner="on,off", load="idle", camera="1080p",
+                         variant16x9=args.variant16x9, best=False, **rk)),
         (cmd_speed, dict(runtime="torch,trt", sizes="", refiner="on,off", load="nvenc",
-                         camera="720p,1080p,2160p", runs=3, frames=300, warmup=50, variant16x9=False, best=True)),
-        (cmd_quality, dict(configs=None, clips=None)),
+                         camera="720p,1080p,2160p", variant16x9=False, best=True, **rk)),
+        (cmd_quality, dict(configs=None, clips=args.clips)),
         (cmd_report, dict(allow_pending=True)),
     ]
     for fn, kw in steps:
@@ -292,6 +293,13 @@ def build_parser() -> argparse.ArgumentParser:
     s.set_defaults(fn=cmd_report)
 
     s = sub.add_parser("all", help="env -> clips -> export -> speed -> quality -> report (draft)")
+    s.add_argument("--sizes", default="512,768,1024,2048")
+    s.add_argument("--no-variant16x9", dest="variant16x9", action="store_false",
+                   help="skip the 16:9 internal sizes (1024x576, 768x448)")
+    s.add_argument("--clips", default=None, help="comma-separated clip ids (default: all; at least 3)")
+    s.add_argument("--runs", type=int, default=3)
+    s.add_argument("--frames", type=int, default=300)
+    s.add_argument("--warmup", type=int, default=50)
     s.set_defaults(fn=cmd_all)
     return p
 
