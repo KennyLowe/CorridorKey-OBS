@@ -259,7 +259,10 @@ void Worker::poll_helpers(const WorkerRequest &)
 				log(LOG_INFO, "%s: weights downloaded and verified: %s (sha256 %s)", name_.c_str(),
 				    res->weights_path.c_str(), res->sha256.c_str());
 			} else {
-				fetch_error_ = res ? "Download failed (" + res->error + "): " + res->msg +
+				std::string m = res ? res->msg : std::string();
+				if (!m.empty() && m.back() != '.')
+					m += '.';
+				fetch_error_ = res ? "Download failed (" + res->error + "): " + m +
 							     " Press \"Download weights\" to retry."
 						   : "Download failed: the helper exited with code " +
 							     std::to_string(fetch_->exit_code()) + " (see " + fetch_->log_path() + ")";
@@ -541,6 +544,9 @@ void Worker::reconcile()
 		}
 		// An unmeasured (unverified) model: Auto uses the fastest setting until it's benchmarked.
 		choice = auto_select(table_ && verified ? *table_ : PerfTable{}, dev.name, mode, prepared);
+		if (!verified)
+			choice.note = "Unverified model: Auto uses the fastest setting (512Ã" "512, refiner off) until "
+				      "this model is benchmarked.";
 		q = choice.quality;
 	}
 	set_status([&](WorkerStatus &s) {

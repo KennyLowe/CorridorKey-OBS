@@ -10,7 +10,7 @@ Live neural green-screen keying for [OBS Studio](https://obsproject.com/), built
 > recording running:
 >
 > - OBS holds 30.00 fps with the filter, with 0 render-skipped frames.
-> - Keying takes 26.7 ms per frame at 1024×576.
+> - Keying takes about 26 ms per frame at 1024×576.
 > - The key adds 1 frame of latency, measured on the recorded output.
 >
 > Install guide: [`docs/INSTALL.md`](docs/INSTALL.md). Test results:
