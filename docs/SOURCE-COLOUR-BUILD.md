@@ -1,5 +1,10 @@
 # Build and test the "Use source colour" toggle (run on the RTX 3060 dev machine)
 
+> **Status (2026-10-19): done.** Built and tested on the RTX 3060 and released as **v0.1.0-rc.3**.
+> The hair fringe from the plain green clamp is fixed: mixed strands take the model's colour at the
+> live luminance. `plugin/tests/e2e/test_source_colour.py` covers it. The steps below are kept for
+> reference.
+
 Branch: `source-colour-toggle` (based on `v0.1.0-rc.2`). The A2000 machine has no build toolchain
 (no CMake, no `build_x64`), so the change is built here and handed back.
 
