@@ -173,7 +173,8 @@ struct Filter {
 	gs_texture_t *in_tex = nullptr, *out_tex = nullptr;
 	std::unique_ptr<gpu::InteropTexture> in_io, out_io;
 	int tex_w = 0, tex_h = 0;
-	cudaStream_t copy_stream = nullptr;
+	cudaStream_t copy_stream = nullptr; // frame in (texture -> ring slot)
+	cudaStream_t out_stream = nullptr;  // matte out (output buffer -> texture), never queued behind an input map
 	FrameBuffers bufs;
 	bool have_bufs = false;
 	uint64_t bufs_gen_seen = 0;
@@ -332,10 +333,13 @@ WorkerRequest make_request(const Settings &s, int w, int h, double fps)
 
 // ------------------------------------------------------------------------------- render thread
 
+
 void destroy_textures(Filter *f)
 {
 	if (f->copy_stream)
 		cudaStreamSynchronize(f->copy_stream); // our own short copies only
+	if (f->out_stream)
+		cudaStreamSynchronize(f->out_stream);
 	f->in_io.reset();
 	f->out_io.reset();
 	if (f->in_tex)
@@ -490,7 +494,8 @@ void pipeline_step(Filter *f, gs_texture_t *src, int w, int h, double frame_ms)
 			const uint64_t ts0 = os_gettime_ns();
 			cudaSetDevice(f->cuda_dev);
 			if (!f->copy_stream) {
-				if (cudaStreamCreateWithFlags(&f->copy_stream, cudaStreamNonBlocking) != cudaSuccess) {
+				if (cudaStreamCreateWithFlags(&f->copy_stream, cudaStreamNonBlocking) != cudaSuccess ||
+			    cudaStreamCreateWithFlags(&f->out_stream, cudaStreamNonBlocking) != cudaSuccess) {
 					cudaGetLastError();
 					f->unsupported = "cannot create a CUDA stream on the OBS GPU";
 				}
@@ -526,7 +531,7 @@ void pipeline_step(Filter *f, gs_texture_t *src, int w, int h, double frame_ms)
 			if (f->have_bufs) {
 				if (auto r = sched.poll_output()) {
 					cudaError_t e = f->out_io->copy_from_linear(f->bufs.out[r->out_slot], f->bufs.pitch,
-										    f->copy_stream,
+										    f->out_stream,
 										    f->bufs.out_consumed[r->out_slot]);
 					if (e == cudaSuccess) {
 						f->have_matte = true;
@@ -786,6 +791,8 @@ void filter_destroy(void *data)
 	destroy_textures(f);
 	if (f->copy_stream)
 		cudaStreamDestroy(f->copy_stream);
+	if (f->out_stream)
+		cudaStreamDestroy(f->out_stream);
 	if (f->tr)
 		gs_texrender_destroy(f->tr);
 	if (f->fx_composite)

@@ -53,7 +53,9 @@ Readout Stats::readout(double frame_ms) const
 	r.skipped_pct = r.submitted ? 100.0 * (double)r.skipped / (double)r.submitted : 0.0;
 	if (!delay_.empty()) {
 		r.pairing_delay_frames = percentile(delay_, 50);
-		r.added_latency_ms = r.pairing_delay_frames * frame_ms + frame_ms;
+		// Measured on OBS's recorded program output (T031): the composite is on screen exactly
+		// pairing_delay frames after its input frame, so that is the added latency.
+		r.added_latency_ms = r.pairing_delay_frames * frame_ms;
 		r.added_latency_frames = frame_ms > 0 ? r.added_latency_ms / frame_ms : 0.0;
 	}
 	r.behind = r.samples > 0 && r.worker_ms_median > frame_ms;

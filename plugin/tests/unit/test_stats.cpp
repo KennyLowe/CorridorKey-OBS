@@ -47,7 +47,7 @@ TEST_CASE("skipped rate counts the window's frames", "[stats]")
 	CHECK(r.skipped_pct == Approx(0.0));
 }
 
-TEST_CASE("added latency = pairing delay x frame + one frame", "[stats]")
+TEST_CASE("added latency = pairing delay x frame (measured on the program output)", "[stats]")
 {
 	Stats s;
 	s.add_pairing_delay(2);
@@ -55,8 +55,8 @@ TEST_CASE("added latency = pairing delay x frame + one frame", "[stats]")
 	s.add_pairing_delay(3);
 	auto r = s.readout(1000.0 / 30.0);
 	CHECK(r.pairing_delay_frames == Approx(2.0));
-	CHECK(r.added_latency_ms == Approx(100.0));
-	CHECK(r.added_latency_frames == Approx(3.0));
+	CHECK(r.added_latency_ms == Approx(66.6667));
+	CHECK(r.added_latency_frames == Approx(2.0));
 }
 
 TEST_CASE("empty window is all zero and not behind", "[stats]")

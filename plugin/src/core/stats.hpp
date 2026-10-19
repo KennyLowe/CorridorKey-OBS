@@ -17,7 +17,7 @@ struct Readout {
 	uint64_t submitted = 0;       // input frames submitted in the window
 	double skipped_pct = 0;       // skipped / submitted * 100
 	double pairing_delay_frames = 0; // median render frames from submit to display
-	double added_latency_ms = 0;  // pairing_delay x frame_ms + frame_ms
+	double added_latency_ms = 0;  // pairing_delay x frame_ms (measured: see stats.cpp)
 	double added_latency_frames = 0;
 	bool behind = false;          // worker median slower than the frame time
 };
