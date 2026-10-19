@@ -1,4 +1,4 @@
-# Installing the CorridorKey OBS filter (v0.1.0-rc.1, owner test build)
+# Installing the CorridorKey OBS filter (v0.1.0-rc.2, owner test build)
 
 This is for a **clean Windows 11 machine with an NVIDIA RTX GPU** (Ampere or newer; tested on an
 RTX 3060, target RTX A2000). Nothing from the development machine is assumed. v1 is an owner-only
@@ -50,7 +50,7 @@ Check the driver and record it: `nvidia-smi --query-gpu=name,driver_version --fo
 git clone https://github.com/KennyLowe/CorridorKey-OBS C:\git\corridorkey
 cd C:\git\corridorkey
 git fetch --tags
-git checkout v0.1.0-rc.1
+git checkout v0.1.0-rc.2
 cd bench
 .\setup.ps1
 ```
@@ -67,9 +67,9 @@ cd bench
 
 ## 3. Install the plugin
 
-1. Download `corridorkey-obs-v0.1.0-rc.1-windows-x64.zip` from the
-   [release](https://github.com/KennyLowe/CorridorKey-OBS/releases/tag/v0.1.0-rc.1) and check it:
-   `(Get-FileHash .\corridorkey-obs-v0.1.0-rc.1-windows-x64.zip -Algorithm SHA256).Hash` must equal
+1. Download `corridorkey-obs-v0.1.0-rc.2-windows-x64.zip` from the
+   [release](https://github.com/KennyLowe/CorridorKey-OBS/releases/tag/v0.1.0-rc.2) and check it:
+   `(Get-FileHash .\corridorkey-obs-v0.1.0-rc.2-windows-x64.zip -Algorithm SHA256).Hash` must equal
    the value in the `.sha256` file next to it.
 2. Unzip it, **close OBS**, and run, as Administrator:
 
