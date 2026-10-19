@@ -48,6 +48,7 @@ add_library(
   src/core/sha256.cpp
   src/core/auto_select.cpp
   src/core/helper_proto.cpp
+  src/core/calibrate.cpp
 )
 target_include_directories(ck_core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_link_libraries(ck_core PUBLIC nlohmann_json::nlohmann_json)

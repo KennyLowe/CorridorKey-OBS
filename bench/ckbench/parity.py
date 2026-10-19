@@ -106,9 +106,32 @@ def runner(out_dir: Path = PARITY_DIR / "runner", size=(512, 512), refiner=False
     return out_dir
 
 
+def calibration(out_dir: Path = PARITY_DIR / "calibration", clip_id: str = "pexels-athlete", n: int = 5) -> Path:
+    """Frames of a real clip whose fixed hint fails (001) + hint.estimate_key_colour on them."""
+    import torch
+
+    from .clips import load_manifest, normalise
+    from .frames import CLIPS_OUT, read_rgb
+    from .hint import estimate_key_colour
+
+    files = sorted((CLIPS_OUT / clip_id).glob("*.png"))
+    if not files:
+        (clip,) = [c for c in load_manifest() if c["clip_id"] == clip_id]
+        normalise(clip)
+        files = sorted((CLIPS_OUT / clip_id).glob("*.png"))
+    frames = [read_rgb(f) for f in files[::10][:n]]
+    key = estimate_key_colour(torch.from_numpy(f).permute(2, 0, 1).float() / 255.0 for f in frames)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    np.save(out_dir / "frames.npy", np.stack(frames))
+    (out_dir / "meta.json").write_text(json.dumps({"clip_id": clip_id, "key": list(key), "border_px": 32}))
+    return out_dir
+
+
 if __name__ == "__main__":
     what = sys.argv[1] if len(sys.argv) > 1 else "all"
     if what in ("kernels", "all"):
         print(f"kernel fixtures: {kernels()}")
     if what in ("runner", "all"):
         print(f"runner fixtures: {runner()}")
+    if what in ("calibration", "all"):
+        print(f"calibration fixtures: {calibration()}")

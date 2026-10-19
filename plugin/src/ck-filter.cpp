@@ -20,6 +20,7 @@ Render-thread rules (Constitution III, research D4):
 #include <util/platform.h>
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <deque>
@@ -37,6 +38,7 @@ Render-thread rules (Constitution III, research D4):
 #include "ck-log.hpp"
 #include "plugin_config.hpp"
 #include "core/auto_select.hpp"
+#include "core/calibrate.hpp"
 #include "core/state.hpp"
 #include "core/stats.hpp"
 #include "gpu/interop.hpp"
@@ -60,7 +62,7 @@ constexpr const char *kAttribution =
 struct Settings {
 	std::string model_id = "CorridorKey_v1.0";
 	bool licence_ack = false;
-	long long download_requested = 0, prepare_requested = 0;
+	long long download_requested = 0, prepare_requested = 0, calibrate_requested = 0;
 	std::string weights_path;
 	std::string quality = "auto";
 	std::string hint_mode = "fixed"; // fixed / calibrated / manual
@@ -153,6 +155,10 @@ struct Snapshot {
 	int src_w = 0, src_h = 0;
 	std::string output;
 	double last_matte_age_ms = -1;
+	bool calibrating = false;
+	std::string calibration;
+	float hint_rgb[3] = {0, 1, 0};
+	std::string hint_mode;
 };
 
 struct Filter {
@@ -197,6 +203,14 @@ struct Filter {
 
 	std::mutex snap_mu;
 	Snapshot snap;
+
+	// screen-colour calibration (render thread): 30 frames through a ring of stage surfaces
+	static constexpr int kCalFrames = 30, kCalRing = 3;
+	long long cal_seen = -1;
+	int cal_staged = 0, cal_w = 0, cal_h = 0;
+	gs_stagesurf_t *cal_stage[kCalRing] = {};
+	std::unique_ptr<Calibrator> cal;
+	std::string cal_result; // last outcome, for the status line
 };
 
 std::mutex g_reg_mu;
@@ -280,6 +294,7 @@ void read_settings(Filter *f, obs_data_t *s)
 	n.licence_ack = obs_data_get_bool(s, "licence_ack");
 	n.download_requested = obs_data_get_int(s, "download_requested");
 	n.prepare_requested = obs_data_get_int(s, "prepare_requested");
+	n.calibrate_requested = obs_data_get_int(s, "calibrate_requested");
 	if (n.licence_ack)
 		config::acknowledge_licence(n.model_id);
 	n.weights_path = obs_data_get_string(s, "weights_path");
@@ -563,6 +578,97 @@ void pipeline_step(Filter *f, gs_texture_t *src, int w, int h, double frame_ms)
 		log_state_change(f, before);
 }
 
+void destroy_calibration(Filter *f)
+{
+	for (auto &st : f->cal_stage)
+		if (st)
+			gs_stagesurface_destroy(std::exchange(st, nullptr));
+	f->cal.reset();
+}
+
+// Apply a calibrated colour to the filter's settings on OBS's UI thread.
+void apply_calibration(Filter *f, std::array<float, 3> key)
+{
+	struct Job {
+		obs_weak_source_t *weak;
+		std::array<float, 3> key;
+	};
+	auto *job = new Job{obs_source_get_weak_source(f->ctx), key};
+	obs_queue_task(
+		OBS_TASK_UI,
+		[](void *p) {
+			auto *j = static_cast<Job *>(p);
+			if (obs_source_t *src = obs_weak_source_get_source(j->weak)) {
+				obs_data_t *s = obs_source_get_settings(src);
+				float rgb[3] = {j->key[0], j->key[1], j->key[2]};
+				obs_data_set_int(s, "hint_color", color_to_obs(rgb));
+				obs_data_set_string(s, "hint_mode", "calibrated");
+				obs_source_update(src, s);
+				obs_data_release(s);
+				obs_source_release(src);
+			}
+			obs_weak_source_release(j->weak);
+			delete j;
+		},
+		job, false);
+}
+
+// One-off screen-colour calibration (research D6): the border-band median over 30 frames. The
+// frames are staged and mapped kCalRing frames later so the map doesn't wait on the GPU.
+void calibration_step(Filter *f, gs_texture_t *src, int w, int h)
+{
+	if (f->cal_seen < 0)
+		f->cal_seen = f->rs.calibrate_requested; // presses count from this session on
+	const bool auto_start = f->rs.hint_mode == "calibrated" && f->rs.hint_rgb[0] == 0.0f &&
+				f->rs.hint_rgb[1] == 1.0f && f->rs.hint_rgb[2] == 0.0f && f->cal_result.empty();
+	if (!f->cal && (f->rs.calibrate_requested != f->cal_seen || auto_start)) {
+		f->cal_seen = f->rs.calibrate_requested;
+		destroy_calibration(f);
+		f->cal = std::make_unique<Calibrator>(32);
+		f->cal_staged = 0;
+		f->cal_w = w;
+		f->cal_h = h;
+		for (auto &st : f->cal_stage)
+			st = gs_stagesurface_create(w, h, GS_RGBA);
+		log(LOG_INFO, "%s: calibrating the screen colour over %d frames", f->name.c_str(), Filter::kCalFrames);
+	}
+	if (!f->cal)
+		return;
+	if (w != f->cal_w || h != f->cal_h) {
+		destroy_calibration(f);
+		f->cal_result = "Calibration cancelled: the source size changed.";
+		return;
+	}
+	const int i = f->cal_staged;
+	if (i >= Filter::kCalRing) { // map the frame staged kCalRing frames ago
+		gs_stagesurf_t *st = f->cal_stage[i % Filter::kCalRing];
+		uint8_t *data = nullptr;
+		uint32_t ls = 0;
+		if (gs_stagesurface_map(st, &data, &ls)) {
+			f->cal->add_frame(data, w, h, ls);
+			gs_stagesurface_unmap(st);
+		}
+	}
+	if (i < Filter::kCalFrames)
+		gs_stage_texture(f->cal_stage[i % Filter::kCalRing], src);
+	f->cal_staged++;
+	if (f->cal_staged < Filter::kCalFrames + Filter::kCalRing)
+		return;
+	std::string err;
+	auto key = f->cal->key(err);
+	char buf[200];
+	if (key) {
+		snprintf(buf, sizeof(buf), "Calibrated screen colour: R %.0f G %.0f B %.0f (from %d frames)", (*key)[0] * 255,
+			 (*key)[1] * 255, (*key)[2] * 255, f->cal->frames());
+		apply_calibration(f, *key);
+	} else {
+		snprintf(buf, sizeof(buf), "Calibration failed: %s", err.c_str());
+	}
+	f->cal_result = buf;
+	log(key ? LOG_INFO : LOG_WARNING, "%s: %s", f->name.c_str(), buf);
+	destroy_calibration(f);
+}
+
 void draw(Filter *f, gs_effect_t *fx, const char *tech, gs_texture_t *image, gs_texture_t *keyed, int w, int h)
 {
 	const bool prev = gs_framebuffer_srgb_enabled();
@@ -617,7 +723,17 @@ void update_snapshot(Filter *f, double frame_ms, int w, int h, Output out)
 	s.src_h = h;
 	static const char *names[] = {"composite", "colorkey", "last_matte", "passthrough"};
 	s.output = names[(int)out];
+	s.calibrating = f->cal != nullptr;
+	s.calibration = f->cal_result;
+	s.hint_rgb[0] = f->rs.hint_rgb[0];
+	s.hint_rgb[1] = f->rs.hint_rgb[1];
+	s.hint_rgb[2] = f->rs.hint_rgb[2];
+	s.hint_mode = f->rs.hint_mode;
 	s.status_text = state_text(*f, s);
+	if (s.calibrating)
+		s.status_text += "\nCalibrating the screen colour\xE2\x80\xA6";
+	else if (!f->cal_result.empty())
+		s.status_text += "\n" + f->cal_result;
 	if (summary) {
 		f->last_summary_ns = now;
 		log(LOG_INFO,
@@ -662,6 +778,7 @@ void filter_render(void *data, gs_effect_t *)
 		}
 		sync_worker_status(f);
 		pipeline_step(f, src, (int)w, (int)h, frame_ms);
+		calibration_step(f, src, (int)w, (int)h);
 	} else {
 		src = gs_texrender_get_texture(f->tr);
 	}
@@ -707,6 +824,7 @@ void filter_defaults(obs_data_t *s)
 	obs_data_set_default_bool(s, "licence_ack", false);
 	obs_data_set_default_int(s, "download_requested", 0);
 	obs_data_set_default_int(s, "prepare_requested", 0);
+	obs_data_set_default_int(s, "calibrate_requested", 0);
 	obs_data_set_default_string(s, "weights_path", default_weights_path("CorridorKey_v1.0").c_str());
 	obs_data_set_default_string(s, "quality", "auto");
 	obs_data_set_default_string(s, "hint_mode", "fixed");
@@ -788,6 +906,7 @@ void filter_destroy(void *data)
 	if (f->worker)
 		f->worker->stop();
 	obs_enter_graphics();
+	destroy_calibration(f);
 	destroy_textures(f);
 	if (f->copy_stream)
 		cudaStreamDestroy(f->copy_stream);
@@ -838,6 +957,12 @@ bool download_clicked(obs_properties_t *, obs_property_t *, void *data)
 		std::string id = obs_data_get_string(s, "model_id");
 		obs_data_set_string(s, "weights_path", default_weights_path(id.empty() ? "CorridorKey_v1.0" : id).c_str());
 	});
+	return true;
+}
+
+bool calibrate_clicked(obs_properties_t *, obs_property_t *, void *data)
+{
+	bump(static_cast<Filter *>(data), "calibrate_requested");
 	return true;
 }
 
@@ -915,8 +1040,9 @@ obs_properties_t *filter_properties(void *data)
 	obs_property_t *hm = obs_properties_add_list(hint, "hint_mode", "Screen colour", OBS_COMBO_TYPE_LIST,
 						     OBS_COMBO_FORMAT_STRING);
 	obs_property_list_add_string(hm, "Fixed green (default key)", "fixed");
-	obs_property_list_add_string(hm, "Auto-calibrated", "calibrated");
+	obs_property_list_add_string(hm, "Auto-calibrate", "calibrated");
 	obs_property_list_add_string(hm, "Manual", "manual");
+	obs_properties_add_button(hint, "calibrate", "Calibrate now (samples the frame border)", calibrate_clicked);
 	obs_properties_add_color(hint, "hint_color", "Screen colour");
 	obs_properties_add_float_slider(hint, "hint_lo", "Low threshold", 0.0, 1.0, 0.01);
 	obs_properties_add_float_slider(hint, "hint_hi", "High threshold", 0.0, 1.0, 0.01);
@@ -1020,6 +1146,12 @@ void ws_get_status(obs_data_t *req, obs_data_t *resp, void *)
 	obs_data_set_bool(resp, "preparingInBackground", s.worker.preparing_in_background);
 	obs_data_set_string(resp, "preparingQuality", s.worker.preparing_quality.c_str());
 	obs_data_set_int(resp, "workerProgress", s.worker.progress);
+	obs_data_set_bool(resp, "calibrating", s.calibrating);
+	obs_data_set_string(resp, "calibration", s.calibration.c_str());
+	obs_data_set_string(resp, "hintMode", s.hint_mode.c_str());
+	obs_data_set_double(resp, "hintR", s.hint_rgb[0]);
+	obs_data_set_double(resp, "hintG", s.hint_rgb[1]);
+	obs_data_set_double(resp, "hintB", s.hint_rgb[2]);
 	obs_data_set_int(resp, "sourceWidth", s.src_w);
 	obs_data_set_int(resp, "sourceHeight", s.src_h);
 }

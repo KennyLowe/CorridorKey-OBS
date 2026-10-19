@@ -26,7 +26,7 @@ try {
         # GPU tests compare against fixtures computed by the feature 001 Python (git-ignored).
         $repo = Split-Path -Parent $root
         $parity = Join-Path $repo 'outputs\parity'
-        if (-not (Test-Path (Join-Path $parity 'kernels\meta.json')) -or -not (Test-Path (Join-Path $parity 'runner\meta.json'))) {
+        if (-not (Test-Path (Join-Path $parity 'kernels\meta.json')) -or -not (Test-Path (Join-Path $parity 'runner\meta.json')) -or -not (Test-Path (Join-Path $parity 'calibration\meta.json'))) {
             & uv run --project (Join-Path $repo 'bench') python -m ckbench.parity all
             if ($LASTEXITCODE) { throw "parity fixtures failed ($LASTEXITCODE)" }
         }

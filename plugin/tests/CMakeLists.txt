@@ -11,9 +11,10 @@ add_executable(
   unit/test_cache_key.cpp
   unit/test_auto_select.cpp
   unit/test_helper_proto.cpp
+  unit/test_calibrate.cpp
 )
 target_link_libraries(ck_unit_tests PRIVATE ck_core Catch2::Catch2WithMain)
-target_compile_definitions(ck_unit_tests PRIVATE CK_TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/data")
+target_compile_definitions(ck_unit_tests PRIVATE CK_TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/data" CK_REPO_ROOT="${CMAKE_SOURCE_DIR}/..")
 catch_discover_tests(ck_unit_tests TEST_PREFIX "unit:" DISCOVERY_MODE PRE_TEST PROPERTIES TIMEOUT 60)
 
 add_executable(ck_gpu_tests gpu/test_gpu_smoke.cpp gpu/test_kernels.cpp gpu/test_trt_runner.cpp gpu/test_interop.cpp)
