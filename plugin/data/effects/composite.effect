@@ -38,12 +38,42 @@ float4 PSLastMatte(VertData v_in) : TARGET
 	return float4(s.rgb, s.a * keyed.Sample(pointSampler, v_in.uv).a);
 }
 
+// "Use source colour": the matte comes from the model, the colour from the live frame, so detail is
+// full-resolution. Green is clamped to the larger of red/blue (light despill). Where the live pixel
+// still shows screen spill (fine hair mixed with the screen), the clamp alone leaves an olive tint, so
+// the model's unmixed colour is used there, scaled to the live pixel's despilled luminance to keep the
+// strand detail. Where alpha is partial the model's foreground takes over, as the live frame is still
+// mixed with the screen.
+float4 PSCompositeSource(VertData v_in) : TARGET
+{
+	float4 k = keyed.Sample(pointSampler, v_in.uv);
+	float3 live = image.Sample(pointSampler, v_in.uv).rgb;
+	float3 c = live;
+	c.g = min(c.g, max(c.r, c.b));
+	float3 luma = float3(0.2126, 0.7152, 0.0722);
+	float gain = min(dot(c, luma) / max(dot(k.rgb, luma), 0.001), 2.0);
+	float3 unmixed = saturate(k.rgb * gain);
+	float spill = saturate(8.0 * (live.g - max(live.r, live.b)));
+	float3 col = lerp(c, unmixed, spill);
+	float edge = saturate(4.0 * k.a * (1.0 - k.a));
+	return float4(lerp(col, k.rgb, edge), k.a);
+}
+
 technique Draw
 {
 	pass
 	{
 		vertex_shader = VSDefault(v_in);
 		pixel_shader  = PSComposite(v_in);
+	}
+}
+
+technique DrawSource
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader  = PSCompositeSource(v_in);
 	}
 }
 

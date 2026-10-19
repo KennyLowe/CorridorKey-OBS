@@ -1,4 +1,4 @@
-# Installing the CorridorKey OBS filter (v0.1.0-rc.2, owner test build)
+# Installing the CorridorKey OBS filter (v0.1.0-rc.3, owner test build)
 
 This is for a **clean Windows 11 machine with an NVIDIA RTX GPU** (Ampere or newer; tested on an
 RTX 3060, target RTX A2000). Nothing from the development machine is assumed. v1 is an owner-only
@@ -50,7 +50,7 @@ Check the driver and record it: `nvidia-smi --query-gpu=name,driver_version --fo
 git clone https://github.com/KennyLowe/CorridorKey-OBS C:\git\corridorkey
 cd C:\git\corridorkey
 git fetch --tags
-git checkout v0.1.0-rc.2
+git checkout v0.1.0-rc.3
 cd bench
 .\setup.ps1
 ```
@@ -67,9 +67,9 @@ cd bench
 
 ## 3. Install the plugin
 
-1. Download `corridorkey-obs-v0.1.0-rc.2-windows-x64.zip` from the
-   [release](https://github.com/KennyLowe/CorridorKey-OBS/releases/tag/v0.1.0-rc.2) and check it:
-   `(Get-FileHash .\corridorkey-obs-v0.1.0-rc.2-windows-x64.zip -Algorithm SHA256).Hash` must equal
+1. Download `corridorkey-obs-v0.1.0-rc.3-windows-x64.zip` from the
+   [release](https://github.com/KennyLowe/CorridorKey-OBS/releases/tag/v0.1.0-rc.3) and check it:
+   `(Get-FileHash .\corridorkey-obs-v0.1.0-rc.3-windows-x64.zip -Algorithm SHA256).Hash` must equal
    the value in the `.sha256` file next to it.
 2. Unzip it, **close OBS**, and run, as Administrator:
 
@@ -106,9 +106,16 @@ The zip has no weights, ONNX files, engines, TensorRT or CUDA DLLs, and no foota
 
 **Quality.** *Auto* picks the best setting measured for your GPU and the source's mode (for
 example, 1080p30 on an RTX 3060 → 1024×576). It never picks an unprepared setting: it runs the best
-prepared one and offers the better one; *Prepare selected* builds it. Until the A2000 benchmark
-results are in `perf-table.json`, Auto treats the A2000 as an unmeasured GPU and uses the fastest
+prepared one and offers the better one; *Prepare selected* builds it. The RTX A2000 12GB is
+measured too (1080p30 → 768×448); any other GPU counts as unmeasured, and Auto uses the fastest
 setting (512×512) with a warning. Pick a setting by hand to override it.
+
+**Use source colour** (off by default). The model's colour is only as sharp as its internal size,
+enlarged to the source, so at 512 or 768×448 the picture looks soft. Ticked, the matte still comes
+from the model, but the colour comes from the live frame at full resolution. Green spill is clamped,
+and fine hair still mixed with the screen takes the model's colour at the live brightness. The
+trade-off: the matte is about one frame older than the colour, so on fast movement the outline can
+trail slightly.
 
 **Screen colour.** The default (*Fixed green*) is the hint the spike used. If the key is poor (for
 example on dim or unevenly lit screens), choose *Auto-calibrate* or press **Calibrate now**. It
