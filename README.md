@@ -3,9 +3,22 @@
 Live neural green-screen keying for [OBS Studio](https://obsproject.com/), built on
 [CorridorKey](https://github.com/nikopueringer/CorridorKey) by Niko Pueringer / Corridor Digital.
 
-> **Status: feasibility spike.** CorridorKey was designed for offline VFX work. This project is
-> first measuring whether it can run fast enough for live video on consumer and workstation
-> NVIDIA GPUs (RTX 3060 / RTX A2000). An OBS plugin will only be built if the benchmarks pass.
+> **Status: feasibility spike complete. Verdict: CONDITIONAL-GO.** CorridorKey was designed for
+> offline VFX work. The spike measured whether it can key live video on an RTX 3060, with a
+> TensorRT fp16 engine and a concurrent 1080p30 NVENC encode:
+>
+> - **1080p30 gate not met.** The gate needs ≤ 20 ms/frame with both internal sides ≥ 768. The best
+>   eligible configuration (768×768) takes 32.8 ms p95.
+> - **1080p30 is still sustained** without that headroom: 1024×576 internal, 30.1 ms p95 end-to-end
+>   (33.3 ms budget).
+> - **Supported live modes on the RTX 3060:** 720p20 through 2160p30, with smaller internal sizes
+>   for the faster modes. 2160p60 is not supported.
+> - **RTX A2000:** not measured. The *estimate* supports up to 1080p30 at 768×448, which must be
+>   confirmed on the card.
+>
+> Full report, numbers and method:
+> [`bench/results/20261016T221252Z-c16425/REPORT.md`](bench/results/20261016T221252Z-c16425/REPORT.md).
+> The harness is in [`bench/`](bench/). It reproduces the results on any NVIDIA GPU, including the A2000.
 
 ## Goals
 

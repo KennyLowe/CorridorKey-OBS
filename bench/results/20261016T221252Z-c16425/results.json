@@ -5961,7 +5961,9 @@
     ],
     "deviations": [
       "Encode-load liveness check: the first load pass verified the encode by requiring NVML encoder utilisation > 0 in 5 samples over 1 s; a real-time 1080p30 encode keeps NVENC only ~7-14% busy and the counter often reads 0, so 4 configuration x camera entries were wrongly recorded as not_attempted. The check now uses NVML encoder session statistics (an active session) and those 4 entries were re-measured; the other load entries ran with the encode alive and are unchanged."
-    ]
+    ],
+    "reproducibility": "Re-run from a clean setup on 2026-10-19 (deleted bench/.venv, bench/vendor and outputs/; ran setup.ps1, which re-cloned CorridorKey at the pinned SHA, re-downloaded the weights (same sha256) and re-created the environment in 44 s from uv's cache; rebuilt the TensorRT engine for the deciding configuration only; re-ran `speed` for it idle and under the NVENC load at 1080p, run `20261019T091842Z-40cab3`). The table format is identical and every median agrees within 10% (PASS): trt-fp16-1024x576-ref0-idle model median 22.6 -> 23.0 ms (+1.7%); trt-fp16-1024x576-ref0-idle e2e median 28.6 -> 29.1 ms (+1.8%); trt-fp16-1024x576-ref0-idle e2e p95 (worst run) 29.4 -> 30.5 ms; trt-fp16-1024x576-ref0-nvenc1080p30 model median 23.1 -> 23.5 ms (+1.5%); trt-fp16-1024x576-ref0-nvenc1080p30 e2e median 29.3 -> 29.9 ms (+2.0%); trt-fp16-1024x576-ref0-nvenc1080p30 e2e p95 (worst run) 30.1 -> 31.5 ms.",
+    "schedule": "Implementation started 2026-10-16 and the report was completed on 2026-10-19, within the 5-working-day limit."
   },
   "exports": [
     {

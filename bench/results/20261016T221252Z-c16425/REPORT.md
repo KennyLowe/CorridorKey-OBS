@@ -339,6 +339,14 @@ Estimated delay the keyer adds = measured end-to-end median + one frame of queue
 | weights_sha256 | 74d614f7d92fc559a118c30a7deadedc3cacd8ef83dcb85a030d0bed7af8b20b |
 | packages | torch 2.8.0+cu128, torchvision 0.23.0+cu128, timm 1.0.26, safetensors 0.7.0, onnx 1.23.2, tensorrt-cu12 10.16.1.11, tensorrt-cu12-libs 10.16.1.11, tensorrt-cu12-bindings 10.16.1.11, nvidia-ml-py 13.615.71, numpy 2.4.2, opencv-python-headless 4.13.0.92, jsonschema 4.26.0, psutil 7.2.2, pytest 9.1.1 |
 
+## Reproducibility (SC-005)
+
+Re-run from a clean setup on 2026-10-19 (deleted bench/.venv, bench/vendor and outputs/; ran setup.ps1, which re-cloned CorridorKey at the pinned SHA, re-downloaded the weights (same sha256) and re-created the environment in 44 s from uv's cache; rebuilt the TensorRT engine for the deciding configuration only; re-ran `speed` for it idle and under the NVENC load at 1080p, run `20261019T091842Z-40cab3`). The table format is identical and every median agrees within 10% (PASS): trt-fp16-1024x576-ref0-idle model median 22.6 -> 23.0 ms (+1.7%); trt-fp16-1024x576-ref0-idle e2e median 28.6 -> 29.1 ms (+1.8%); trt-fp16-1024x576-ref0-idle e2e p95 (worst run) 29.4 -> 30.5 ms; trt-fp16-1024x576-ref0-nvenc1080p30 model median 23.1 -> 23.5 ms (+1.5%); trt-fp16-1024x576-ref0-nvenc1080p30 e2e median 29.3 -> 29.9 ms (+2.0%); trt-fp16-1024x576-ref0-nvenc1080p30 e2e p95 (worst run) 30.1 -> 31.5 ms.
+
+## Schedule (SC-006)
+
+Implementation started 2026-10-16 and the report was completed on 2026-10-19, within the 5-working-day limit.
+
 ## Deviations from the plan
 
 - TensorRT 10.16.1.11 instead of the newest 11.x: TensorRT 11 removed the weakly-typed `BuilderFlag.FP16` build the plan specifies (only strongly-typed networks remain).
