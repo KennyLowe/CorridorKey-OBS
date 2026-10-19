@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "corridorkey-obs perf table",
+  "type": "object",
+  "required": ["schema_version", "generated_from", "gpus"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "generated_from": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "gpus": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gpu_name", "driver", "run_id", "modes"],
+        "properties": {
+          "gpu_name": { "type": "string" },
+          "driver": { "type": "string" },
+          "run_id": { "type": "string" },
+          "modes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["mode_id", "budget_ms", "configs"],
+              "properties": {
+                "mode_id": { "enum": ["720p20", "720p30", "1080p30", "1080p60", "2160p30", "2160p60"] },
+                "budget_ms": { "type": "number" },
+                "configs": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["quality", "p95_ms_load", "fits"],
+                    "properties": {
+                      "quality": { "enum": ["512_r0", "512_r1", "768x448_r0", "768x448_r1", "768_r0", "768_r1", "1024x576_r0", "1024x576_r1", "1024_r0", "1024_r1"] },
+                      "p95_ms_load": { "type": "number" },
+                      "fits": { "type": "boolean" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -242,6 +242,28 @@ def cmd_all(args) -> int:
     return worst
 
 
+def cmd_prepare(args) -> int:
+    """Feature 002: one engine for the OBS plugin (contracts/prepare-cli.md)."""
+    from . import prepare as P
+
+    w, h = _sizes(args.size)[0]
+    emit = P.json_emitter() if args.json else P.text_emitter
+    return P.prepare(args.weights, w, h, bool(int(args.refiner)), args.cache_dir or str(P.DEFAULT_CACHE), emit,
+                     prune=args.prune)
+
+
+def cmd_perf_table(args) -> int:
+    """Feature 002: committed results -> plugin/data/perf-table.json (the plugin's Auto table)."""
+    from . import perftable as PT
+
+    t = PT.build_table(PT.load_runs(_csv(args.runs) if args.runs else None))
+    p = PT.write(t, args.out or PT.DEFAULT_OUT)
+    for g in t["gpus"]:
+        print(f"{g['gpu_name']} (driver {g['driver']}, run {g['run_id']}): {len(g['modes'])} modes")
+    print(f"perf table: {p}")
+    return EXIT_OK
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="ckbench", description="CorridorKey live-keying feasibility benchmark")
     p.add_argument("--run-id", help="results run id (default: latest)")
@@ -291,6 +313,20 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("report", help="envelope + verdict + REPORT.md")
     s.add_argument("--allow-pending", action="store_true")
     s.set_defaults(fn=cmd_report)
+
+    s = sub.add_parser("prepare", help="weights -> ONNX -> TensorRT engine for the OBS plugin, cached")
+    s.add_argument("--weights", required=True, help="CorridorKey .safetensors file")
+    s.add_argument("--size", required=True, help="internal size, e.g. 1024x576 or 512")
+    s.add_argument("--refiner", default="0", choices=["0", "1"])
+    s.add_argument("--cache-dir", default=None, help=r"default: %%LOCALAPPDATA%%\corridorkey-obs\engines")
+    s.add_argument("--json", action="store_true", help="JSON-lines progress on stdout (for the plugin)")
+    s.add_argument("--prune", action="store_true", help="remove engines built for another GPU/driver/TensorRT")
+    s.set_defaults(fn=cmd_prepare)
+
+    s = sub.add_parser("perf-table", help="committed results -> plugin/data/perf-table.json")
+    s.add_argument("--runs", default=None, help="comma-separated run ids (default: every committed run)")
+    s.add_argument("--out", default=None)
+    s.set_defaults(fn=cmd_perf_table)
 
     s = sub.add_parser("all", help="env -> clips -> export -> speed -> quality -> report (draft)")
     s.add_argument("--sizes", default="512,768,1024,2048")

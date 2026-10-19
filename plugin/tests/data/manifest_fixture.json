@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "entries": [
+    {
+      "key": "12a5b6076e3cf1ebd65acf2baf4679580dec8f63482848cbe874c31c61272a98",
+      "gpu_uuid": "GPU-0763dee5-2e3a-a1b2-955d-4600c81fd6c0",
+      "driver_version": "576.80",
+      "trt_version": "10.16.1.11",
+      "weights_sha256": "abababababababababababababababababababababababababababababababab",
+      "internal_w": 1024,
+      "internal_h": 576,
+      "refiner": false,
+      "engine_path": "C:\\cache\\engines\\12a5b6076e3cf1eb\\ck_1024x576_ref0.engine",
+      "onnx_path": "C:\\cache\\engines\\12a5b6076e3cf1eb\\ck_1024x576_ref0.onnx",
+      "created": "2026-10-19T12:00:00+00:00",
+      "build_s": 312.4,
+      "gpu_name": "NVIDIA GeForce RTX 3060"
+    }
+  ]
+}

@@ -27,6 +27,16 @@ find_package(CUDAToolkit 12.9 REQUIRED)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 find_package(TensorRT 10.16 REQUIRED)
 
+# ---------------------------------------------------------------- third party (licences checked)
+# nlohmann/json 3.12.0, MIT licence (GPL-compatible), header-only.
+include(FetchContent)
+FetchContent_Declare(
+  nlohmann_json
+  URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
+  URL_HASH SHA256=42f6e95cad6ec532fd372391373363b62a14af6d771056dbfc86160e6dfff7aa
+)
+FetchContent_MakeAvailable(nlohmann_json)
+
 # ---------------------------------------------------------------- ck_core: pure C++, no OBS/CUDA
 add_library(
   ck_core
@@ -36,12 +46,10 @@ add_library(
   src/core/stats.cpp
   src/core/cache_key.cpp
   src/core/sha256.cpp
-  src/core/json.cpp
   src/core/auto_select.cpp
-  src/core/calibrate.cpp
-  src/core/prepare_proto.cpp
 )
 target_include_directories(ck_core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_link_libraries(ck_core PUBLIC nlohmann_json::nlohmann_json)
 
 # ---------------------------------------------------------------- ck_gpu: CUDA kernels, TensorRT, D3D11 interop
 add_library(
@@ -94,7 +102,6 @@ set_target_properties_plugin(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_nam
 
 # ---------------------------------------------------------------- tests
 if(CK_BUILD_TESTS)
-  include(FetchContent)
   FetchContent_Declare(
     Catch2
     GIT_REPOSITORY https://github.com/catchorg/Catch2.git

@@ -23,6 +23,13 @@ try {
     & $cmake --build --preset windows-x64 --config $Config
     if ($LASTEXITCODE) { throw "build failed ($LASTEXITCODE)" }
     if (-not $NoTest) {
+        # GPU tests compare against fixtures computed by the feature 001 Python (git-ignored).
+        $repo = Split-Path -Parent $root
+        $parity = Join-Path $repo 'outputs\parity'
+        if (-not (Test-Path (Join-Path $parity 'kernels\meta.json')) -or -not (Test-Path (Join-Path $parity 'runner\meta.json'))) {
+            & uv run --project (Join-Path $repo 'bench') python -m ckbench.parity all
+            if ($LASTEXITCODE) { throw "parity fixtures failed ($LASTEXITCODE)" }
+        }
         & $ctest --preset windows-x64 -C $Config
         if ($LASTEXITCODE) { throw "tests failed ($LASTEXITCODE)" }
     }

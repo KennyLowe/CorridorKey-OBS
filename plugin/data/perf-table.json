@@ -1,0 +1,321 @@
+{
+  "schema_version": "1.0",
+  "generated_from": [
+    "20261016T221252Z-c16425"
+  ],
+  "gpus": [
+    {
+      "gpu_name": "NVIDIA GeForce RTX 3060",
+      "driver": "576.80",
+      "run_id": "20261016T221252Z-c16425",
+      "modes": [
+        {
+          "mode_id": "720p20",
+          "budget_ms": 50.0,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 14.18,
+              "fits": true
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 27.87,
+              "fits": true
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 17.36,
+              "fits": true
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 28.29,
+              "fits": true
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 27.7,
+              "fits": true
+            },
+            {
+              "quality": "768_r1",
+              "p95_ms_load": 47.26,
+              "fits": true
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 27.7,
+              "fits": true
+            },
+            {
+              "quality": "1024x576_r1",
+              "p95_ms_load": 50.6,
+              "fits": false
+            },
+            {
+              "quality": "1024_r0",
+              "p95_ms_load": 51.69,
+              "fits": false
+            }
+          ]
+        },
+        {
+          "mode_id": "720p30",
+          "budget_ms": 33.333333333333336,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 14.18,
+              "fits": true
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 27.87,
+              "fits": true
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 17.36,
+              "fits": true
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 28.29,
+              "fits": true
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 27.7,
+              "fits": true
+            },
+            {
+              "quality": "768_r1",
+              "p95_ms_load": 47.26,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 27.7,
+              "fits": true
+            },
+            {
+              "quality": "1024x576_r1",
+              "p95_ms_load": 50.6,
+              "fits": false
+            },
+            {
+              "quality": "1024_r0",
+              "p95_ms_load": 51.69,
+              "fits": false
+            }
+          ]
+        },
+        {
+          "mode_id": "1080p30",
+          "budget_ms": 33.333333333333336,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 15.7,
+              "fits": true
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 28.09,
+              "fits": true
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 19.46,
+              "fits": true
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 30.57,
+              "fits": true
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 32.78,
+              "fits": true
+            },
+            {
+              "quality": "768_r1",
+              "p95_ms_load": 49.66,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 30.12,
+              "fits": true
+            },
+            {
+              "quality": "1024x576_r1",
+              "p95_ms_load": 49.35,
+              "fits": false
+            },
+            {
+              "quality": "1024_r0",
+              "p95_ms_load": 54.1,
+              "fits": false
+            }
+          ]
+        },
+        {
+          "mode_id": "1080p60",
+          "budget_ms": 16.666666666666668,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 15.7,
+              "fits": true
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 28.09,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 19.46,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 30.57,
+              "fits": false
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 32.78,
+              "fits": false
+            },
+            {
+              "quality": "768_r1",
+              "p95_ms_load": 49.66,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 30.12,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r1",
+              "p95_ms_load": 49.35,
+              "fits": false
+            },
+            {
+              "quality": "1024_r0",
+              "p95_ms_load": 54.1,
+              "fits": false
+            }
+          ]
+        },
+        {
+          "mode_id": "2160p30",
+          "budget_ms": 33.333333333333336,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 32.07,
+              "fits": true
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 42.17,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 34.96,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 46.03,
+              "fits": false
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 46.03,
+              "fits": false
+            },
+            {
+              "quality": "768_r1",
+              "p95_ms_load": 64.27,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 45.0,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r1",
+              "p95_ms_load": 63.97,
+              "fits": false
+            },
+            {
+              "quality": "1024_r0",
+              "p95_ms_load": 68.64,
+              "fits": false
+            }
+          ]
+        },
+        {
+          "mode_id": "2160p60",
+          "budget_ms": 16.666666666666668,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 32.07,
+              "fits": false
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 42.17,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 34.96,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 46.03,
+              "fits": false
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 46.03,
+              "fits": false
+            },
+            {
+              "quality": "768_r1",
+              "p95_ms_load": 64.27,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 45.0,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r1",
+              "p95_ms_load": 63.97,
+              "fits": false
+            },
+            {
+              "quality": "1024_r0",
+              "p95_ms_load": 68.64,
+              "fits": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
