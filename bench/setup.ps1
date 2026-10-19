@@ -29,6 +29,9 @@ $CkDir    = Join-Path $Vendor 'CorridorKey'
 $CkptDir  = Join-Path $CkDir 'CorridorKeyModule\checkpoints'
 $Weights  = Join-Path $CkptDir $WeightsFile
 
+# Downloads/clones that survive corporate networks (revocation-check failures, TLS inspection).
+. (Join-Path $PSScriptRoot 'setup-net.ps1')
+
 function Step($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
 function Warn($msg) { Write-Host "WARNING: $msg" -ForegroundColor Yellow }
 
@@ -36,12 +39,12 @@ function Warn($msg) { Write-Host "WARNING: $msg" -ForegroundColor Yellow }
 Step "CorridorKey @ $CorridorKeySha"
 if (-not (Test-Path (Join-Path $CkDir '.git'))) {
     New-Item -ItemType Directory -Force $Vendor | Out-Null
-    git clone --quiet $CorridorKeyRepo $CkDir
-    if ($LASTEXITCODE -ne 0) { throw 'git clone failed' }
+    Invoke-GitNet clone --quiet $CorridorKeyRepo $CkDir | Out-Null
 }
 $head = (git -C $CkDir rev-parse HEAD).Trim()
 if ($head -ne $CorridorKeySha) {
-    git -C $CkDir fetch --quiet origin
+    Push-Location $CkDir
+    try { Invoke-GitNet fetch --quiet origin | Out-Null } finally { Pop-Location }
     git -C $CkDir checkout --quiet $CorridorKeySha
     if ($LASTEXITCODE -ne 0) { throw "could not check out $CorridorKeySha" }
 }
@@ -52,15 +55,8 @@ Step "Weights $WeightsFile"
 New-Item -ItemType Directory -Force $CkptDir | Out-Null
 if (-not (Test-Path $Weights)) {
     $url = "https://huggingface.co/$HfRepo/resolve/$HfRevision/$WeightsFile"
-    Write-Host "    downloading $url"
-    curl.exe -L --fail --silent --show-error -o "$Weights.part" $url
-    if ($LASTEXITCODE -ne 0) { throw 'weights download failed' }
-    $sha = (Get-FileHash -Algorithm SHA256 "$Weights.part").Hash.ToLower()
-    if ($sha -ne $Model.sha256) {
-        Remove-Item -Force "$Weights.part"
-        throw "weights sha256 $sha does not match the manifest ($($Model.sha256)); the download was deleted"
-    }
-    Move-Item -Force "$Weights.part" $Weights
+    Write-Host "    downloading $url (about $([math]::Round($Model.size / 1MB)) MB)"
+    Get-VerifiedFile -Url $url -Out $Weights -Sha256 $Model.sha256
 }
 $sha = (Get-FileHash -Algorithm SHA256 $Weights).Hash.ToLower()
 if ($sha -ne $Model.sha256) { throw "weights at $Weights have sha256 $sha, the manifest pins $($Model.sha256)" }
@@ -70,8 +66,7 @@ Write-Host "    sha256: $sha (matches models\manifest.json)"
 Step 'uv sync'
 Push-Location $Bench
 try {
-    uv sync
-    if ($LASTEXITCODE -ne 0) { throw 'uv sync failed' }
+    Invoke-UvSync
 
     # 4. CUDA
     Step 'CUDA check'
