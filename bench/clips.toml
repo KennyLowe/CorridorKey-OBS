@@ -19,6 +19,7 @@
 
 [[clip]]
 clip_id = "pexels-athlete"
+sha256 = "6f7ce28d41012a6bc40f902a29847dd2095d07fe17fc0f830790a9b48ef05603"  # file as downloaded on 2026-10-16 (warn-only check)
 hint = "calibrated"
 focus = "motion"
 page_url = "https://www.pexels.com/video/dynamic-athlete-in-action-against-green-screen-31916831/"
@@ -33,6 +34,7 @@ commit_stills_allowed = true
 
 [[clip]]
 clip_id = "pexels-dance"
+sha256 = "71e2c2b29bd56c6ab464cbff08653179279f5b0dc23e1c8e1281119671a41172"  # file as downloaded on 2026-10-16 (warn-only check)
 hint = "calibrated"
 focus = "motion"
 page_url = "https://www.pexels.com/video/expressive-dance-on-minimalist-green-screen-31916827/"
@@ -47,6 +49,7 @@ commit_stills_allowed = true
 
 [[clip]]
 clip_id = "pixabay-hair"
+sha256 = "7ff23da97f3d178c9ddcaea70787c1f58bbe361e9b9fc6771577f067f7ae1119"  # file as downloaded on 2026-10-16 (warn-only check)
 focus = "hair"
 page_url = "https://pixabay.com/videos/man-hair-green-screen-chroma-key-190965/"
 # Pixabay's page is behind a bot check; this is the direct CDN file the page links ("large").

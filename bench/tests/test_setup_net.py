@@ -125,3 +125,21 @@ def test_uv_sync_other_failure_is_not_retried(tmp_path):
     exe = fake(tmp_path, "uv", "echo error: No solution found 1>&2\nexit /b 1\n")
     r = ps(f"Invoke-UvSync -UvExe '{exe}'", tmp_path)
     assert r.returncode != 0 and "UV_SYSTEM_CERTS" not in r.stdout
+
+
+def test_git_head_dubious_ownership_prints_the_fix(tmp_path):
+    exe = fake(tmp_path, "git", """
+        echo fatal: detected dubious ownership in repository at 'C:/git/corridorkey/bench/vendor/CorridorKey' 1>&2
+        echo To add an exception for this directory, call: 1>&2
+        exit /b 128
+    """)
+    r = ps(f"Get-GitHead -Dir '{tmp_path}' -GitExe '{exe}'", tmp_path)
+    out = r.stdout + r.stderr
+    assert r.returncode != 0
+    assert "git config --global --add safe.directory C:/git/corridorkey/bench/vendor/CorridorKey" in out
+
+
+def test_git_head_ok(tmp_path):
+    exe = fake(tmp_path, "git", "echo 97e55a453060745bead1befd293f6e523c4b845c\nexit /b 0\n")
+    r = ps(f"Get-GitHead -Dir '{tmp_path}' -GitExe '{exe}'", tmp_path)
+    assert r.returncode == 0 and "97e55a453060745bead1befd293f6e523c4b845c" in r.stdout

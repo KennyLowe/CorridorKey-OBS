@@ -201,11 +201,12 @@ def cmd_report(args) -> int:
     from .report import pending_candidates, render
 
     doc = _load_doc(args)
+    qfrom = R.load(args.quality_from) if getattr(args, "quality_from", None) else None
     pend = pending_candidates(doc)
     if pend and not args.allow_pending:
         raise Precondition(f"{len(pend)} candidate quality reviews are pending (e.g. {pend[0]}); record them "
                            "with `ckbench review` or use --allow-pending for a draft")
-    text, v, env, lat = render(doc, args.allow_pending)
+    text, v, env, lat = render(doc, args.allow_pending, quality_from=qfrom)
     doc["envelope"], doc["verdict"], doc["latency"] = env, v, lat
     R.save(doc)
     p = R.run_dir(doc["environment"]["run_id"]) / "REPORT.md"
@@ -220,6 +221,7 @@ def cmd_all(args) -> int:
         return argparse.Namespace(run_id=None, **kw)
 
     rc = cmd_env(ns(new_run=True))
+    speed_only = getattr(args, "speed_only", False)
     if rc:
         return rc
     worst = EXIT_OK
@@ -234,6 +236,8 @@ def cmd_all(args) -> int:
         (cmd_quality, dict(configs=None, clips=args.clips)),
         (cmd_report, dict(allow_pending=True)),
     ]
+    if speed_only:  # corporate networks that block the public clips (issue #2): no clips, no quality
+        steps = [s for s in steps if s[0] not in (cmd_clips, cmd_quality)]
     for fn, kw in steps:
         print(f"== ckbench all: {fn.__name__[4:]}", flush=True)
         rc = fn(ns(**kw))
@@ -330,6 +334,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     s = sub.add_parser("report", help="envelope + verdict + REPORT.md")
     s.add_argument("--allow-pending", action="store_true")
+    s.add_argument("--quality-from", default=None,
+                   help="borrow owner quality verdicts by configuration from another run (speed-only runs)")
     s.set_defaults(fn=cmd_report)
 
     s = sub.add_parser("prepare", help="weights -> ONNX -> TensorRT engine for the OBS plugin, cached")
@@ -367,6 +373,8 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--runs", type=int, default=3)
     s.add_argument("--frames", type=int, default=300)
     s.add_argument("--warmup", type=int, default=50)
+    s.add_argument("--speed-only", action="store_true",
+                   help="skip clips and quality (e.g. a network that blocks the public clips)")
     s.set_defaults(fn=cmd_all)
     return p
 

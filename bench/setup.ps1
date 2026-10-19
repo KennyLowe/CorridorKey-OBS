@@ -41,14 +41,14 @@ if (-not (Test-Path (Join-Path $CkDir '.git'))) {
     New-Item -ItemType Directory -Force $Vendor | Out-Null
     Invoke-GitNet clone --quiet $CorridorKeyRepo $CkDir | Out-Null
 }
-$head = (git -C $CkDir rev-parse HEAD).Trim()
+$head = Get-GitHead -Dir $CkDir
 if ($head -ne $CorridorKeySha) {
     Push-Location $CkDir
     try { Invoke-GitNet fetch --quiet origin | Out-Null } finally { Pop-Location }
     git -C $CkDir checkout --quiet $CorridorKeySha
     if ($LASTEXITCODE -ne 0) { throw "could not check out $CorridorKeySha" }
 }
-Write-Host "    CorridorKey SHA: $((git -C $CkDir rev-parse HEAD).Trim())"
+Write-Host "    CorridorKey SHA: $(Get-GitHead -Dir $CkDir)"
 
 # 2. Weights (official source; licence CC BY-NC-SA 4.0; never committed)
 Step "Weights $WeightsFile"

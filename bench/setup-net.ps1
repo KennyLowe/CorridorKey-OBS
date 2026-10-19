@@ -97,3 +97,27 @@ function Invoke-UvSync {
         $ErrorActionPreference = $eap
     }
 }
+
+# HEAD of a checkout. git refuses folders owned by another account ("dubious ownership", e.g. a
+# clone made from an elevated prompt); print the exact fix instead of changing global git config.
+function Get-GitHead {
+    param([Parameter(Mandatory)] [string]$Dir, [string]$GitExe = 'git')
+    $eap = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try {
+        $out = (& $GitExe -C $Dir rev-parse HEAD 2>&1 | Out-String)
+        $rc = $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $eap
+    }
+    if ($rc -ne 0) {
+        if ($out -match "dubious ownership in repository at '([^']+)'") {
+            $p = $Matches[1].Replace([string][char]92, '/')
+            Write-Host "git refuses to read $p (""dubious ownership"": the folder is owned by another account, e.g. Administrators). Fix, then re-run setup.ps1:" -ForegroundColor Yellow
+            Write-Host "    git config --global --add safe.directory $p"
+            throw "git refuses to read $p (dubious ownership); see the fix above"
+        }
+        throw "git rev-parse failed in ${Dir}: $out"
+    }
+    $out.Trim()
+}
