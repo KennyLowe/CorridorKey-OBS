@@ -301,3 +301,13 @@ def text_emitter(ev: dict) -> None:
         print(f"[prepare] ok: {ev['engine_path']} (key {ev['key'][:12]}, build {ev['build_s']} s)", flush=True)
     else:
         print(f"[prepare] FAILED {ev['error']}: {ev['msg']}", file=sys.stderr, flush=True)
+
+
+def text_emitter_fetch(ev: dict) -> None:
+    if ev["event"] == "progress":
+        print(f"[fetch] {ev['stage']:<8} {ev['pct']:3d}%  {ev.get('bytes', 0) / 2**20:.0f} of "
+              f"{ev.get('total', 0) / 2**20:.0f} MiB", flush=True)
+    elif ev["ok"]:
+        print(f"[fetch] ok: {ev['weights_path']} (sha256 {ev['sha256'][:12]})", flush=True)
+    else:
+        print(f"[fetch] FAILED {ev['error']}: {ev['msg']}", file=sys.stderr, flush=True)

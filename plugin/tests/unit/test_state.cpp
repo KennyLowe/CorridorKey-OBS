@@ -144,3 +144,38 @@ TEST_CASE("names", "[state]")
 	CHECK(fallback_mode_from_string("bogus") == FallbackMode::ColorKey);
 	CHECK(std::string(to_string(FallbackMode::LastMatte)) == "last_matte");
 }
+
+TEST_CASE("no_weights -> downloading -> preparing (T011a)", "[state]")
+{
+	StateMachine sm;
+	CHECK(sm.downloading(0));
+	CHECK(sm.state() == State::Downloading);
+	CHECK(sm.output(FallbackMode::ColorKey, false) == Output::Passthrough);
+	CHECK(sm.downloading(42));
+	CHECK(sm.progress() == 42);
+	CHECK_FALSE(sm.downloading(42));
+	CHECK(sm.preparing(0, "verify"));
+	CHECK(sm.state() == State::Preparing);
+	CHECK(std::string(to_string(State::Downloading)) == "downloading");
+}
+
+TEST_CASE("a failed download returns to no_weights with the error", "[state]")
+{
+	StateMachine sm;
+	sm.downloading(10);
+	CHECK(sm.download_failed("network: cannot reach huggingface.co"));
+	CHECK(sm.state() == State::NoWeights);
+	CHECK(sm.reason() == "network: cannot reach huggingface.co");
+	CHECK(sm.output(FallbackMode::ColorKey, true) == Output::Passthrough);
+}
+
+TEST_CASE("a download while keying (switching model) doesn't stop the key", "[state]")
+{
+	StateMachine sm;
+	sm.engine_ready();
+	sm.matte_arrived(0.0);
+	CHECK_FALSE(sm.downloading(5));
+	CHECK(sm.state() == State::Keying);
+	CHECK_FALSE(sm.download_failed("network"));
+	CHECK(sm.state() == State::Keying);
+}

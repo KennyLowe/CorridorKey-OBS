@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 
 from . import results as R
@@ -264,6 +265,23 @@ def cmd_perf_table(args) -> int:
     return EXIT_OK
 
 
+def cmd_fetch_weights(args) -> int:
+    """Feature 002: download the official weights named in the model manifest (research D3a)."""
+    from . import fetch as F
+    from . import prepare as P
+
+    emit = P.json_emitter() if args.json else P.text_emitter_fetch
+    return F.fetch_weights(args.manifest or str(F.MANIFEST_PATH), args.model, args.dest_dir or str(F.DEFAULT_DEST), emit)
+
+
+def cmd_check_models(args) -> int:
+    from . import fetch as F
+    from . import prepare as P
+
+    emit = P.json_emitter() if args.json else (lambda ev: print(json.dumps(ev)))
+    return F.check_models(args.manifest or str(F.MANIFEST_PATH), emit, api_url=args.api_url or F.MODELS_API)
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="ckbench", description="CorridorKey live-keying feasibility benchmark")
     p.add_argument("--run-id", help="results run id (default: latest)")
@@ -322,6 +340,19 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--json", action="store_true", help="JSON-lines progress on stdout (for the plugin)")
     s.add_argument("--prune", action="store_true", help="remove engines built for another GPU/driver/TensorRT")
     s.set_defaults(fn=cmd_prepare)
+
+    s = sub.add_parser("fetch-weights", help="download + verify the official CorridorKey weights")
+    s.add_argument("--manifest", default=None, help="models/manifest.json (default: the repo's)")
+    s.add_argument("--model", default="CorridorKey_v1.0")
+    s.add_argument("--dest-dir", default=None, help=r"default: %%LOCALAPPDATA%%\corridorkey-obs\weights")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(fn=cmd_fetch_weights)
+
+    s = sub.add_parser("check-models", help="report newer official CorridorKey models (never switches)")
+    s.add_argument("--manifest", default=None)
+    s.add_argument("--api-url", default=None)
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(fn=cmd_check_models)
 
     s = sub.add_parser("perf-table", help="committed results -> plugin/data/perf-table.json")
     s.add_argument("--runs", default=None, help="comma-separated run ids (default: every committed run)")

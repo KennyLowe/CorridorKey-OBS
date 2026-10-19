@@ -43,3 +43,5 @@ explicit = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = ["network: downloads from the internet (opt-in: -m network)"]
+addopts = "-m 'not network'"

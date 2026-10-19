@@ -13,12 +13,17 @@ $ErrorActionPreference = 'Stop'
 
 $CorridorKeyRepo = 'https://github.com/nikopueringer/CorridorKey'
 $CorridorKeySha  = '97e55a453060745bead1befd293f6e523c4b845c'   # main HEAD on 2026-10-16
-$HfRepo          = 'nikopueringer/CorridorKey_v1.0'
-$HfRevision      = 'f6386ddf042d8e92aeb5fd16cb9b101cff508195'   # HF repo revision on 2026-10-16
-$WeightsFile     = 'CorridorKey_v1.0.safetensors'
-
 $Bench    = $PSScriptRoot
 $RepoRoot = Split-Path $Bench -Parent
+
+# The official model (repo, revision, file, size, sha256) comes from the committed model manifest,
+# the same file the OBS plugin's in-app download uses.
+$Model       = (Get-Content -Raw (Join-Path $RepoRoot 'models\manifest.json') | ConvertFrom-Json).models |
+               Where-Object model_id -eq 'CorridorKey_v1.0'
+if (-not $Model) { throw 'CorridorKey_v1.0 not found in models\manifest.json' }
+$HfRepo      = $Model.hf_repo
+$HfRevision  = $Model.revision
+$WeightsFile = $Model.file
 $Vendor   = Join-Path $Bench 'vendor'
 $CkDir    = Join-Path $Vendor 'CorridorKey'
 $CkptDir  = Join-Path $CkDir 'CorridorKeyModule\checkpoints'
@@ -50,9 +55,16 @@ if (-not (Test-Path $Weights)) {
     Write-Host "    downloading $url"
     curl.exe -L --fail --silent --show-error -o "$Weights.part" $url
     if ($LASTEXITCODE -ne 0) { throw 'weights download failed' }
+    $sha = (Get-FileHash -Algorithm SHA256 "$Weights.part").Hash.ToLower()
+    if ($sha -ne $Model.sha256) {
+        Remove-Item -Force "$Weights.part"
+        throw "weights sha256 $sha does not match the manifest ($($Model.sha256)); the download was deleted"
+    }
     Move-Item -Force "$Weights.part" $Weights
 }
-Write-Host "    sha256: $((Get-FileHash -Algorithm SHA256 $Weights).Hash.ToLower())"
+$sha = (Get-FileHash -Algorithm SHA256 $Weights).Hash.ToLower()
+if ($sha -ne $Model.sha256) { throw "weights at $Weights have sha256 $sha, the manifest pins $($Model.sha256)" }
+Write-Host "    sha256: $sha (matches models\manifest.json)"
 
 # 3. Python environment
 Step 'uv sync'

@@ -39,6 +39,7 @@ The repository is licensed by part:
 |---|---|---|
 | `plugin/` (the OBS filter; links OBS's GPL `libobs`) | GPL-2.0-or-later | [`plugin/LICENSE`](plugin/LICENSE) |
 | `bench/` (benchmark and model-preparation helper), docs and results | CC BY-NC-SA 4.0 | [`LICENSE`](LICENSE) |
+| `models/manifest.json` (pins the official weights: Hugging Face repo, revision, sha256) | CC BY-NC-SA 4.0 | [`LICENSE`](LICENSE) |
 | CorridorKey weights | their own licence (CC BY-NC-SA 4.0 + Corridor Digital's terms) | not in this repository |
 
 `plugin/` contains no CorridorKey code or weights. It loads a TensorRT engine that the user

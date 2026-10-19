@@ -7,6 +7,8 @@ const char *to_string(State s)
 	switch (s) {
 	case State::NoWeights:
 		return "no_weights";
+	case State::Downloading:
+		return "downloading";
 	case State::Unsupported:
 		return "unsupported";
 	case State::Preparing:
@@ -65,6 +67,28 @@ bool StateMachine::no_weights()
 {
 	have_matte_time_ = false;
 	return set(State::NoWeights);
+}
+
+static bool idle(State s)
+{
+	return s == State::NoWeights || s == State::Downloading || s == State::Failed;
+}
+
+bool StateMachine::downloading(int pct)
+{
+	if (!idle(state_))
+		return false; // a model switch downloads in the background; the current key carries on
+	bool changed = pct != progress_ || state_ != State::Downloading;
+	progress_ = pct;
+	return set(State::Downloading, "downloading weights") || changed;
+}
+
+bool StateMachine::download_failed(const std::string &error)
+{
+	if (!idle(state_))
+		return false;
+	have_matte_time_ = false;
+	return set(State::NoWeights, error);
 }
 
 bool StateMachine::preparing(int pct, const std::string &stage)
@@ -132,6 +156,7 @@ Output StateMachine::output(FallbackMode mode, bool have_last_matte) const
 {
 	switch (state_) {
 	case State::NoWeights:
+	case State::Downloading:
 		return Output::Passthrough;
 	case State::Keying:
 	case State::Behind:

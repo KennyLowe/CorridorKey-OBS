@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "models": [
+    {
+      "model_id": "CorridorKey_v1.0",
+      "hf_repo": "nikopueringer/CorridorKey_v1.0",
+      "revision": "f6386ddf042d8e92aeb5fd16cb9b101cff508195",
+      "file": "CorridorKey_v1.0.safetensors",
+      "size": 398849256,
+      "sha256": "74d614f7d92fc559a118c30a7deadedc3cacd8ef83dcb85a030d0bed7af8b20b",
+      "licence": "CC BY-NC-SA 4.0 + Corridor Digital terms",
+      "licence_url": "https://github.com/nikopueringer/CorridorKey",
+      "screen_color": "green"
+    }
+  ]
+}

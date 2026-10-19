@@ -7,7 +7,7 @@
 
 namespace ck {
 
-enum class State { NoWeights, Unsupported, Preparing, Ready, Keying, Behind, Fallback, Failed };
+enum class State { NoWeights, Downloading, Unsupported, Preparing, Ready, Keying, Behind, Fallback, Failed };
 enum class FallbackMode { ColorKey, LastMatte, Passthrough };
 // What the render thread draws this frame.
 enum class Output { Composite, ColorKey, LastMatte, Passthrough };
@@ -26,6 +26,10 @@ public:
 	// Each event returns true when the state (or its reason) changed, so callers can log it.
 	bool unsupported(const std::string &why);
 	bool no_weights();
+	// Weights download (in-plugin, via the helper). Only shown when nothing is keying: a download
+	// for a model switch runs in the background while the current engine keeps keying.
+	bool downloading(int pct);
+	bool download_failed(const std::string &error);
 	bool preparing(int pct, const std::string &stage);
 	bool prepare_failed(const std::string &error);
 	bool engine_ready(); // cache hit or preparation finished
