@@ -2,7 +2,7 @@
 # Layout: corridorkey-obs\ (as installed under C:\ProgramData\obs-studio\plugins\), install.ps1,
 # INSTALL.md, A2000-RUN.md, LICENSE (GPL-2.0, the plugin part). No weights, ONNX, engines,
 # TensorRT/CUDA DLLs or footage (checked below).
-param([string]$Version = 'v0.1.0-rc.1', [string]$Config = 'RelWithDebInfo')
+param([string]$Version = 'v0.1.0-rc.2', [string]$Config = 'RelWithDebInfo')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $repo = Split-Path -Parent $root

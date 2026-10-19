@@ -1,7 +1,8 @@
 {
   "schema_version": "1.0",
   "generated_from": [
-    "20261016T221252Z-c16425"
+    "20261016T221252Z-c16425",
+    "20261019T122416Z-e45fdf"
   ],
   "gpus": [
     {
@@ -311,6 +312,229 @@
             {
               "quality": "1024_r0",
               "p95_ms_load": 68.64,
+              "fits": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "gpu_name": "NVIDIA RTX A2000 12GB",
+      "driver": "597.16",
+      "run_id": "20261019T122416Z-e45fdf",
+      "modes": [
+        {
+          "mode_id": "720p20",
+          "budget_ms": 50.0,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 18.99,
+              "fits": true
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 33.99,
+              "fits": true
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 23.86,
+              "fits": true
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 42.54,
+              "fits": true
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 43.16,
+              "fits": true
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 42.95,
+              "fits": true
+            }
+          ]
+        },
+        {
+          "mode_id": "720p30",
+          "budget_ms": 33.333333333333336,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 18.99,
+              "fits": true
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 33.99,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 23.86,
+              "fits": true
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 42.54,
+              "fits": false
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 43.16,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 42.95,
+              "fits": false
+            }
+          ]
+        },
+        {
+          "mode_id": "1080p30",
+          "budget_ms": 33.333333333333336,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 20.76,
+              "fits": true
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 35.84,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 26.13,
+              "fits": true
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 44.99,
+              "fits": false
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 45.33,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 45.13,
+              "fits": false
+            }
+          ]
+        },
+        {
+          "mode_id": "1080p60",
+          "budget_ms": 16.666666666666668,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 20.76,
+              "fits": false
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 35.84,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 26.13,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 44.99,
+              "fits": false
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 45.33,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 45.13,
+              "fits": false
+            }
+          ]
+        },
+        {
+          "mode_id": "2160p30",
+          "budget_ms": 33.333333333333336,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 35.28,
+              "fits": false
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 48.0,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 39.78,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 57.89,
+              "fits": false
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 57.67,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 57.67,
+              "fits": false
+            }
+          ]
+        },
+        {
+          "mode_id": "2160p60",
+          "budget_ms": 16.666666666666668,
+          "configs": [
+            {
+              "quality": "512_r0",
+              "p95_ms_load": 35.28,
+              "fits": false
+            },
+            {
+              "quality": "512_r1",
+              "p95_ms_load": 48.0,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r0",
+              "p95_ms_load": 39.78,
+              "fits": false
+            },
+            {
+              "quality": "768x448_r1",
+              "p95_ms_load": 57.89,
+              "fits": false
+            },
+            {
+              "quality": "768_r0",
+              "p95_ms_load": 57.67,
+              "fits": false
+            },
+            {
+              "quality": "1024x576_r0",
+              "p95_ms_load": 57.67,
               "fits": false
             }
           ]

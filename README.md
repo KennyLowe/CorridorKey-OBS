@@ -3,7 +3,7 @@
 Live neural green-screen keying for [OBS Studio](https://obsproject.com/), built on
 [CorridorKey](https://github.com/nikopueringer/CorridorKey) by Niko Pueringer / Corridor Digital.
 
-> **Status: v0.1.0-rc.1 owner test build of the OBS filter** (feature 002). `plugin/` is a native
+> **Status: v0.1.0-rc.2 owner test build of the OBS filter** (feature 002). `plugin/` is a native
 > OBS Studio 32 filter, "CorridorKey". It keys a green-screen source live with a TensorRT engine on a
 > worker thread, falls back to a colour key whenever keying can't keep up, and downloads the official
 > weights and prepares the engine without leaving OBS. On the RTX 3060 at 1080p30 with an NVENC
