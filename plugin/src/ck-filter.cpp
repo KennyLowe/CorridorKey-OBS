@@ -71,6 +71,7 @@ struct Settings {
 	FallbackMode fallback = FallbackMode::ColorKey;
 	int fallback_timeout_ms = 250;
 	bool show_hint = false;
+	bool source_colour = false; // colour from the live frame instead of the model's low-res foreground
 	std::string helper_cmd;
 	std::string trt_dir;
 	DebugFail debug = DebugFail::None;
@@ -308,6 +309,7 @@ void read_settings(Filter *f, obs_data_t *s)
 	n.fallback = fallback_mode_from_string(obs_data_get_string(s, "fallback_mode"));
 	n.fallback_timeout_ms = (int)std::clamp<long long>(obs_data_get_int(s, "fallback_timeout_ms"), 50, 2000);
 	n.show_hint = obs_data_get_bool(s, "show_hint");
+	n.source_colour = obs_data_get_bool(s, "source_colour");
 	n.helper_cmd = obs_data_get_string(s, "helper_cmd");
 	n.trt_dir = obs_data_get_string(s, "trt_dir");
 	n.debug = debug_fail_from_string(obs_data_get_string(s, "debug_fail"));
@@ -789,7 +791,8 @@ void filter_render(void *data, gs_effect_t *)
 	if (f->rs.show_hint)
 		draw(f, f->fx_colorkey, "DrawHint", src, nullptr, (int)w, (int)h);
 	else if (out == Output::Composite)
-		draw(f, f->fx_composite, "Draw", nullptr, f->out_tex, (int)w, (int)h);
+		draw(f, f->fx_composite, f->rs.source_colour ? "DrawSource" : "Draw", f->rs.source_colour ? src : nullptr,
+		     f->out_tex, (int)w, (int)h);
 	else if (out == Output::LastMatte)
 		draw(f, f->fx_composite, "LastMatte", src, f->out_tex, (int)w, (int)h);
 	else if (out == Output::ColorKey)
@@ -835,6 +838,7 @@ void filter_defaults(obs_data_t *s)
 	obs_data_set_default_string(s, "fallback_mode", "colorkey");
 	obs_data_set_default_int(s, "fallback_timeout_ms", 250);
 	obs_data_set_default_bool(s, "show_hint", false);
+	obs_data_set_default_bool(s, "source_colour", false);
 	obs_data_set_default_string(s, "helper_cmd", default_helper_cmd().c_str());
 	obs_data_set_default_string(s, "trt_dir", "C:\\TensorRT-10.16.1.11\\bin");
 	obs_data_set_default_string(s, "debug_fail", "none");
@@ -1035,6 +1039,8 @@ obs_properties_t *filter_properties(void *data)
 		obs_property_list_add_string(q, ql.c_str(), qq.id.c_str());
 	}
 	obs_properties_add_button(props, "prepare", "Prepare selected", prepare_clicked);
+
+	obs_properties_add_bool(props, "source_colour", "Use source colour (sharper; the edge can trail when you move fast)");
 
 	obs_properties_t *hint = obs_properties_create();
 	obs_property_t *hm = obs_properties_add_list(hint, "hint_mode", "Screen colour", OBS_COMBO_TYPE_LIST,

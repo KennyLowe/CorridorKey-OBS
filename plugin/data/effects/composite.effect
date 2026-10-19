@@ -38,12 +38,33 @@ float4 PSLastMatte(VertData v_in) : TARGET
 	return float4(s.rgb, s.a * keyed.Sample(pointSampler, v_in.uv).a);
 }
 
+// "Use source colour": the matte comes from the model, the colour from the live frame, so detail is
+// full-resolution. Green is clamped to the larger of red/blue (light despill). Where alpha is
+// partial the model's unmixed foreground takes over, as the live frame is still mixed with the screen.
+float4 PSCompositeSource(VertData v_in) : TARGET
+{
+	float4 k = keyed.Sample(pointSampler, v_in.uv);
+	float3 c = image.Sample(pointSampler, v_in.uv).rgb;
+	c.g = min(c.g, max(c.r, c.b));
+	float edge = saturate(4.0 * k.a * (1.0 - k.a));
+	return float4(lerp(c, k.rgb, edge), k.a);
+}
+
 technique Draw
 {
 	pass
 	{
 		vertex_shader = VSDefault(v_in);
 		pixel_shader  = PSComposite(v_in);
+	}
+}
+
+technique DrawSource
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader  = PSCompositeSource(v_in);
 	}
 }
 
