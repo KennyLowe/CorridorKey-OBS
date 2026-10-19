@@ -21,6 +21,8 @@ namespace ck {
 namespace fs = std::filesystem;
 using clock_ = std::chrono::steady_clock;
 
+std::atomic<int> g_heavy_cuda{0};
+
 DebugFail debug_fail_from_string(const std::string &s)
 {
 	if (s == "worker_error")
@@ -143,6 +145,7 @@ void Worker::free_buffers()
 
 bool Worker::realloc_buffers(int w, int h)
 {
+	HeavyCuda heavy;
 	// The render thread stops using the old buffers as soon as it requests a new size, and
 	// cudaFree waits for any of its copies still queued on the GPU.
 	free_buffers();
@@ -406,6 +409,7 @@ void Worker::reconcile()
 
 	// 1. TensorRT (once per folder)
 	if (r.trt_dir != trt_tried_dir_) {
+		HeavyCuda heavy;
 		trt_tried_dir_ = r.trt_dir;
 		trt_err_ = gpu::load_tensorrt(r.trt_dir);
 		if (!trt_err_.empty())
@@ -629,6 +633,7 @@ void Worker::reconcile()
 	const std::string fkey = path;
 	if (fkey == failed_key_ && !changed)
 		return; // already failed; wait for a settings change
+	HeavyCuda heavy; // until the warm-up below has finished
 	drop_engine();
 	set_phase(Phase::Starting, "loading engine " + want->id); // the render thread stops using CUDA meanwhile
 	auto t0 = clock_::now();
@@ -714,6 +719,7 @@ void Worker::process(const Scheduler::Job &job)
 	const int w = runner_->width(), h = runner_->height();
 	size_t need = gpu::preprocess_scratch_floats(b.w, b.h, w, h);
 	if (need > scratch_floats_) {
+		HeavyCuda heavy;
 		cudaFree(std::exchange(scratch_, nullptr));
 		scratch_floats_ = 0;
 		if (cudaMalloc(&scratch_, need * sizeof(float)) != cudaSuccess) {
@@ -763,6 +769,7 @@ void Worker::process(const Scheduler::Job &job)
 
 void Worker::run()
 {
+	std::optional<HeavyCuda> heavy_init(std::in_place);
 	if (cudaSetDevice(dev_) != cudaSuccess ||
 	    cudaStreamCreateWithFlags(&stream_, cudaStreamNonBlocking) != cudaSuccess ||
 	    cudaEventCreateWithFlags(&done_, cudaEventBlockingSync | cudaEventDisableTiming) != cudaSuccess) {
@@ -773,6 +780,7 @@ void Worker::run()
 		});
 		return;
 	}
+	heavy_init.reset();
 	while (!stop_) {
 		try {
 			reconcile();
@@ -787,6 +795,7 @@ void Worker::run()
 	fetch_.reset(); // kills the helper process trees
 	prep_.reset();
 	check_.reset();
+	HeavyCuda heavy_teardown;
 	runner_.reset();
 	free_buffers();
 	cudaFree(std::exchange(scratch_, nullptr));

@@ -146,7 +146,7 @@ struct Snapshot {
 	Readout readout;
 	WorkerStatus worker;
 	std::string status_text;
-	double render_us_median = 0, render_us_p95 = 0, render_us_p99 = 0, render_us_max = 0;
+	double render_us_median = 0, render_us_p95 = 0, render_us_p99 = 0, render_us_max = 0, render_us_max_ever = 0;
 	uint64_t render_frames = 0, mattes = 0, skipped_total = 0, submitted_total = 0, fallbacks = 0;
 	uint64_t worker_errors = 0;
 	double frame_ms = 0;
@@ -484,7 +484,8 @@ void pipeline_step(Filter *f, gs_texture_t *src, int w, int h, double frame_ms)
 		}
 		// No CUDA call at all on the render thread until the worker has a warmed-up engine: engine
 		// loading and CUDA's lazy module loading take driver locks that would stall this thread.
-		const bool worker_ready = f->ws.phase == Phase::Ready;
+		const bool worker_ready = f->ws.phase == Phase::Ready &&
+					  g_heavy_cuda.load(std::memory_order_acquire) == 0;
 		if (worker_ready) {
 			const uint64_t ts0 = os_gettime_ns();
 			cudaSetDevice(f->cuda_dev);
@@ -595,7 +596,8 @@ void update_snapshot(Filter *f, double frame_ms, int w, int h, Output out)
 	s.render_us_median = percentile(f->render_us, 50);
 	s.render_us_p95 = percentile(f->render_us, 95);
 	s.render_us_p99 = percentile(f->render_us, 99);
-	s.render_us_max = f->render_us_max;
+	s.render_us_max = f->render_us.empty() ? 0.0 : *std::max_element(f->render_us.begin(), f->render_us.end());
+	s.render_us_max_ever = f->render_us_max;
 	s.render_frames = f->frame_no;
 	s.mattes = f->mattes;
 	s.fallbacks = f->fallbacks;
@@ -990,7 +992,8 @@ void ws_get_status(obs_data_t *req, obs_data_t *resp, void *)
 	obs_data_set_double(resp, "renderUsMedian", s.render_us_median);
 	obs_data_set_double(resp, "renderUsP95", s.render_us_p95);
 	obs_data_set_double(resp, "renderUsP99", s.render_us_p99);
-	obs_data_set_double(resp, "renderUsMax", s.render_us_max);
+	obs_data_set_double(resp, "renderUsMax", s.render_us_max); // last 600 frames
+	obs_data_set_double(resp, "renderUsMaxEver", s.render_us_max_ever);
 	obs_data_set_int(resp, "renderFrames", (long long)s.render_frames);
 	obs_data_set_int(resp, "mattes", (long long)s.mattes);
 	obs_data_set_int(resp, "skippedTotal", (long long)s.skipped_total);

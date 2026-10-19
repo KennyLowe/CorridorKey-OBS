@@ -57,7 +57,8 @@ def test_a_fps_unaffected_under_nvenc(scene):
         m.update(quality=q, worker_ms_median=st["workerMsMedian"], worker_ms_p95=st["workerMsP95"],
                  skipped_pct=st["skippedPct"], added_latency_ms=st["addedLatencyMs"],
                  added_latency_frames=st["addedLatencyFrames"], render_us_median=st["renderUsMedian"],
-                 render_us_p95=st["renderUsP95"], render_us_p99=st["renderUsP99"], state=st["state"])
+                 render_us_p95=st["renderUsP95"], render_us_p99=st["renderUsP99"],
+                 render_us_max_last_600=st["renderUsMax"], state=st["state"])
         rows[q] = m
     record("sc002_fps", rows)
     for q in ("512_r0", "1024x576_r0"):
@@ -65,6 +66,9 @@ def test_a_fps_unaffected_under_nvenc(scene):
         assert abs(m["active_fps_mean"] - base["active_fps_mean"]) <= FPS_TOL * base["active_fps_mean"], rows
         assert m["render_skipped"] == 0, rows
         assert m["state"] in ("keying", "behind"), rows
+        # steady state: no single render call takes half a frame (the last 600 frames are all in the
+        # measured window). The plan's 1 ms target is for the typical cost (median); the tail is reported.
+        assert m["render_us_max_last_600"] < 0.5 * 1e6 / 30, rows
 
 
 def _fallback_after(o, setting, expect_reason, timeout_ms=250):
@@ -146,9 +150,10 @@ def test_f_overload_two_instances_fps_holds(scene):
     o.wait_status("clip2", lambda s: s["quality"] == "1024_r1" and s.get("mattes", 0) > 0, 60)
     time.sleep(3)
     m = H.measure(o, 20)
+    time.sleep(1)
     s1, s2 = o.status(SRC), o.status("clip2")
-    record("sc004_overload", {"fps": m, "clip": {k: s1[k] for k in ("state", "workerMsMedian", "skippedPct", "renderUsP99")},
-                              "clip2": {k: s2[k] for k in ("state", "workerMsMedian", "skippedPct", "renderUsP99")}})
+    record("sc004_overload", {"fps": m, "clip": {k: s1[k] for k in ("state", "workerMsMedian", "skippedPct", "renderUsP99", "renderUsMax")},
+                              "clip2": {k: s2[k] for k in ("state", "workerMsMedian", "skippedPct", "renderUsP99", "renderUsMax")}})
     # the GPU can't key two 1024x1024+refiner sources at 30 fps: both fall behind or back...
     assert s1["state"] in ("behind", "fallback") and s2["state"] in ("behind", "fallback"), (s1, s2)
     assert s1["skippedPct"] > 0 or s1["state"] == "fallback"

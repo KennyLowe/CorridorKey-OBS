@@ -35,6 +35,17 @@ namespace gpu {
 class TrtRunner;
 }
 
+// Number of workers (any filter) doing heavy CUDA work right now: context set-up, TensorRT load,
+// engine load + warm-up, buffer (re)allocation. Those take driver-wide locks, so while this is
+// non-zero no filter's render thread makes CUDA calls (it draws the fallback for that frame).
+extern std::atomic<int> g_heavy_cuda;
+struct HeavyCuda {
+	HeavyCuda() { g_heavy_cuda.fetch_add(1, std::memory_order_acq_rel); }
+	~HeavyCuda() { g_heavy_cuda.fetch_sub(1, std::memory_order_acq_rel); }
+	HeavyCuda(const HeavyCuda &) = delete;
+	HeavyCuda &operator=(const HeavyCuda &) = delete;
+};
+
 enum class DebugFail { None, WorkerError, Stall };
 DebugFail debug_fail_from_string(const std::string &s);
 
