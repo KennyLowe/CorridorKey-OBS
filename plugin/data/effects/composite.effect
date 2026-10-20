@@ -1,10 +1,15 @@
 // corridorkey-obs composite (GPL-2.0-or-later).
 // keyed: the worker's packed output for one frame: rgb = CorridorKey foreground (unmixed from the
 //        screen colour), a = CorridorKey alpha. Straight (not premultiplied) alpha.
-// image: the live source frame (only used by the "last matte" fallback).
+// image: the live source frame (used by the "last matte" fallback, "Use source colour" and Hybrid).
+// Hybrid only: texel = 1 / size; kd_n = (g - max(r, b)) / luma of the calibrated screen colour;
+// band = the edge band radius in source pixels.
 uniform float4x4 ViewProj;
 uniform texture2d image;
 uniform texture2d keyed;
+uniform float2 texel;
+uniform float kd_n;
+uniform float band;
 
 sampler_state pointSampler {
 	Filter    = Point;
@@ -44,19 +49,61 @@ float4 PSLastMatte(VertData v_in) : TARGET
 // the model's unmixed colour is used there, scaled to the live pixel's despilled luminance to keep the
 // strand detail. Where alpha is partial the model's foreground takes over, as the live frame is still
 // mixed with the screen.
-float4 PSCompositeSource(VertData v_in) : TARGET
+float3 source_rgb(float3 live, float4 k)
 {
-	float4 k = keyed.Sample(pointSampler, v_in.uv);
-	float3 live = image.Sample(pointSampler, v_in.uv).rgb;
 	float3 c = live;
 	c.g = min(c.g, max(c.r, c.b));
 	float3 luma = float3(0.2126, 0.7152, 0.0722);
 	float gain = min(dot(c, luma) / max(dot(k.rgb, luma), 0.001), 2.0);
 	float3 unmixed = saturate(k.rgb * gain);
 	float spill = saturate(8.0 * (live.g - max(live.r, live.b)));
-	float3 col = lerp(c, unmixed, spill);
+	return lerp(c, unmixed, spill);
+}
+
+float4 PSCompositeSource(VertData v_in) : TARGET
+{
+	float4 k = keyed.Sample(pointSampler, v_in.uv);
+	float3 col = source_rgb(image.Sample(pointSampler, v_in.uv).rgb, k);
 	float edge = saturate(4.0 * k.a * (1.0 - k.a));
 	return float4(lerp(col, k.rgb, edge), k.a);
+}
+
+// Hybrid: a screen-colour key on the current frame (full resolution, no lag) for the interior, the
+// model only where that key is uncertain. The key's green excess is divided by the pixel's luminance,
+// so a darker or shadowed part of the screen keys like the rest; 1 = subject, 0 = screen.
+float key_at(float2 uv)
+{
+	float3 c = image.Sample(pointSampler, uv).rgb;
+	float lum = max(dot(c, float3(0.2126, 0.7152, 0.0722)), 0.04);
+	return 1.0 - smoothstep(0.15, 0.85, (c.g - max(c.r, c.b)) / (lum * kd_n));
+}
+
+// The key is box-blurred over the edge band (25 taps), and the model's alpha takes over where that
+// soft key is mid-range (edges, green-ish cloth, soft shadow) or the pixel is too dark to read its
+// colour. Where the current frame's key is confident the model is never used: the model's matte is
+// about a frame old, and trusting it there would cut a hole at a moving edge and leave a smear behind
+// it. The colour is the live frame's (source_rgb), with the model's unmixed foreground where the model
+// is used and either its edge is soft or the live pixel is screen.
+float4 PSCompositeHybrid(VertData v_in) : TARGET
+{
+	float4 s = image.Sample(pointSampler, v_in.uv);
+	float4 k = keyed.Sample(pointSampler, v_in.uv);
+	float2 st = texel * band * 0.5;
+	float sum = 0.0;
+	for (int y = -2; y <= 2; y++) {
+		for (int x = -2; x <= 2; x++) {
+			sum += key_at(v_in.uv + float2(x, y) * st);
+		}
+	}
+	float cb = sum / 25.0;
+	float lum = dot(s.rgb, float3(0.2126, 0.7152, 0.0722));
+	float w = max(smoothstep(0.0, 0.5, 4.0 * cb * (1.0 - cb)), 1.0 - smoothstep(0.03, 0.10, lum));
+	float3 col = source_rgb(s.rgb, k);
+	// Where the model is used and the live pixel is itself screen (it carries no subject colour), or
+	// the model's edge is soft, the model's unmixed foreground is the colour.
+	float screen_px = smoothstep(0.5, 1.0, 1.0 - key_at(v_in.uv)); // green-ish cloth keeps live detail
+	float edge = saturate(4.0 * k.a * (1.0 - k.a));
+	return float4(lerp(col, k.rgb, w * max(edge, screen_px)), lerp(cb, k.a, w) * s.a);
 }
 
 technique Draw
@@ -74,6 +121,15 @@ technique DrawSource
 	{
 		vertex_shader = VSDefault(v_in);
 		pixel_shader  = PSCompositeSource(v_in);
+	}
+}
+
+technique DrawHybrid
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader  = PSCompositeHybrid(v_in);
 	}
 }
 

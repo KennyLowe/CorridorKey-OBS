@@ -30,6 +30,7 @@ Render-thread rules (Constitution III, research D4):
 #include <memory>
 #include <mutex>
 #include <string>
+#include <string_view>
 #include <thread>
 #include <vector>
 
@@ -72,6 +73,7 @@ struct Settings {
 	int fallback_timeout_ms = 250;
 	bool show_hint = false;
 	bool source_colour = false; // colour from the live frame instead of the model's low-res foreground
+	bool hybrid = false;        // screen-colour key inside, the model only on the edge (implies source colour)
 	std::string helper_cmd;
 	std::string trt_dir;
 	DebugFail debug = DebugFail::None;
@@ -310,6 +312,13 @@ void read_settings(Filter *f, obs_data_t *s)
 	n.fallback_timeout_ms = (int)std::clamp<long long>(obs_data_get_int(s, "fallback_timeout_ms"), 50, 2000);
 	n.show_hint = obs_data_get_bool(s, "show_hint");
 	n.source_colour = obs_data_get_bool(s, "source_colour");
+	n.hybrid = obs_data_get_bool(s, "hybrid");
+	// Hybrid's key needs the real screen colour, and the model's hint is better with it too (measured
+	// on the hard case: green-ish cloth, a translucent panel and moving edges), so it auto-calibrates.
+	if (n.hybrid && n.hint_mode == "fixed") {
+		n.hint_mode = "calibrated";
+		obs_data_set_string(s, "hint_mode", "calibrated"); // so the properties show it
+	}
 	n.helper_cmd = obs_data_get_string(s, "helper_cmd");
 	n.trt_dir = obs_data_get_string(s, "trt_dir");
 	n.debug = debug_fail_from_string(obs_data_get_string(s, "debug_fail"));
@@ -671,6 +680,35 @@ void calibration_step(Filter *f, gs_texture_t *src, int w, int h)
 	destroy_calibration(f);
 }
 
+// Hybrid's edge band radius: about 3 px at 720p, scaled with the source height.
+float hybrid_band_px(uint32_t h)
+{
+	return std::max(2.0f, 3.0f * (float)h / 720.0f);
+}
+
+// Hybrid's key scale: the calibrated screen's green excess over its luminance, so the screen keys
+// to 1 at any shading.
+float hybrid_kd_n(const float rgb[3])
+{
+	float lum = 0.2126f * rgb[0] + 0.7152f * rgb[1] + 0.0722f * rgb[2];
+	return (rgb[1] - std::max(rgb[0], rgb[2])) / std::max(lum, 0.04f);
+}
+
+// Hybrid needs a calibrated, clearly green screen colour. Until then (or if calibration failed) its
+// key would be wrong everywhere, so it shows "Use source colour" instead and says so.
+bool hybrid_ready(const Settings &s)
+{
+	const bool default_rgb = s.hint_rgb[0] == 0.0f && s.hint_rgb[1] == 1.0f && s.hint_rgb[2] == 0.0f;
+	return !default_rgb && hybrid_kd_n(s.hint_rgb) >= 0.2f;
+}
+
+const char *composite_technique(const Settings &s)
+{
+	if (s.hybrid && hybrid_ready(s))
+		return "DrawHybrid";
+	return s.source_colour || s.hybrid ? "DrawSource" : "Draw";
+}
+
 void draw(Filter *f, gs_effect_t *fx, const char *tech, gs_texture_t *image, gs_texture_t *keyed, int w, int h)
 {
 	const bool prev = gs_framebuffer_srgb_enabled();
@@ -687,6 +725,12 @@ void draw(Filter *f, gs_effect_t *fx, const char *tech, gs_texture_t *image, gs_
 		gs_effect_set_float(gs_effect_get_param_by_name(fx, "kd"), hp.kd);
 		gs_effect_set_float(gs_effect_get_param_by_name(fx, "lo"), hp.lo);
 		gs_effect_set_float(gs_effect_get_param_by_name(fx, "hi"), hp.hi);
+	} else if (std::string_view(tech) == "DrawHybrid") {
+		vec2 texel;
+		vec2_set(&texel, 1.0f / (float)w, 1.0f / (float)h);
+		gs_effect_set_vec2(gs_effect_get_param_by_name(fx, "texel"), &texel);
+		gs_effect_set_float(gs_effect_get_param_by_name(fx, "kd_n"), hybrid_kd_n(f->rs.hint_rgb));
+		gs_effect_set_float(gs_effect_get_param_by_name(fx, "band"), hybrid_band_px(h));
 	}
 	while (gs_effect_loop(fx, tech))
 		gs_draw_sprite(image ? image : keyed, 0, (uint32_t)w, (uint32_t)h);
@@ -736,6 +780,10 @@ void update_snapshot(Filter *f, double frame_ms, int w, int h, Output out)
 		s.status_text += "\nCalibrating the screen colour\xE2\x80\xA6";
 	else if (!f->cal_result.empty())
 		s.status_text += "\n" + f->cal_result;
+	if (f->rs.hybrid && !hybrid_ready(f->rs))
+		s.status_text += f->cal ? "\nHybrid starts when the screen colour is calibrated (showing source colour)."
+					: "\nHybrid needs a calibrated green screen colour: press Calibrate now (showing source "
+					  "colour).";
 	if (summary) {
 		f->last_summary_ns = now;
 		log(LOG_INFO,
@@ -791,7 +839,7 @@ void filter_render(void *data, gs_effect_t *)
 	if (f->rs.show_hint)
 		draw(f, f->fx_colorkey, "DrawHint", src, nullptr, (int)w, (int)h);
 	else if (out == Output::Composite)
-		draw(f, f->fx_composite, f->rs.source_colour ? "DrawSource" : "Draw", f->rs.source_colour ? src : nullptr,
+		draw(f, f->fx_composite, composite_technique(f->rs), f->rs.source_colour || f->rs.hybrid ? src : nullptr,
 		     f->out_tex, (int)w, (int)h);
 	else if (out == Output::LastMatte)
 		draw(f, f->fx_composite, "LastMatte", src, f->out_tex, (int)w, (int)h);
@@ -839,6 +887,7 @@ void filter_defaults(obs_data_t *s)
 	obs_data_set_default_int(s, "fallback_timeout_ms", 250);
 	obs_data_set_default_bool(s, "show_hint", false);
 	obs_data_set_default_bool(s, "source_colour", false);
+	obs_data_set_default_bool(s, "hybrid", false);
 	obs_data_set_default_string(s, "helper_cmd", default_helper_cmd().c_str());
 	obs_data_set_default_string(s, "trt_dir", "C:\\TensorRT-10.16.1.11\\bin");
 	obs_data_set_default_string(s, "debug_fail", "none");
@@ -1041,6 +1090,8 @@ obs_properties_t *filter_properties(void *data)
 	obs_properties_add_button(props, "prepare", "Prepare selected", prepare_clicked);
 
 	obs_properties_add_bool(props, "source_colour", "Use source colour (sharper; the edge can trail when you move fast)");
+	obs_properties_add_bool(props, "hybrid",
+				"Hybrid: screen-colour key inside, CorridorKey on the edge (uses source colour; calibrates the screen colour)");
 
 	obs_properties_t *hint = obs_properties_create();
 	obs_property_t *hm = obs_properties_add_list(hint, "hint_mode", "Screen colour", OBS_COMBO_TYPE_LIST,
